@@ -12,8 +12,8 @@ export class TechnischerService {
   
   private createAuthorizationHeader(): Headers {
     let header = new Headers();
-    if(sessionStorage.getItem('token'))
-      header.append('Authorization', 'Bearer ' + sessionStorage.getItem('token')); 
+    if(localStorage.getItem('token'))
+      header.append('Authorization', 'Bearer ' + localStorage.getItem('token')); 
      return header;
   }
 

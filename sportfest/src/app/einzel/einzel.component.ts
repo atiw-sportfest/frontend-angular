@@ -12,18 +12,22 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 export class EinzelComponent implements OnInit {
   role: string;
 
-  sportartID: number;
-  sportart: string = '';
-  beschreibung: string = '';
+  sportartID: number = 0;
+  sportart: string ;
+  beschreibung: string ;
 
   variablen: Array<Variable> = [];
 
-  angemeldeteKlassen: Array<Klasse> = [];
+  angemeldeteKlassen: Array<Klasse> = [{
+    kid: 14,
+    name: "FS151"}];
+
   angemeldeteSchuelerEinerKlasse: Array<Array<Schueler>> = [[]];
 
   neueLeistung: Leistung = {did: 0, ergebnisse: [], versus: 0};
 
   klassenMitLeistungen: Array<Klasse> = [];
+
   schuelerEinerKlasseMitLeistung: Array<Array<Schueler>> = [[]];
   ergebnisseEinesSchuelersEinerKlasse: Array<Array<Array<Ergebnis2>>> = [[[]]];
 
@@ -38,7 +42,7 @@ export class EinzelComponent implements OnInit {
   ngOnInit() {
     this.role = sessionStorage.getItem('role');
     this.route.params.forEach((params: Params) => {
-      this.sportartID = params['did'];
+      //this.sportartID = params['did'];
       this.neueLeistung.did = this.sportartID;
       this.sfService.disziplin(this.sportartID).subscribe((data: Disziplin) => {
         //Disziplin Daten
@@ -60,7 +64,7 @@ export class EinzelComponent implements OnInit {
         }
 
         //Leistung/Ergebnis eintragen
-        this.sfService.klassen().subscribe((data: Klasse[]) => {
+        /*this.sfService.klassen().subscribe((data: Klasse[]) => {
           this.sfService.klasseMitAnmeldung(this.sportartID).subscribe((klassen: Klasse[]) => {
             this.angemeldeteKlassen = klassen;
             this.angemeldeteKlassen.forEach(klasse => {
@@ -73,13 +77,13 @@ export class EinzelComponent implements OnInit {
         },
         (err) => {
           console.error('GET-Service "klassen()" not reachable.');
-        });
+        });*/
 
         //Leistung anzeigen
-        this.sfService.klassenMitLeistung(this.sportartID).subscribe((klassen: Klasse[]) => {
+        /*this.sfService.klassenMitLeistung(this.sportartID).subscribe((klassen: Klasse[]) => {
           //Lister der Klassen mit Leistungen
           this.klassenMitLeistungen = klassen;
-        });
+        });*/
         
         //Liste der Schüler mit Leistung
         this.sfService.schuelerMitLeistungEinerDisziplin(this.sportartID).subscribe((schueler: Schueler[]) => {
