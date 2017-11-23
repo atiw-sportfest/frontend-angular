@@ -1,12 +1,12 @@
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
-import { DisziplinNEU } form '../interfaces';
+import { DisziplinNEU } from './interfaces';
 import { TechnischerService } from './technischer.service';
 
 @Injectable()
 export class SportfestService {
 
-  private disziplinenVAR: DisziplinNEU;
+  private disziplinenVAR: DisziplinNEU[];
 
   constructor(private techService: TechnischerService) {
     this.disziplinenVAR = [
@@ -109,7 +109,8 @@ export class SportfestService {
           }
         }]
       }
-    ]
+      ];
+  }
 
 
 

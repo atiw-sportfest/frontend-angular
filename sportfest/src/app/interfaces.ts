@@ -39,7 +39,7 @@ export interface Disziplin {
     variablen?: Variable[]
 }
 
-export interface DsziplinNEU {
+export interface DisziplinNEU {
     did?: number,
     name?: string,
     beschreibung?: string,
