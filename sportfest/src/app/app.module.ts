@@ -30,6 +30,7 @@ import { MobileHeaderComponent } from './main/mobile/mobile-header/mobile-header
 import { MobileMenuListComponent } from './main/mobile/mobile-menu-list/mobile-menu-list.component';
 import { MobileHeaderImageComponent } from './main/mobile/mobile-header-image/mobile-header-image.component';
 import { DisziplinComponent } from './disziplin/disziplin.component';
+import { CreateDisciplineNewComponent } from './admin/create-discipline-new/create-discipline-new.component';
 
 const routConfig: Routes = [
     {
@@ -83,6 +84,10 @@ const routConfig: Routes = [
     { 
       path: 'disziplin/:did',
       component: DisziplinComponent,
+    },
+    {
+      path: 'createDisciplineNew',
+      component: CreateDisciplineNewComponent,
       canActivate: [RouteGuard]
     }
 ];
@@ -113,7 +118,8 @@ export const BASEPATH = 'http://' + location.host + '/backend';
     MobileHeaderComponent,
     MobileMenuListComponent,
     MobileHeaderImageComponent,
-    DisziplinComponent
+    DisziplinComponent,
+    CreateDisciplineNewComponent
   ],
   imports: [
     BrowserModule,

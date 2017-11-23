@@ -112,6 +112,9 @@ export class HeaderComponent implements OnInit {
   public navigateToDisziplin(did: number){
     this.router.navigate(['/disziplin/'+ did]);
   }
+  public navigateToCreateDisciplineNew(){
+    this.router.navigate(['/createDisciplineNew']);
+  }
 
   public openChangePassword() {
     let dlg = this.dialog.open(PasswordChangeComponent, { disableClose: true });

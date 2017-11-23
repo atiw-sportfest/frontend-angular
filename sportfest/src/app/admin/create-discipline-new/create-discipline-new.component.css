@@ -1,0 +1,24 @@
+table {
+    margin: auto;
+}
+h3 {
+    text-align: center;
+}
+button {
+    display: block;
+    margin: auto;
+}
+md-icon{
+    vertical-align: middle;
+}
+
+.linie{
+    background-color: lightgray;
+    border-radius: 5px;
+    height: 4px;
+    width: 100%;
+}
+
+td{
+    vertical-align: middle;
+}
