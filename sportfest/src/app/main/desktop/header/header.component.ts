@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MdDialog } from "@angular/material";
 import { Md5 } from 'ts-md5/dist/md5';
+import { DisziplinNEU } from '../../../interfaces';
 
 @Component({
   selector: 'app-header',
@@ -21,6 +22,7 @@ export class HeaderComponent implements OnInit {
   role: string;
   disziplinenTeam: Array<any> = [];
   disziplinenEinzel: Array<any> = [];
+  disziplinen: Array<DisziplinNEU> = [];
 
   constructor(private router: Router,
     private dialog: MdDialog,
@@ -47,6 +49,16 @@ export class HeaderComponent implements OnInit {
           this.disziplinenTeam.push(data[i]);
         }
       }
+    },
+      (err) => {
+        console.error('GET-Service "disziplinen()" not reachable.');
+      });
+  }
+
+  public loadDDNEU() { //Lädt Disziplinen bei Klick auf Sportarten
+    this.disziplinen = [];
+    this.sfService.disziplinenNEU().subscribe(data => {
+      this.disziplinen = data;
     },
       (err) => {
         console.error('GET-Service "disziplinen()" not reachable.');
@@ -96,6 +108,9 @@ export class HeaderComponent implements OnInit {
   }
   public navigateToUAC() {
     this.router.navigate(['/uac']);
+  }
+  public navigateToDisziplin(did: number){
+    this.router.navigate(['/disziplin/'+ did]);
   }
 
   public openChangePassword() {

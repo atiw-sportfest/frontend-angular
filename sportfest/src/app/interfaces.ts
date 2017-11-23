@@ -43,6 +43,7 @@ export interface DisziplinNEU {
     did?: number,
     name?: string,
     beschreibung?: string,
+    aktiviert?: boolean,
     team?: boolean,
     regel?: RegelNEU,
     variablen?: VariableNEU[]

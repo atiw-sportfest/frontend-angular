@@ -23,6 +23,7 @@ export class RouteGuard implements CanActivate {
       case "home":
       case "einzel":
       case "team":
+      case "disziplin":
         return true;
       // Schiedsrichter und Admin darf:
       case "blabla":

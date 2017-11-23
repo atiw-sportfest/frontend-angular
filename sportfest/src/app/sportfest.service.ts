@@ -14,6 +14,7 @@ export class SportfestService {
         did: 1,
         name: "Staffel",
         beschreibung: "4 Leute einer Klasse laufen um die Wette (Klassenleistung, Gruppen)",
+        aktiviert: true,
         regel: {
           index: 1,
           script: "Hier wird etwas schnelles passieren"
@@ -32,6 +33,7 @@ export class SportfestService {
         did: 2,
         name: "Kistenstapeln",
         beschreibung: "Wer kommt höher? Die FS151 oder die anderen Luschen? (Klassenleistung, Jeder gegen Jeden)",
+        aktiviert: true,
         regel: {
           index: 2,
           script: "Hier wird etwas hohes passieren"
@@ -59,6 +61,7 @@ export class SportfestService {
         did: 3,
         name: "Weitsprung ",
         beschreibung: "Spring los Kartoffelbrei! (Einzelleistung, Jeder gegen Jeden)",
+        aktiviert: true,
         regel: {
           index: 3,
           script: "Hier wird etwas weites passieren"
@@ -95,6 +98,7 @@ export class SportfestService {
         did: 4,
         name: "2000M Lauf",
         beschreibung: "Lauf Forrest Laaaaaaaaaauf (Einzelleistung, Gruppen)",
+        aktiviert: true,
         regel: {
           index: 4,
           script: "Hier wird etwas schnelles weites passieren"
@@ -206,6 +210,11 @@ export class SportfestService {
    */
   public disziplinen(): Observable<any> {
     return this.techService.getRequest('/disziplin');
+  }
+
+  public disziplinenNEU(): Observable<any> {
+    return Observable.of(this.disziplinenVAR);
+    //return this.techService.getRequest('/disziplin');
   }
   /**
    * Gibt die angefragte Disziplin zurück

@@ -26,6 +26,14 @@
         <button *ngIf="team.aktiviert" md-menu-item (click)="navigateToTeam(team.did, team.name)">{{ team.name }}</button>
       </div>
     </md-menu>
+
+    <!--DisziplinNEU-->
+    <button md-button [mdMenuTriggerFor]="menu1" (click)="loadDDNEU()">DisziplinNEU</button>
+    <md-menu #menu1="mdMenu">
+      <div *ngFor="let disziplin of disziplinen">
+        <button *ngIf="disziplin.aktiviert" md-menu-item (click)="navigateToDisziplin(disziplin.did)">{{ disziplin.name }}</button>
+      </div>
+    </md-menu>
     
     <button md-button *ngIf="username && role=='admin'" [mdMenuTriggerFor]="menu2">Admin</button>
     <md-menu #menu2="mdMenu">
