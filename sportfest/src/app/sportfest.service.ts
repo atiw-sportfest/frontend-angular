@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
-import { DisziplinNEU, TypNEU } from './interfaces';
+import { DisziplinNEU, TypNEU, ErgebnisNEU } from './interfaces';
 import { TechnischerService } from './technischer.service';
 
 @Injectable()
@@ -8,6 +8,7 @@ export class SportfestService {
 
   private disziplinenVAR: DisziplinNEU[];
   private typen: TypNEU[];
+  private ergebnisseVAR: ErgebnisNEU[];
 
   constructor(private techService: TechnischerService) {
     this.disziplinenVAR = [
@@ -152,6 +153,60 @@ export class SportfestService {
         bsp: "2,89"
       }
     ];
+    this.ergebnisseVAR = [
+      {
+        id: 1,
+        leistungen: [
+          {
+            wert: "10:23",
+            variable: {
+              id: 1,
+              bezeichnung: "Laufzeit",
+              typ: {
+                id: 1,
+                datentyp: "String",
+                einheit: "Zeit",
+                format: "\d*:[0-5][0-9]",
+                bsp: "3:20"
+              }
+            }
+          }
+        ],
+        klasse: {
+          kid: 1234,
+          name: "1234"
+        },
+        schueler: {
+          sid: 3041,
+          vorname: "Trulla",
+          name: "Tröt",
+          kid: 1234,
+          gid: 2
+        },
+        disziplin: {
+          id: 1,
+          name: "Staffel",
+          beschreibung: "4 Leute einer Klasse laufen um die Wette (Klassenleistung, Gruppen)",
+          aktiviert: true,
+          regel: {
+            id: 1,
+            script: "Hier wird etwas schnelles passieren"
+          },
+          variablen: [{
+            id: 1,
+            bezeichnung: "Laufzeit",
+            typ: {
+              id: 1,
+              datentyp: "String",
+              einheit: "Zeit",
+              format: "\d*:[0-5][0-9]",
+              bsp: "3:20"
+            }
+          }]
+        },
+        punkte: 5
+      }
+    ]
   }
 
 
@@ -401,5 +456,35 @@ export class SportfestService {
   }
   public typenNEU(): Observable<any> {
     return Observable.of(this.typen);
+  }
+
+  public ergebnisHinzufuegenNEU(ergebnis: ErgebnisNEU) {
+    this.ergebnisseVAR.push(ergebnis);
+  }
+
+  public ergebnisseNEU(): Observable<ErgebnisNEU[]> {
+    return Observable.of(this.ergebnisseVAR);
+  }
+  public ergebnisNEU(id: number): Observable<ErgebnisNEU> {
+    for (let ergebnis of this.ergebnisseVAR)
+      if (ergebnis.id == id)
+        return Observable.of(ergebnis);
+  }
+  public ergebnisAendernNEU(ergebnis: ErgebnisNEU): Observable<ErgebnisNEU[]> {
+    for (var i = 0; i < this.ergebnisseVAR.length; i++)
+      if (this.ergebnisseVAR[i].id == ergebnis.id)
+        this.ergebnisseVAR[i] = ergebnis;
+    return Observable.of(this.ergebnisseVAR);
+  }
+
+  public ergebnisLoeschenNeu(id: number): Observable<ErgebnisNEU[]> {
+    let pos = -1;
+    for (var i = 0; i < this.ergebnisseVAR.length; i++)
+      if (this.ergebnisseVAR[i].id == id)
+        pos = i;
+    if (pos > -1) {
+      this.ergebnisseVAR.splice(pos, 1);
+    }
+    return Observable.of(this.ergebnisseVAR);
   }
 }
