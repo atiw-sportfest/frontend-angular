@@ -299,6 +299,17 @@ export class SportfestService {
   public deleteDisziplin(did: any): Observable<any> {
     return this.techService.deleteRequest('/disziplin/' + did);
   }
+  public disziplinLoeschen(id: number): Observable<any> {
+    let pos = -1;
+    for (var i = 0; i < this.disziplinenVAR.length; i++)
+      if (this.disziplinenVAR[i].id == id)
+        pos = i;
+    if (pos > -1) {
+      this.disziplinenVAR.splice(pos, 1);
+    }
+    return Observable.of(this.disziplinenVAR);
+    //return this.techService.deleteRequest('/disziplin/' + id);
+  }
 
   /**
    * ***********************************************
