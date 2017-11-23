@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./disziplin.component.css']
 })
 export class DisziplinComponent implements OnInit {
-
+role: string;
   constructor() { }
 
   ngOnInit() {

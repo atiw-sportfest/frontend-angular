@@ -11,17 +11,19 @@ export class SportfestService {
   constructor(private techService: TechnischerService) {
     this.disziplinenVAR = [
       {
-        did: 1,
+        id: 1,
         name: "Staffel",
         beschreibung: "4 Leute einer Klasse laufen um die Wette (Klassenleistung, Gruppen)",
         aktiviert: true,
         regel: {
-          index: 1,
+          id: 1,
           script: "Hier wird etwas schnelles passieren"
         },
         variablen: [{
+          id: 1,
           bezeichnung: "Laufzeit",
           typ: {
+            id: 1,
             datentyp: "String",
             einheit: "Zeit",
             format: "\d*:[0-5][0-9]",
@@ -30,17 +32,19 @@ export class SportfestService {
         }]
       },
       {
-        did: 2,
+        id: 2,
         name: "Kistenstapeln",
         beschreibung: "Wer kommt höher? Die FS151 oder die anderen Luschen? (Klassenleistung, Jeder gegen Jeden)",
         aktiviert: true,
         regel: {
-          index: 2,
+          id: 2,
           script: "Hier wird etwas hohes passieren"
         },
         variablen: [{
+          id: 2,
           bezeichnung: "Anzahl Kisten",
           typ: {
+            id: 2,
             datentyp: "Integer",
             einheit: "Anzahl",
             format: "\d*",
@@ -48,8 +52,10 @@ export class SportfestService {
           }
         },
         {
+          id: 3,
           bezeichnung: "Zeit",
           typ: {
+            id: 1,
             datentyp: "String",
             einheit: "Zeit",
             format: "\d*:[0-5][0-9]",
@@ -58,17 +64,19 @@ export class SportfestService {
         }]
       },
       {
-        did: 3,
+        id: 3,
         name: "Weitsprung ",
         beschreibung: "Spring los Kartoffelbrei! (Einzelleistung, Jeder gegen Jeden)",
         aktiviert: true,
         regel: {
-          index: 3,
+          id: 3,
           script: "Hier wird etwas weites passieren"
         },
         variablen: [{
+          id: 4,
           bezeichnung: "Sprung 1",
           typ: {
+            id: 3,
             datentyp: "double",
             einheit: "Meter",
             format: "\d*,\d*",
@@ -76,8 +84,10 @@ export class SportfestService {
           }
         },
         {
+          id: 5,
           bezeichnung: "Sprung 2",
           typ: {
+            id: 3,
             datentyp: "double",
             einheit: "Meter",
             format: "\d*,\d*",
@@ -85,8 +95,10 @@ export class SportfestService {
           }
         },
         {
+          id: 6,
           bezeichnung: "Sprung 3",
           typ: {
+            id: 3,
             datentyp: "double",
             einheit: "Meter",
             format: "\d*,\d*",
@@ -95,17 +107,19 @@ export class SportfestService {
         }]
       },
       {
-        did: 4,
+        id: 4,
         name: "2000M Lauf",
         beschreibung: "Lauf Forrest Laaaaaaaaaauf (Einzelleistung, Gruppen)",
         aktiviert: true,
         regel: {
-          index: 4,
+          id: 4,
           script: "Hier wird etwas schnelles weites passieren"
         },
         variablen: [{
+          id: 7,
           bezeichnung: "Laufzeit",
           typ: {
+            id: 1,
             datentyp: "String",
             einheit: "Zeit",
             format: "\d*:[0-5][0-9]",
@@ -216,11 +230,20 @@ export class SportfestService {
     return Observable.of(this.disziplinenVAR);
     //return this.techService.getRequest('/disziplin');
   }
+
   /**
    * Gibt die angefragte Disziplin zurück
    */
   public disziplin(did: number): Observable<any> {
     return this.techService.getRequest('/disziplin/' + did);
+  }
+  public disziplinNEU(id: number): Observable<any> {
+    for(let disziplin of this.disziplinenVAR){
+      if(disziplin.id == id)
+        return Observable.of(disziplin);
+    }
+    return Observable.of([]);
+    //return this.techService.getRequest('/disziplin/' + did);
   }
   /**
    * Ändert eine Disziplin

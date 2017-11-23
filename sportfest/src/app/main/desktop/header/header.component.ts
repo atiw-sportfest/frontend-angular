@@ -109,8 +109,8 @@ export class HeaderComponent implements OnInit {
   public navigateToUAC() {
     this.router.navigate(['/uac']);
   }
-  public navigateToDisziplin(did: number){
-    this.router.navigate(['/disziplin/'+ did]);
+  public navigateToDisziplin(id: number){
+    this.router.navigate(['/disziplin/'+ id]);
   }
   public navigateToCreateDisciplineNew(){
     this.router.navigate(['/createDisciplineNew']);

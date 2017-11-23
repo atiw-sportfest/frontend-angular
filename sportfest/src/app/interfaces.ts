@@ -40,7 +40,7 @@ export interface Disziplin {
 }
 
 export interface DisziplinNEU {
-    did?: number,
+    id?: number,
     name?: string,
     beschreibung?: string,
     aktiviert?: boolean,
@@ -49,14 +49,16 @@ export interface DisziplinNEU {
     variablen?: VariableNEU[]
 }
 export interface RegelNEU{
-    index?: number,
+    id?: number,
     script?: string
 }
 export interface VariableNEU{
+    id?: number,
     bezeichnung?: string
     typ?: TypNEU
 }
 export interface TypNEU{
+    id?: number,
     datentyp: string,
     einheit: string,
     format: string,
