@@ -8,43 +8,94 @@
         <td>
           <!-- Name-->
           <md-input-container>
-            <input mdInput type="text" placeholder="Name der Disziplin">
+            <input mdInput type="text" placeholder="Name der Disziplin" [value]="nameDerDisziplin">
           </md-input-container>
         </td>
       </tr>
       <tr>
+        <!--Beschreibung -->
         <td>
+          <md-input-container>
+            <textarea mdInput type="text" matInput rows="5" cols="40" wrap="hard" placeholder="Beschreibung der Disziplin" [(ngModel)]="beschreibungDerDisziplin"
+              style="background-color: #f2f2f2"></textarea>
+          </md-input-container>
+        </td>
+      </tr>
+      <tr></tr>
+      <md-radio-group [(ngModel)]="klassenleistung">
+        <tr>
           <!-- Leistungen-->
-          <table>
-            <md-radio-group>
-              <tr>
-                <td>
-                  <md-radio-button value="false">Einzelleistung</md-radio-button>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <md-radio-button value="true">Klassenleistung</md-radio-button>
-                </td>
-              </tr>
-            </md-radio-group>
-          </table>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <mat-form-field>
-            <mat-select placeholder="Favorite food">
-              <mat-option *ngFor="let food of foods" [value]="food.value">
-                {{ food.viewValue }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </td>
-        <td></td>
-      </tr>
+          <td>
+            <md-radio-button [value]="false">Einzelleistung</md-radio-button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <md-radio-button [value]="true">Klassenleistung</md-radio-button>
+          </td>
+        </tr>
+      </md-radio-group>
     </table>
   </md-card-content>
+</md-card>
+<br>
+<md-card class="vars">
+  <!-- Variablen-->
+  <table>
+    <tr *ngFor="let aov of arrayOfVars, let i = index">
+      <td style="width:50%;">
+        <md-input-container>
+          <input mdInput type="text" placeholder="Name der Variable" [value]="aov.bezeichnung">
+        </md-input-container>
+      </td>
+      <td>
+        <ng-container>
+          <md-select placeholder="Variable">
+            <md-option *ngFor="let e of einheitPool" [value]="e">
+              {{ e }}
+            </md-option>
+          </md-select>
+        </ng-container>
+      </td>
+      <td>
+        <button md-button (click)="deleteVar(i)">
+          <md-icon>delete forever</md-icon>
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        <button md-raised-button (click)="addVar()" color="primary">
+          <md-icon>add</md-icon>Neue Variable Hinzufügen
+        </button>
+      </td>
+    </tr>
+  </table>
+</md-card>
+<br>
+<md-card>
+  <!-- Regeln -->
+  <h4>Regel:</h4>
+  <table>
+    <tr>
+      <td colspan="3">
+        <md-input-container>
+          <textarea mdInput type="text" matInput rows="5" cols="40" wrap="hard" placeholder="Regel Script" [(ngModel)]="regel" style="background-color: #f2f2f2	"></textarea>
+        </md-input-container>
+      </td>
+    </tr>
+    <tr>
+      <td style="width:20%">
+        <button md-raised-button (click)="checkCode()">
+         <md-icon>cached</md-icon>Überprüfen
+        </button>
+      </td>
+      <td style="width: 10%; margin-right:0px;">Status:</td>
+      <td style="width: 60%;">
+        <md-icon style="width:auto">{{ statusCodeIcon}}</md-icon> {{ statusCodeText}}
+        </td>
+    </tr>
+  </table>
 </md-card>
 <br>
 <md-card>
