@@ -97,6 +97,9 @@ export class HeaderComponent implements OnInit {
   public navigateToUAC() {
     this.router.navigate(['/uac']);
   }
+  public navigateToCreateDisciplineNew(){
+    this.router.navigate(['/createDisciplineNew']);
+  }
 
   public openChangePassword() {
     let dlg = this.dialog.open(PasswordChangeComponent, { disableClose: true });

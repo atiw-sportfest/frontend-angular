@@ -29,6 +29,7 @@ import { AreYouSureComponent } from './main/are-you-sure/are-you-sure.component'
 import { MobileHeaderComponent } from './main/mobile/mobile-header/mobile-header.component';
 import { MobileMenuListComponent } from './main/mobile/mobile-menu-list/mobile-menu-list.component';
 import { MobileHeaderImageComponent } from './main/mobile/mobile-header-image/mobile-header-image.component';
+import { CreateDisciplineNewComponent } from './admin/create-discipline-new/create-discipline-new.component';
 
 const routConfig: Routes = [
     {
@@ -78,6 +79,11 @@ const routConfig: Routes = [
       path: 'createSportfest',
       component: CreateSportfestComponent,
       canActivate: [RouteGuard]
+    },
+    {
+      path: 'createDisciplineNew',
+      component: CreateDisciplineNewComponent,
+      canActivate: [RouteGuard]
     }
 ];
 
@@ -106,7 +112,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AreYouSureComponent,
     MobileHeaderComponent,
     MobileMenuListComponent,
-    MobileHeaderImageComponent
+    MobileHeaderImageComponent,
+    CreateDisciplineNewComponent
   ],
   imports: [
     BrowserModule,
