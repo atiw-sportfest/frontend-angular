@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { DisziplinNEU, VariableNEU } from '../../interfaces';
+import { DisziplinNEU, VariableNEU,TypNEU } from '../../interfaces';
 import { SportfestService } from '../../sportfest.service';
 
 @Component({
@@ -18,23 +18,24 @@ export class CreateDisciplineNewComponent implements OnInit {
 
   regel: string;
 
-  einheitPool: any[];
+  einheitPool: TypNEU[];
 
-  statusCodeText:string;
-  statusCodeIcon:string;
+  statusCodeText: string;
+  statusCodeIcon: string;
 
+  syntaxCorrect:boolean;
 
   constructor(private sfService: SportfestService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
-    this.statusCodeText="False / Not Checked";
-    this.statusCodeIcon="error"; //check circle  
+    this.sfService.typenNEU().subscribe(data=>{
+      this.einheitPool=data;
+    })
 
-    this.einheitPool = [];
-    this.einheitPool.push("Zeit-MM:SS");
-    this.einheitPool.push("Zeit-SS:MS");
-    this.einheitPool.push("Tore");
+    this.statusCodeText = "Fehler / Nicht Überprüft";
+    this.statusCodeIcon = "error";
+    this.syntaxCorrect=false;
 
     this.arrayOfVars = [];
 
@@ -43,7 +44,7 @@ export class CreateDisciplineNewComponent implements OnInit {
     this.klassenleistung = true;
     this.beschreibungDerDisziplin = "lorem ipsum...";
 
-
+    
   }
 
   deleteVar(i: number) {
@@ -54,5 +55,37 @@ export class CreateDisciplineNewComponent implements OnInit {
     let dummyVar = { bezeichnung: "", typNEU: {} }
     this.arrayOfVars.push(dummyVar);
   }
+
+  checkCode() {
+    console.log("Mit Compiler verbinden!");
+
+    this.statusCodeText = "Code wird überprüft";
+
+    // if (CODECORRECT(this.regel)) {
+    //   this.statusCodeText = "Der Code ist Syntaktisch richtig";
+    //   this.statusCodeIcon = "check circle";
+    // } else {
+    //   this.statusCodeText = "Fehler / Nicht Überprüft";
+    //   this.statusCodeIcon = "error";
+    // }
+
+    if (this.statusCodeIcon == "error") {
+      this.statusCodeText = "Der Code ist syntaktisch richtig";
+      this.statusCodeIcon = "done";
+      this.syntaxCorrect = true;
+    } else {
+      this.statusCodeText = "Syntaktischer Fehler im Code";
+      this.statusCodeIcon = "error";
+      this.syntaxCorrect=false;
+    }
+  }
+
+  textChanged() {
+    this.statusCodeText = "Code nicht Überprüft";
+    this.statusCodeIcon = "error";
+    this.syntaxCorrect=false;
+  }
+
+
 
 }

@@ -42,3 +42,7 @@ textarea{
  resize: vertical;
  min-height: 5vw;
 }
+
+#nichtdrücken{
+    cursor: default;
+}
