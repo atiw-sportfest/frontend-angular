@@ -18,7 +18,14 @@
 
   <md-card-content>
     <md-card *ngIf="enoughPermissionsToWrite()">
-      Du hast die Rechte hier was zu machen
+      <md-input-container>
+          <label>Teilnehmer</label>
+          <md-select ng-Model="selectedAnmeldung">
+            <md-option ng-repeat="anmeldung in anmeldungen" ng-value="anmeldung.schueler.sid">
+              {{anmeldung.schueler.name}}
+            </md-option>
+          </md-select>
+      </md-input-container>
     </md-card>
   </md-card-content>
 

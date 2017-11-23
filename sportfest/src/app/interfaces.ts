@@ -78,6 +78,12 @@ export interface LeistungNEU {
     wert: string,
     variable: VariableNEU
 }
+export interface AnmeldungNEU {
+    id?: number,
+    schueler: Schueler,
+    disziplin: DisziplinNEU 
+}
+
 export interface Klasse {
     kid?: number,
     name?: string

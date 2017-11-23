@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DisziplinNEU } from '../interfaces';
+import { DisziplinNEU, AnmeldungNEU } from '../interfaces';
 import { ActivatedRoute, Router } from "@angular/router";
 import { SportfestService } from "../sportfest.service";
 
@@ -10,13 +10,18 @@ import { SportfestService } from "../sportfest.service";
 })
 export class DisziplinComponent implements OnInit {
   disziplin: DisziplinNEU;
+  anmeldungen: AnmeldungNEU[];
+  selectedAnmeldung: AnmeldungNEU;
   constructor(private route: ActivatedRoute, private sfService: SportfestService, private router: Router) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.sfService.disziplinNEU(+params['id']).subscribe(data => {
         this.disziplin = data;
-      }) // (+) converts string 'id' to a number
+        this.sfService.anmeldungenAnDisziplin(this.disziplin.id).subscribe(data=>{
+          this.anmeldungen = data;
+        });
+      }); // (+) converts string 'id' to a number
     });
   }
 

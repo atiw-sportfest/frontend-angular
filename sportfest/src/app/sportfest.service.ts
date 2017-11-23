@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
-import { DisziplinNEU, TypNEU, ErgebnisNEU } from './interfaces';
+import { DisziplinNEU, TypNEU, ErgebnisNEU, AnmeldungNEU } from './interfaces';
 import { TechnischerService } from './technischer.service';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class SportfestService {
   private disziplinenVAR: DisziplinNEU[];
   private typen: TypNEU[];
   private ergebnisseVAR: ErgebnisNEU[];
-
+  private anmeldungen: AnmeldungNEU[];
   constructor(private techService: TechnischerService) {
     this.disziplinenVAR = [
       {
@@ -205,6 +205,39 @@ export class SportfestService {
           }]
         },
         punkte: 5
+      }
+    ]
+    this.anmeldungen = [
+      {
+        id: 1,
+        schueler: {
+          sid: 3041,
+          vorname: "Trulla",
+          name: "Tröt",
+          kid: 1234,
+          gid: 2
+        },
+        disziplin: {
+          id: 1,
+          name: "Staffel",
+          beschreibung: "4 Leute einer Klasse laufen um die Wette (Klassenleistung, Gruppen)",
+          aktiviert: true,
+          regel: {
+            id: 1,
+            script: "Hier wird etwas schnelles passieren"
+          },
+          variablen: [{
+            id: 1,
+            bezeichnung: "Laufzeit",
+            typ: {
+              id: 1,
+              datentyp: "String",
+              einheit: "Zeit",
+              format: "\d*:[0-5][0-9]",
+              bsp: "3:20"
+            }
+          }]
+        }
       }
     ]
   }
@@ -486,5 +519,23 @@ export class SportfestService {
       this.ergebnisseVAR.splice(pos, 1);
     }
     return Observable.of(this.ergebnisseVAR);
+  }
+
+  public ergebnissVonDisziplinUndKlasseUndOptionalerSchueler(did: number, kid: number, sid?: number): Observable<ErgebnisNEU> {
+    for (let ergebnis of this.ergebnisseVAR)
+      if (ergebnis.disziplin.id == did
+        && ergebnis.klasse.kid == kid
+        && (!sid || ergebnis.schueler.sid == sid))
+        return Observable.of(ergebnis);
+    return Observable.of(undefined);
+  }
+
+  public anmeldungenAnDisziplin(id: number):Observable<AnmeldungNEU[]>{
+    let tmp: AnmeldungNEU[] = [];
+    for(let anmeldung of this.anmeldungen)
+      if(anmeldung.disziplin.id == id)
+        tmp.push(anmeldung);
+
+    return Observable.of(tmp);
   }
 }
