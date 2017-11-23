@@ -1,12 +1,13 @@
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
-import { DisziplinNEU } from './interfaces';
+import { DisziplinNEU, TypNEU } from './interfaces';
 import { TechnischerService } from './technischer.service';
 
 @Injectable()
 export class SportfestService {
 
   private disziplinenVAR: DisziplinNEU[];
+  private typen: TypNEU[];
 
   constructor(private techService: TechnischerService) {
     this.disziplinenVAR = [
@@ -127,7 +128,30 @@ export class SportfestService {
           }
         }]
       }
-      ];
+    ];
+    this.typen = [
+      {
+        id: 1,
+        datentyp: "String",
+        einheit: "Zeit",
+        format: "\d*:[0-5][0-9]",
+        bsp: "3:20"
+      },
+      {
+        id: 2,
+        datentyp: "Integer",
+        einheit: "Anzahl",
+        format: "\d*",
+        bsp: "5"
+      },
+      {
+        id: 3,
+        datentyp: "double",
+        einheit: "Meter",
+        format: "\d*,\d*",
+        bsp: "2,89"
+      }
+    ];
   }
 
 
@@ -238,8 +262,8 @@ export class SportfestService {
     return this.techService.getRequest('/disziplin/' + did);
   }
   public disziplinNEU(id: number): Observable<any> {
-    for(let disziplin of this.disziplinenVAR){
-      if(disziplin.id == id)
+    for (let disziplin of this.disziplinenVAR) {
+      if (disziplin.id == id)
         return Observable.of(disziplin);
     }
     return Observable.of([]);
@@ -351,5 +375,8 @@ export class SportfestService {
    */
   public datentypenHolen(): Observable<any> {
     return this.techService.getRequest('/typ');
+  }
+  public typenNEU(): Observable<any>{
+      return Observable.of(this.typen);
   }
 }

@@ -1,87 +1,92 @@
 <iframe name="noDisplay" style="display:none"></iframe>
 <!-- Anmeldebogen-Export -->
-<md-card>
-  <md-card-header>
-    <h3>Anmeldebogen - Export</h3>
-  </md-card-header>
-  <md-card-content>
-    <table>
-      <tr>
-        <td>
-          Laden Sie hier die Excel-Datei herunter, in der sich die Schüler einer Klasse für die einzelnen Disziplinen anmelden können.
-          <br><br> Bitte die <b>ausgefüllte Datei unten wieder hochladen</b>.
-          <br><br>
-          <md-select placeholder="Klasse" [(ngModel)]="selectedDownloadableClass" (change)="changeDownloadPath()">
-            <md-option *ngFor="let klasse of klassen" [value]="klasse.kid">
-              {{ klasse.name }}
-            </md-option>
-          </md-select>
-        </td>
-      </tr>
-    </table>
-  </md-card-content>
-  <md-card-actions>
-    <form ngNoForm [action]="downloadPath" method="get" enctype="multipart/form-data">
-	   <button md-raised-button type="submit" color="primary" [disabled]="!selectedDownloadableClass">Download</button>
-	  </form>
-    
-  </md-card-actions>
-</md-card>
+<md-card-content>
+  <md-card>
+    <md-card-header>
+      <h3>Anmeldebogen - Export</h3>
+    </md-card-header>
+    <md-card-content>
+      <table>
+        <tr>
+          <td>
+            Laden Sie hier die Excel-Datei herunter, in der sich die Schüler einer Klasse für die einzelnen Disziplinen anmelden können.
+            <br><br> Bitte die <b>ausgefüllte Datei unten wieder hochladen</b>.
+            <br><br>
+            <md-select placeholder="Klasse" [(ngModel)]="selectedDownloadableClass" (change)="changeDownloadPath()">
+              <md-option *ngFor="let klasse of klassen" [value]="klasse.kid">
+                {{ klasse.name }}
+              </md-option>
+            </md-select>
+          </td>
+        </tr>
+      </table>
+    </md-card-content>
+    <md-card-actions>
+      <form ngNoForm [action]="downloadPath" method="get" enctype="multipart/form-data">
+        <button md-raised-button type="submit" color="primary" [disabled]="!selectedDownloadableClass">Download</button>
+      </form>
+
+    </md-card-actions>
+  </md-card>
+</md-card-content>
 
 <!-- Anmeldebogen-Import -->
-<md-card>
-  <md-card-header>
-    <h3>Anmeldebogen - Import</h3>
-  </md-card-header>
-  <!-- Action anpassen (/schueler/disziplin/upload), File-Name-->
-  <form ngNoForm [action]="importPath" method="POST" target="noDisplay" enctype="multipart/form-data">          
-    <md-card-content>
-      <table>
-        <tr>
-          <td>
-            Bitte laden Sie hier den <b>vollständig ausgefüllten Anmeldebogen</b> (Excel-Datei) hoch.
-          </td>
-        </tr>
-        <tr></tr>
-        <tr>
-          <td>
-            <input md-button type="file" name="file" size="45" accept=".xls, .xlsx" (change)="anmeldebogenChange($event)"/>
-          </td>
-        </tr>
-      </table>
-    </md-card-content>
-    <md-card-actions>
-      <button md-raised-button color="primary" type="submit" (click)="openAnmeldungHochgeladenSnackbar()" [disabled]="!isAnmeldebogenSelected()">Anmeldebogen abschicken</button>
-    </md-card-actions>
-  </form>
-</md-card>
-
+<md-card-content>
+  <md-card>
+    <md-card-header>
+      <h3>Anmeldebogen - Import</h3>
+    </md-card-header>
+    <!-- Action anpassen (/schueler/disziplin/upload), File-Name-->
+    <form ngNoForm [action]="importPath" method="POST" target="noDisplay" enctype="multipart/form-data">
+      <md-card-content>
+        <table>
+          <tr>
+            <td>
+              Bitte laden Sie hier den <b>vollständig ausgefüllten Anmeldebogen</b> (Excel-Datei) hoch.
+            </td>
+          </tr>
+          <tr></tr>
+          <tr>
+            <td>
+              <input md-button type="file" name="file" size="45" accept=".xls, .xlsx" (change)="anmeldebogenChange($event)" />
+            </td>
+          </tr>
+        </table>
+      </md-card-content>
+      <md-card-actions>
+        <button md-raised-button color="primary" type="submit" (click)="openAnmeldungHochgeladenSnackbar()" [disabled]="!isAnmeldebogenSelected()">Anmeldebogen abschicken</button>
+      </md-card-actions>
+    </form>
+  </md-card>
+</md-card-content>
 <!-- Teilnehmerimport -->
-<md-card>
-  <md-card-header>
-    <h3>Import der Teilnehmer</h3>
-  </md-card-header>
-  <form ngNoForm [action]="uploadPath" method="POST" target="noDisplay" enctype="multipart/form-data" >    
-    <md-card-content>
-      <table>
-        <tr>
-          <td>
-            Bitte laden Sie die CSV-Datei, die alle Schüler und Lehrer des ATIWs enthält 
-            (Name; Vorname; Klasse; Geschlecht), aus, um die Daten für das Tunier bereitzustellen.
-            <br><br>
-            Mögliche Dateiformate sind .csv, .xls und .xlsx.
-          </td>
-        </tr>
-        <tr></tr>
-        <tr>
-          <td>
-            <input md-raised-button type="file" name="file" size="45" accept=".csv, .xls, .xlsx" (change)="teilnehmerChange($event)"/>            
-          </td>
-        </tr>
-      </table>
-    </md-card-content>
-    <md-card-actions>
-      <button md-raised-button color="primary" type="submit" (click)="openSchuelerHochgeladenSnackbar()" [disabled]="!isTeilnehmerSelected()">Teilnehmerliste abschicken</button>
-    </md-card-actions>
-  </form>
-</md-card>
+<md-card-content>
+  <md-card>
+    <md-card-header>
+      <h3>Import der Teilnehmer</h3>
+    </md-card-header>
+    <form ngNoForm [action]="uploadPath" method="POST" target="noDisplay" enctype="multipart/form-data">
+      <md-card-content>
+        <table>
+          <tr>
+            <td>
+              Bitte laden Sie die CSV-Datei, die alle Schüler und Lehrer des ATIWs enthält (Name; Vorname; Klasse; Geschlecht), aus, um
+              die Daten für das Tunier bereitzustellen.
+              <br><br> Mögliche Dateiformate sind .csv, .xls und .xlsx.
+            </td>
+          </tr>
+          <tr></tr>
+          <tr>
+            <td>
+              <input md-raised-button type="file" name="file" size="45" accept=".csv, .xls, .xlsx" (change)="teilnehmerChange($event)"
+              />
+            </td>
+          </tr>
+        </table>
+      </md-card-content>
+      <md-card-actions>
+        <button md-raised-button color="primary" type="submit" (click)="openSchuelerHochgeladenSnackbar()" [disabled]="!isTeilnehmerSelected()">Teilnehmerliste abschicken</button>
+      </md-card-actions>
+    </form>
+  </md-card>
+</md-card-content>

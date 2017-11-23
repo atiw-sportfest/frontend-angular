@@ -82,7 +82,7 @@ const routConfig: Routes = [
       canActivate: [RouteGuard]
     },
     { 
-      path: 'disziplin/:did',
+      path: 'disziplin/:id',
       component: DisziplinComponent,
     },
     {
