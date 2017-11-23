@@ -1,26 +1,31 @@
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
-import { DisziplinNEU } from './interfaces';
+import { DisziplinNEU, TypNEU, ErgebnisNEU } from './interfaces';
 import { TechnischerService } from './technischer.service';
 
 @Injectable()
 export class SportfestService {
 
   private disziplinenVAR: DisziplinNEU[];
+  private typen: TypNEU[];
+  private ergebnisseVAR: ErgebnisNEU[];
 
   constructor(private techService: TechnischerService) {
     this.disziplinenVAR = [
       {
-        did: 1,
+        id: 1,
         name: "Staffel",
         beschreibung: "4 Leute einer Klasse laufen um die Wette (Klassenleistung, Gruppen)",
+        aktiviert: true,
         regel: {
-          index: 1,
+          id: 1,
           script: "Hier wird etwas schnelles passieren"
         },
         variablen: [{
+          id: 1,
           bezeichnung: "Laufzeit",
           typ: {
+            id: 1,
             datentyp: "String",
             einheit: "Zeit",
             format: "\d*:[0-5][0-9]",
@@ -29,16 +34,19 @@ export class SportfestService {
         }]
       },
       {
-        did: 2,
+        id: 2,
         name: "Kistenstapeln",
         beschreibung: "Wer kommt höher? Die FS151 oder die anderen Luschen? (Klassenleistung, Jeder gegen Jeden)",
+        aktiviert: true,
         regel: {
-          index: 2,
+          id: 2,
           script: "Hier wird etwas hohes passieren"
         },
         variablen: [{
+          id: 2,
           bezeichnung: "Anzahl Kisten",
           typ: {
+            id: 2,
             datentyp: "Integer",
             einheit: "Anzahl",
             format: "\d*",
@@ -46,8 +54,10 @@ export class SportfestService {
           }
         },
         {
+          id: 3,
           bezeichnung: "Zeit",
           typ: {
+            id: 1,
             datentyp: "String",
             einheit: "Zeit",
             format: "\d*:[0-5][0-9]",
@@ -56,16 +66,19 @@ export class SportfestService {
         }]
       },
       {
-        did: 3,
+        id: 3,
         name: "Weitsprung ",
         beschreibung: "Spring los Kartoffelbrei! (Einzelleistung, Jeder gegen Jeden)",
+        aktiviert: true,
         regel: {
-          index: 3,
+          id: 3,
           script: "Hier wird etwas weites passieren"
         },
         variablen: [{
+          id: 4,
           bezeichnung: "Sprung 1",
           typ: {
+            id: 3,
             datentyp: "double",
             einheit: "Meter",
             format: "\d*,\d*",
@@ -73,8 +86,10 @@ export class SportfestService {
           }
         },
         {
+          id: 5,
           bezeichnung: "Sprung 2",
           typ: {
+            id: 3,
             datentyp: "double",
             einheit: "Meter",
             format: "\d*,\d*",
@@ -82,8 +97,10 @@ export class SportfestService {
           }
         },
         {
+          id: 6,
           bezeichnung: "Sprung 3",
           typ: {
+            id: 3,
             datentyp: "double",
             einheit: "Meter",
             format: "\d*,\d*",
@@ -92,16 +109,19 @@ export class SportfestService {
         }]
       },
       {
-        did: 4,
+        id: 4,
         name: "2000M Lauf",
         beschreibung: "Lauf Forrest Laaaaaaaaaauf (Einzelleistung, Gruppen)",
+        aktiviert: true,
         regel: {
-          index: 4,
+          id: 4,
           script: "Hier wird etwas schnelles weites passieren"
         },
         variablen: [{
+          id: 7,
           bezeichnung: "Laufzeit",
           typ: {
+            id: 1,
             datentyp: "String",
             einheit: "Zeit",
             format: "\d*:[0-5][0-9]",
@@ -109,7 +129,84 @@ export class SportfestService {
           }
         }]
       }
-      ];
+    ];
+    this.typen = [
+      {
+        id: 1,
+        datentyp: "String",
+        einheit: "Zeit",
+        format: "\d*:[0-5][0-9]",
+        bsp: "3:20"
+      },
+      {
+        id: 2,
+        datentyp: "Integer",
+        einheit: "Anzahl",
+        format: "\d*",
+        bsp: "5"
+      },
+      {
+        id: 3,
+        datentyp: "double",
+        einheit: "Meter",
+        format: "\d*,\d*",
+        bsp: "2,89"
+      }
+    ];
+    this.ergebnisseVAR = [
+      {
+        id: 1,
+        leistungen: [
+          {
+            wert: "10:23",
+            variable: {
+              id: 1,
+              bezeichnung: "Laufzeit",
+              typ: {
+                id: 1,
+                datentyp: "String",
+                einheit: "Zeit",
+                format: "\d*:[0-5][0-9]",
+                bsp: "3:20"
+              }
+            }
+          }
+        ],
+        klasse: {
+          kid: 1234,
+          name: "1234"
+        },
+        schueler: {
+          sid: 3041,
+          vorname: "Trulla",
+          name: "Tröt",
+          kid: 1234,
+          gid: 2
+        },
+        disziplin: {
+          id: 1,
+          name: "Staffel",
+          beschreibung: "4 Leute einer Klasse laufen um die Wette (Klassenleistung, Gruppen)",
+          aktiviert: true,
+          regel: {
+            id: 1,
+            script: "Hier wird etwas schnelles passieren"
+          },
+          variablen: [{
+            id: 1,
+            bezeichnung: "Laufzeit",
+            typ: {
+              id: 1,
+              datentyp: "String",
+              einheit: "Zeit",
+              format: "\d*:[0-5][0-9]",
+              bsp: "3:20"
+            }
+          }]
+        },
+        punkte: 5
+      }
+    ]
   }
 
 
@@ -207,11 +304,25 @@ export class SportfestService {
   public disziplinen(): Observable<any> {
     return this.techService.getRequest('/disziplin');
   }
+
+  public disziplinenNEU(): Observable<any> {
+    return Observable.of(this.disziplinenVAR);
+    //return this.techService.getRequest('/disziplin');
+  }
+
   /**
    * Gibt die angefragte Disziplin zurück
    */
   public disziplin(did: number): Observable<any> {
     return this.techService.getRequest('/disziplin/' + did);
+  }
+  public disziplinNEU(id: number): Observable<any> {
+    for (let disziplin of this.disziplinenVAR) {
+      if (disziplin.id == id)
+        return Observable.of(disziplin);
+    }
+    return Observable.of([]);
+    //return this.techService.getRequest('/disziplin/' + did);
   }
   /**
    * Ändert eine Disziplin
@@ -219,17 +330,40 @@ export class SportfestService {
   public disziplinAendern(did: number, disziplin: any): Observable<any> {
     return this.techService.postRequest('/disziplin/' + did, disziplin);
   }
+  public disziplinAendernNEU(disziplin: DisziplinNEU): Observable<any> {
+    for (var i = 0; i < this.disziplinenVAR.length; i++)
+      if (this.disziplinenVAR[i].id == disziplin.id)
+        this.disziplinenVAR[i] = disziplin
+    return Observable.of(this.disziplinenVAR);
+    //return this.techService.postRequest('/disziplin/' + id, disziplin);
+  }
   /**
    * Schreibt eine Disziplin
    */
   public disziplinSchreiben(disziplin: any): Observable<any> {
     return this.techService.putRequest('/disziplin/', disziplin);
   }
+  public disziplinHinzufuegenNEU(disziplin: DisziplinNEU): Observable<any> {
+    this.disziplinenVAR.push(disziplin);
+    //return this.techService.putRequest('/disziplin/', disziplin);
+    return Observable.of(this.disziplinenVAR);
+  }
   /**
    * Löscht eine Disziplin
    */
   public deleteDisziplin(did: any): Observable<any> {
     return this.techService.deleteRequest('/disziplin/' + did);
+  }
+  public disziplinLoeschen(id: number): Observable<any> {
+    let pos = -1;
+    for (var i = 0; i < this.disziplinenVAR.length; i++)
+      if (this.disziplinenVAR[i].id == id)
+        pos = i;
+    if (pos > -1) {
+      this.disziplinenVAR.splice(pos, 1);
+    }
+    return Observable.of(this.disziplinenVAR);
+    //return this.techService.deleteRequest('/disziplin/' + id);
   }
 
   /**
@@ -319,5 +453,38 @@ export class SportfestService {
    */
   public datentypenHolen(): Observable<any> {
     return this.techService.getRequest('/typ');
+  }
+  public typenNEU(): Observable<any> {
+    return Observable.of(this.typen);
+  }
+
+  public ergebnisHinzufuegenNEU(ergebnis: ErgebnisNEU) {
+    this.ergebnisseVAR.push(ergebnis);
+  }
+
+  public ergebnisseNEU(): Observable<ErgebnisNEU[]> {
+    return Observable.of(this.ergebnisseVAR);
+  }
+  public ergebnisNEU(id: number): Observable<ErgebnisNEU> {
+    for (let ergebnis of this.ergebnisseVAR)
+      if (ergebnis.id == id)
+        return Observable.of(ergebnis);
+  }
+  public ergebnisAendernNEU(ergebnis: ErgebnisNEU): Observable<ErgebnisNEU[]> {
+    for (var i = 0; i < this.ergebnisseVAR.length; i++)
+      if (this.ergebnisseVAR[i].id == ergebnis.id)
+        this.ergebnisseVAR[i] = ergebnis;
+    return Observable.of(this.ergebnisseVAR);
+  }
+
+  public ergebnisLoeschenNeu(id: number): Observable<ErgebnisNEU[]> {
+    let pos = -1;
+    for (var i = 0; i < this.ergebnisseVAR.length; i++)
+      if (this.ergebnisseVAR[i].id == id)
+        pos = i;
+    if (pos > -1) {
+      this.ergebnisseVAR.splice(pos, 1);
+    }
+    return Observable.of(this.ergebnisseVAR);
   }
 }

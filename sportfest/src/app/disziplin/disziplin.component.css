@@ -1,0 +1,21 @@
+#beschreibung {
+    white-space: pre-line;
+}
+md-list {
+    cursor: pointer;
+}
+td {
+    width: 10%;
+}
+th{
+    vertical-align: bottom !important;
+}
+p{
+    display: table-cell;
+    vertical-align: bottom !important;
+    padding: 0px;
+    margin:0;
+}
+md-icon{
+    vertical-align: bottom !important;
+}

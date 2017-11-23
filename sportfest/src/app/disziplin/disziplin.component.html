@@ -1,0 +1,30 @@
+<ng-container>
+  <md-card-content>
+    <md-card>
+      <md-card-header>
+        <h3>{{ disziplin.name }}</h3>
+      </md-card-header>
+    </md-card>
+
+    <md-card>
+      <md-card-header>
+        <h4>Beschreibung</h4>
+      </md-card-header>
+      <md-card-content>
+        <p id="beschreibung">{{ disziplin.beschreibung }}</p>
+      </md-card-content>
+    </md-card>
+  </md-card-content>
+
+  <md-card-content>
+    <md-card *ngIf="enoughPermissionsToWrite()">
+      Du hast die Rechte hier was zu machen
+    </md-card>
+  </md-card-content>
+
+  <md-card-content>
+    <md-card>
+      Hier stehen die Ergebnisse
+    </md-card>
+  </md-card-content>
+</ng-container>

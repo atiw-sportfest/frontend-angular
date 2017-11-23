@@ -29,6 +29,7 @@ import { AreYouSureComponent } from './main/are-you-sure/are-you-sure.component'
 import { MobileHeaderComponent } from './main/mobile/mobile-header/mobile-header.component';
 import { MobileMenuListComponent } from './main/mobile/mobile-menu-list/mobile-menu-list.component';
 import { MobileHeaderImageComponent } from './main/mobile/mobile-header-image/mobile-header-image.component';
+import { DisziplinComponent } from './disziplin/disziplin.component';
 import { CreateDisciplineNewComponent } from './admin/create-discipline-new/create-discipline-new.component';
 
 const routConfig: Routes = [
@@ -80,6 +81,10 @@ const routConfig: Routes = [
       component: CreateSportfestComponent,
       canActivate: [RouteGuard]
     },
+    { 
+      path: 'disziplin/:id',
+      component: DisziplinComponent,
+    },
     {
       path: 'createDisciplineNew',
       component: CreateDisciplineNewComponent,
@@ -113,6 +118,7 @@ export const BASEPATH = 'http://' + location.host + '/backend';
     MobileHeaderComponent,
     MobileMenuListComponent,
     MobileHeaderImageComponent,
+    DisziplinComponent,
     CreateDisciplineNewComponent
   ],
   imports: [

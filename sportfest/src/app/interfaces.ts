@@ -1,9 +1,9 @@
 export interface Variable {
     var_id?: number,
     name?: string,
-    desc?:string,
-    expressionParameter?:string,
-    typ?:Datentyp,
+    desc?: string,
+    expressionParameter?: string,
+    typ?: Datentyp,
     sortAsc: boolean,
     sortIndex: number
 }
@@ -20,7 +20,7 @@ export interface Zustand {
     value?: string
 }
 
-export interface Regel{
+export interface Regel {
     index?: string;
     expression?: string,
     points?: number,
@@ -40,26 +40,43 @@ export interface Disziplin {
 }
 
 export interface DisziplinNEU {
-    did?: number,
+    id?: number,
     name?: string,
     beschreibung?: string,
-    team?: boolean,
+    aktiviert?: boolean,
+    klassenleistung?: boolean,
     regel?: RegelNEU,
     variablen?: VariableNEU[]
 }
-export interface RegelNEU{
-    index?: number,
+export interface RegelNEU {
+    id?: number,
     script?: string
 }
-export interface VariableNEU{
+export interface VariableNEU {
+    id?: number,
     bezeichnung?: string
     typ?: TypNEU
 }
-export interface TypNEU{
+export interface TypNEU {
+    id?: number,
     datentyp: string,
     einheit: string,
     format: string,
     bsp?: string
+}
+
+export interface ErgebnisNEU {
+    id?: number,
+    leistungen?: LeistungNEU[],
+    klasse: Klasse,
+    schueler: Schueler,
+    disziplin: DisziplinNEU,
+    punkte: number
+}
+
+export interface LeistungNEU {
+    wert: string,
+    variable: VariableNEU
 }
 export interface Klasse {
     kid?: number,
