@@ -1,5 +1,6 @@
 table {
     margin: auto;
+    width: 100%;
 }
 h3 {
     text-align: center;
@@ -12,7 +13,7 @@ md-icon{
     vertical-align: middle;
 }
 
-.linie{
+linie{
     background-color: lightgray;
     border-radius: 5px;
     height: 4px;
@@ -21,4 +22,23 @@ md-icon{
 
 td{
     vertical-align: middle;
+    margin-left: 1em;
+    width: 100%;
+}
+
+td > * {
+    width: 100%;
+}
+
+.mat-card-content>:last-child, .mat-card>:last-child{
+    margin-left: 1em;
+}
+
+.mat-input-infix{
+    width: 100%;
+}
+
+textarea{
+ resize: vertical;
+ min-height: 5vw;
 }
