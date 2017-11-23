@@ -1,12 +1,118 @@
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
-
+import { DisziplinNEU } form '../interfaces';
 import { TechnischerService } from './technischer.service';
 
 @Injectable()
 export class SportfestService {
 
-  constructor(private techService: TechnischerService) { }
+  private disziplinenVAR: DisziplinNEU;
+
+  constructor(private techService: TechnischerService) {
+    this.disziplinenVAR = [
+      {
+        did: 1,
+        name: "Staffel",
+        beschreibung: "4 Leute einer Klasse laufen um die Wette (Klassenleistung, Gruppen)",
+        regel: {
+          index: 1,
+          script: "Hier wird etwas schnelles passieren"
+        },
+        variablen: [{
+          bezeichnung: "Laufzeit",
+          typ: {
+            datentyp: "String",
+            einheit: "Zeit",
+            format: "\d*:[0-5][0-9]",
+            bsp: "3:20"
+          }
+        }]
+      },
+      {
+        did: 2,
+        name: "Kistenstapeln",
+        beschreibung: "Wer kommt höher? Die FS151 oder die anderen Luschen? (Klassenleistung, Jeder gegen Jeden)",
+        regel: {
+          index: 2,
+          script: "Hier wird etwas hohes passieren"
+        },
+        variablen: [{
+          bezeichnung: "Anzahl Kisten",
+          typ: {
+            datentyp: "Integer",
+            einheit: "Anzahl",
+            format: "\d*",
+            bsp: "5"
+          }
+        },
+        {
+          bezeichnung: "Zeit",
+          typ: {
+            datentyp: "String",
+            einheit: "Zeit",
+            format: "\d*:[0-5][0-9]",
+            bsp: "3:20"
+          }
+        }]
+      },
+      {
+        did: 3,
+        name: "Weitsprung ",
+        beschreibung: "Spring los Kartoffelbrei! (Einzelleistung, Jeder gegen Jeden)",
+        regel: {
+          index: 3,
+          script: "Hier wird etwas weites passieren"
+        },
+        variablen: [{
+          bezeichnung: "Sprung 1",
+          typ: {
+            datentyp: "double",
+            einheit: "Meter",
+            format: "\d*,\d*",
+            bsp: "2,89"
+          }
+        },
+        {
+          bezeichnung: "Sprung 2",
+          typ: {
+            datentyp: "double",
+            einheit: "Meter",
+            format: "\d*,\d*",
+            bsp: "2,89"
+          }
+        },
+        {
+          bezeichnung: "Sprung 3",
+          typ: {
+            datentyp: "double",
+            einheit: "Meter",
+            format: "\d*,\d*",
+            bsp: "2,89"
+          }
+        }]
+      },
+      {
+        did: 4,
+        name: "2000M Lauf",
+        beschreibung: "Lauf Forrest Laaaaaaaaaauf (Einzelleistung, Gruppen)",
+        regel: {
+          index: 4,
+          script: "Hier wird etwas schnelles weites passieren"
+        },
+        variablen: [{
+          bezeichnung: "Laufzeit",
+          typ: {
+            datentyp: "String",
+            einheit: "Zeit",
+            format: "\d*:[0-5][0-9]",
+            bsp: "3:20"
+          }
+        }]
+      }
+    ]
+
+
+
 
   /**
    * ***********************************************
@@ -78,14 +184,14 @@ export class SportfestService {
    * Lädt den Anmeldebogen einer Klasse runter
    */
   public schuelerAnmeldebogen(classId: number): Observable<any> {
-    return this.techService.getRequest('/klasse/' + classId  + '/anmeldung');
+    return this.techService.getRequest('/klasse/' + classId + '/anmeldung');
   }
-  
-  public schuelerPerDisziplin(classId: number, disziplinId: number){
+
+  public schuelerPerDisziplin(classId: number, disziplinId: number) {
     return this.techService.getRequest('/schueler/' + classId + '/' + disziplinId);
   }
 
-  public schuelerMitLeistungEinerDisziplin(did: number){
+  public schuelerMitLeistungEinerDisziplin(did: number) {
     return this.techService.getRequest('/schueler/leistung/disziplin/' + did);
   }
   /**
@@ -130,7 +236,7 @@ export class SportfestService {
    * Ergebnis Resource
    * ***********************************************
    */
-  
+
   /**
    * Schreibt ein Ergebnis
    */
@@ -141,10 +247,10 @@ export class SportfestService {
     return this.techService.putRequest('/leistung/versus', leistungen);
   }
   public leistungenEinerDisziplin(did: number): Observable<any> {
-    return this.techService.getRequest('/leistung/disziplin/'+did);
+    return this.techService.getRequest('/leistung/disziplin/' + did);
   }
 
-//Veraltet
+  //Veraltet
   /**
    * Gibt die Ergebnisse zur Disziplin mit der übergebenen ID zuück
    */
@@ -157,7 +263,7 @@ export class SportfestService {
   public ergebnisseAendern(did: number, eid: number): Observable<any> {
     return this.techService.getRequest('/ergebnis' + did + '/' + eid);
   }
-  
+
   /**
    * Löscht ein Ergebnis
    */
@@ -193,18 +299,18 @@ export class SportfestService {
    * Gib Klasse mit Anmeldung an Disziplin
    */
   public klasseMitAnmeldung(did: number): Observable<any> {
-    return this.techService.getRequest('/klasse/anmeldung/'+did);
+    return this.techService.getRequest('/klasse/anmeldung/' + did);
   }
   /**
    * Gib Klasse mit Leistung an Disziplin
    */
   public klassenMitLeistung(did: number): Observable<any> {
-    return this.techService.getRequest('/klasse/leistungen/'+did);
+    return this.techService.getRequest('/klasse/leistungen/' + did);
   }
   /**
    * Ändert das Passwort
    */
-  public changePassword(oldPassword:any, newPassword: any): Observable<any> {
+  public changePassword(oldPassword: any, newPassword: any): Observable<any> {
     return this.techService.postFormRequest('/user/password', encodeURI('currpw=' + oldPassword + '&newpw=' + newPassword));
   }
   /**

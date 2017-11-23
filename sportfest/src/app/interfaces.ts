@@ -39,6 +39,28 @@ export interface Disziplin {
     variablen?: Variable[]
 }
 
+export interface DsziplinNEU {
+    did?: number,
+    name?: string,
+    beschreibung?: string,
+    team?: boolean,
+    regel?: RegelNEU,
+    variablen?: VariableNEU[]
+}
+export interface RegelNEU{
+    index?: number,
+    script?: string
+}
+export interface VariableNEU{
+    bezeichnung?: string
+    typ?: TypNEU
+}
+export interface TypNEU{
+    datentyp: string,
+    einheit: string,
+    format: string,
+    bsp?: string
+}
 export interface Klasse {
     kid?: number,
     name?: string
