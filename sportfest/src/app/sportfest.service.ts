@@ -275,11 +275,23 @@ export class SportfestService {
   public disziplinAendern(did: number, disziplin: any): Observable<any> {
     return this.techService.postRequest('/disziplin/' + did, disziplin);
   }
+  public disziplinAendernNEU(disziplin: DisziplinNEU): Observable<any> {
+    for (var i = 0; i < this.disziplinenVAR.length; i++)
+      if (this.disziplinenVAR[i].id == disziplin.id)
+        this.disziplinenVAR[i] = disziplin
+    return Observable.of(this.disziplinenVAR);
+    //return this.techService.postRequest('/disziplin/' + id, disziplin);
+  }
   /**
    * Schreibt eine Disziplin
    */
   public disziplinSchreiben(disziplin: any): Observable<any> {
     return this.techService.putRequest('/disziplin/', disziplin);
+  }
+  public disziplinHinzufuegenNEU(disziplin: DisziplinNEU): Observable<any> {
+    this.disziplinenVAR.push(disziplin);
+    //return this.techService.putRequest('/disziplin/', disziplin);
+    return Observable.of(this.disziplinenVAR);
   }
   /**
    * Löscht eine Disziplin
@@ -376,7 +388,7 @@ export class SportfestService {
   public datentypenHolen(): Observable<any> {
     return this.techService.getRequest('/typ');
   }
-  public typenNEU(): Observable<any>{
-      return Observable.of(this.typen);
+  public typenNEU(): Observable<any> {
+    return Observable.of(this.typen);
   }
 }
