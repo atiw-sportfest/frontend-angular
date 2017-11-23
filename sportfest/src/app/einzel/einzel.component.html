@@ -32,30 +32,6 @@
                 <h3 (click)="aufklappen(klasse.kid)">{{klasse.name}}</h3>
                 <div [hidden]="!aufgeklappt[klasse.kid]">
                   <table width="100%">
-                    <!--<tr>
-                      <th></th>
-                      <ng-container *ngFor="let s of schuelerEinerKlasseMitLeistung[klasse.kid]">
-                        <ng-container *ngIf="s">
-                          <th>
-                            {{ s.vorname }} {{ s.name }}
-                          </th>
-                        </ng-container>
-                      </ng-container>
-                    </tr>            
-                    <ng-container *ngFor="let v of variablen">
-                      <tr>
-                        <th>
-                          {{v.name}}
-                        </th>                      
-                        <ng-container *ngFor="let s of schuelerEinerKlasseMitLeistung[klasse.kid]">
-                          <ng-container *ngIf="s">
-                            <td align="center">
-                              {{ ergebnisseEinesSchuelersEinerKlasse[klasse.kid][s.sid][v.var_id].wert }}
-                            </td>
-                          </ng-container>
-                        </ng-container>
-                      </tr>
-                    </ng-container>-->
                     <tr>
                       <th></th>
                       <ng-container *ngFor="let v of variablen">
