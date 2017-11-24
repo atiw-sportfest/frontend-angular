@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { DisziplinNEU, VariableNEU,TypNEU } from '../../interfaces';
+import { DisziplinNEU, VariableNEU, TypNEU, RegelNEU } from '../../interfaces';
 import { SportfestService } from '../../sportfest.service';
 
 @Component({
@@ -9,6 +9,7 @@ import { SportfestService } from '../../sportfest.service';
   styleUrls: ['./create-discipline-new.component.css']
 })
 export class CreateDisciplineNewComponent implements OnInit {
+  idDerDisziplin: number;
   nameDerDisziplin: string;
   beschreibungDerDisziplin: string;
   klassenleistung: boolean;
@@ -16,35 +17,50 @@ export class CreateDisciplineNewComponent implements OnInit {
 
   arrayOfVars: VariableNEU[];
 
-  regel: string;
+  regelString: string;
+  regel: RegelNEU;
 
   einheitPool: TypNEU[];
 
   statusCodeText: string;
   statusCodeIcon: string;
 
-  syntaxCorrect:boolean;
+  syntaxCorrect: boolean;
 
   constructor(private sfService: SportfestService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
-    this.sfService.typenNEU().subscribe(data=>{
-      this.einheitPool=data;
+    this.sfService.typenNEU().subscribe(data => {
+      this.einheitPool = data;
     })
+    this.route.params.forEach((params: Params) => {
+      this.idDerDisziplin = +params['did'];
+    });
+    if (this.idDerDisziplin) {
+      this.sfService.disziplin(this.idDerDisziplin).subscribe((data: DisziplinNEU) => {
+        this.idDerDisziplin = data.id;
+        this.nameDerDisziplin = data.name;
+        this.beschreibungDerDisziplin = data.beschreibung;
+        this.klassenleistung = data.klassenleistung;
+        this.regel = data.regel;
+        this.arrayOfVars = data.variablen;
 
-    this.statusCodeText = "Fehler / Nicht Überprüft";
-    this.statusCodeIcon = "error";
-    this.syntaxCorrect=false;
+      });
+    } else {
+      this.regel = { id: null, script: "" };
+      this.idDerDisziplin = null;
+      this.nameDerDisziplin = "";
+      this.beschreibungDerDisziplin = "";
+      this.klassenleistung = false;
+      this.arrayOfVars = [];
 
-    this.arrayOfVars = [];
+      this.statusCodeText = "Code nicht Überprüft";
+      this.statusCodeIcon = "error";
+      this.syntaxCorrect = false;
 
-    let dis: DisziplinNEU;
-    this.nameDerDisziplin = "Käse";
-    this.klassenleistung = true;
-    this.beschreibungDerDisziplin = "lorem ipsum...";
 
-    
+    }
   }
 
   deleteVar(i: number) {
@@ -69,6 +85,7 @@ export class CreateDisciplineNewComponent implements OnInit {
     //   this.statusCodeIcon = "error";
     // }
 
+    //DEBUG-Code
     if (this.statusCodeIcon == "error") {
       this.statusCodeText = "Der Code ist syntaktisch richtig";
       this.statusCodeIcon = "done";
@@ -76,16 +93,47 @@ export class CreateDisciplineNewComponent implements OnInit {
     } else {
       this.statusCodeText = "Syntaktischer Fehler im Code";
       this.statusCodeIcon = "error";
-      this.syntaxCorrect=false;
+      this.syntaxCorrect = false;
     }
   }
 
   textChanged() {
     this.statusCodeText = "Code nicht Überprüft";
     this.statusCodeIcon = "error";
-    this.syntaxCorrect=false;
+    this.syntaxCorrect = false;
   }
 
+  sendToBackend() {
+    let disziplinDTO: DisziplinNEU;
+    disziplinDTO.aktiviert = true;
+    disziplinDTO.beschreibung = this.beschreibungDerDisziplin;
+    disziplinDTO.id = this.idDerDisziplin;
+    disziplinDTO.klassenleistung = this.klassenleistung;
+    disziplinDTO.name = this.nameDerDisziplin;
+    disziplinDTO.regel = this.regel;
+    disziplinDTO.variablen = this.arrayOfVars;
+
+    console.log("disziplinDTO", disziplinDTO);
 
 
+    if (disziplinDTO.id) { //Disziplin existiert schon
+      this.sfService.disziplinAendernNEU(disziplinDTO).subscribe(
+        (data) => {
+          console.log(data);
+        },
+        (err) => {
+          console.log(err);
+        });
+    } else { //Neue Disziplin
+      this.sfService.disziplinHinzufuegenNEU(disziplinDTO).subscribe(
+        (data) => {
+          console.log(data);
+          this.router.navigate["disziplin/" + data.id];
+        },
+        (err) => {
+          console.log(err);
+        });
+
+    }
+  }
 }

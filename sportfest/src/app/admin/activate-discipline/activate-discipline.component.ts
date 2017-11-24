@@ -47,7 +47,7 @@ export class ActivateDisciplineComponent implements OnInit {
   }
   
   public editDiscipline(dis: Disziplin) {
-    this.router.navigate(['/createDiscipline/' + dis.did]);
+    this.router.navigate(['/createDisciplineNew/' + dis.did]);
   }
   
   public deleteDiscipline(dis: Disziplin) {

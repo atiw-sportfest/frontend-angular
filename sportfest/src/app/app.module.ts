@@ -33,70 +33,75 @@ import { DisziplinComponent } from './disziplin/disziplin.component';
 import { CreateDisciplineNewComponent } from './admin/create-discipline-new/create-discipline-new.component';
 
 const routConfig: Routes = [
-    {
-      path: '',
-      component: DashboardComponent
-    },
-    {
-      path: 'home',
-      component: DashboardComponent
-    },
-    {
-      path: 'createDiscipline',
-      component: CreateDisciplineComponent,
-      canActivate: [RouteGuard]
-    },
-    {
-      path: 'createDiscipline/:did',
-      component: CreateDisciplineComponent,
-      canActivate: [RouteGuard]
-    },
-    {
-      path: 'einzel/:did/:name',
-      component: EinzelComponent,
-      canActivate: [RouteGuard]
-    },
-    { 
-      path: 'team/:did/:name',
-      component: TeamComponent,
-      canActivate: [RouteGuard]
-    },
-    { 
-      path: 'import',
-      component: KlassenImportComponent,
-      canActivate: [RouteGuard]
-    },
-    { 
-      path: 'activateDiscipline',
-      component: ActivateDisciplineComponent,
-      canActivate: [RouteGuard]
-    },
-    { 
-      path: 'uac',
-      component: UserAccountControlComponent,
-      canActivate: [RouteGuard]
-    },
-    { 
-      path: 'createSportfest',
-      component: CreateSportfestComponent,
-      canActivate: [RouteGuard]
-    },
-    { 
-      path: 'disziplin/:id',
-      component: DisziplinComponent,
-    },
-    {
-      path: 'createDisciplineNew',
-      component: CreateDisciplineNewComponent,
-      canActivate: [RouteGuard]
-    }
+  {
+    path: '',
+    component: DashboardComponent
+  },
+  {
+    path: 'home',
+    component: DashboardComponent
+  },
+  {
+    path: 'createDiscipline',
+    component: CreateDisciplineComponent,
+    canActivate: [RouteGuard]
+  },
+  {
+    path: 'createDiscipline/:did',
+    component: CreateDisciplineComponent,
+    canActivate: [RouteGuard]
+  },
+  {
+    path: 'einzel/:did/:name',
+    component: EinzelComponent,
+    canActivate: [RouteGuard]
+  },
+  {
+    path: 'team/:did/:name',
+    component: TeamComponent,
+    canActivate: [RouteGuard]
+  },
+  {
+    path: 'import',
+    component: KlassenImportComponent,
+    canActivate: [RouteGuard]
+  },
+  {
+    path: 'activateDiscipline',
+    component: ActivateDisciplineComponent,
+    canActivate: [RouteGuard]
+  },
+  {
+    path: 'uac',
+    component: UserAccountControlComponent,
+    canActivate: [RouteGuard]
+  },
+  {
+    path: 'createSportfest',
+    component: CreateSportfestComponent,
+    canActivate: [RouteGuard]
+  },
+  {
+    path: 'disziplin/:id',
+    component: DisziplinComponent,
+  },
+  {
+    path: 'createDisciplineNew/:id',
+    component: CreateDisciplineNewComponent,
+    canActivate: [RouteGuard]
+  },
+  {
+    path: 'createDisciplineNew',
+    component: CreateDisciplineNewComponent,
+    canActivate: [RouteGuard]
+  }
 ];
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
-  return new AuthHttp( new AuthConfig({}), http, options);
+  return new AuthHttp(new AuthConfig({}), http, options);
 }
 
-export const BASEPATH = 'http://' + location.host + '/backend'; 
+export const BASEPATH = 'http://' + location.host + '/backend';
 // export const BASEPATH = 'http://localhost:8080/backend'; 
 
 @NgModule({
@@ -126,7 +131,7 @@ export const BASEPATH = 'http://' + location.host + '/backend';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(routConfig, { useHash: true}),
+    RouterModule.forRoot(routConfig, { useHash: true }),
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
@@ -139,7 +144,7 @@ export const BASEPATH = 'http://' + location.host + '/backend';
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
-      deps: [ Http, RequestOptions ]
+      deps: [Http, RequestOptions]
     },
     Md5
   ],
