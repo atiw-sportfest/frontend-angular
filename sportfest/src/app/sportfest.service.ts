@@ -217,27 +217,51 @@ export class SportfestService {
           kid: 1234,
           gid: 2
         },
-        disziplin: {
-          id: 1,
-          name: "Staffel",
-          beschreibung: "4 Leute einer Klasse laufen um die Wette (Klassenleistung, Gruppen)",
-          aktiviert: true,
-          regel: {
-            id: 1,
-            script: "Hier wird etwas schnelles passieren"
-          },
-          variablen: [{
-            id: 1,
-            bezeichnung: "Laufzeit",
-            typ: {
-              id: 1,
-              datentyp: "String",
-              einheit: "Zeit",
-              format: "\d*:[0-5][0-9]",
-              bsp: "3:20"
-            }
-          }]
-        }
+        disziplin: 1
+      },
+      {
+        id: 2,
+        schueler: {
+          sid: 3400,
+          vorname: "Bernd",
+          name: "Vogel",
+          kid: 1234,
+          gid: 1
+        },
+        disziplin: 2
+      },
+      {
+        id: 3,
+        schueler: {
+          sid: 3400,
+          vorname: "Bernd",
+          name: "Vogel",
+          kid: 1234,
+          gid: 1
+        },
+        disziplin: 1
+      },
+      {
+        id: 4,
+        schueler: {
+          sid: 3403,
+          vorname: "Max",
+          name: "Mustermann",
+          kid: 1234,
+          gid: 1
+        },
+        disziplin: 3
+      },
+      {
+        id: 4,
+        schueler: {
+          sid: 3403,
+          vorname: "Max",
+          name: "Mustermann",
+          kid: 1234,
+          gid: 1
+        },
+        disziplin: 3
       }
     ]
   }
@@ -530,10 +554,10 @@ export class SportfestService {
     return Observable.of(undefined);
   }
 
-  public anmeldungenAnDisziplin(id: number):Observable<AnmeldungNEU[]>{
+  public anmeldungenAnDisziplin(id: number): Observable<AnmeldungNEU[]> {
     let tmp: AnmeldungNEU[] = [];
-    for(let anmeldung of this.anmeldungen)
-      if(anmeldung.disziplin.id == id)
+    for (let anmeldung of this.anmeldungen)
+      if (anmeldung.disziplin == id)
         tmp.push(anmeldung);
 
     return Observable.of(tmp);

@@ -80,8 +80,8 @@ export interface LeistungNEU {
 }
 export interface AnmeldungNEU {
     id?: number,
-    schueler: Schueler,
-    disziplin: DisziplinNEU 
+    schueler?: Schueler,
+    disziplin?: number 
 }
 
 export interface Klasse {

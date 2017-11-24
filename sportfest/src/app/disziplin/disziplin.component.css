@@ -19,3 +19,8 @@ p{
 md-icon{
     vertical-align: bottom !important;
 }
+
+.full-width{
+    margin: auto;
+    width: 100%;
+}

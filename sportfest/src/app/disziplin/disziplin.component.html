@@ -16,16 +16,35 @@
     </md-card>
   </md-card-content>
 
-  <md-card-content>
-    <md-card *ngIf="enoughPermissionsToWrite()">
-      <md-input-container>
-          <label>Teilnehmer</label>
-          <md-select ng-Model="selectedAnmeldung">
-            <md-option ng-repeat="anmeldung in anmeldungen" ng-value="anmeldung.schueler.sid">
-              {{anmeldung.schueler.name}}
-            </md-option>
-          </md-select>
-      </md-input-container>
+  <md-card-content *ngIf="enoughPermissionsToWrite()">
+    <md-card>
+      <table>
+        <tr *ngFor="let selectedAnmeldung of selectedAnmeldungen; let eintragPos = index">
+          <td>
+            <ng-container>
+              <md-select placeholder="Schüler" [(ngModel)]="selectedAnmeldungen[eintragPos]">
+                <md-option *ngFor="let anmeldung of anmeldungen" [value]="anmeldung">
+                  {{ anmeldung.schueler.name }}
+                </md-option>
+              </md-select>
+            </ng-container>
+          </td>
+          <td *ngFor="let variable of disziplin.variablen; let variablePos = index">
+            <md-input-container>
+              <input mdInput placeholder="{{variable.bezeichnung}}" [(ngModel)]="leistungen[variablePos]">
+            </md-input-container>
+          </td>
+        </tr>
+      </table>
+    </md-card>
+    <md-card>
+      <table class="full-width">
+        <tr>
+          <td>
+            <button md-raised-button color="primary" class="full-width" (click)="speichern()">Speichern</button>
+          </td>
+        </tr>
+      </table>
     </md-card>
   </md-card-content>
 

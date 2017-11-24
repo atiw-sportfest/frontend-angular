@@ -9,29 +9,38 @@ import { SportfestService } from "../sportfest.service";
   styleUrls: ['./disziplin.component.css']
 })
 export class DisziplinComponent implements OnInit {
-  disziplin: DisziplinNEU;
-  anmeldungen: AnmeldungNEU[];
-  selectedAnmeldung: AnmeldungNEU;
+
+  disziplin: DisziplinNEU = {};
+  anmeldungen: AnmeldungNEU[] = [];
+  selectedAnmeldungen: AnmeldungNEU[] = [{}];
+  leistungen: string[] = [];
   constructor(private route: ActivatedRoute, private sfService: SportfestService, private router: Router) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.sfService.disziplinNEU(+params['id']).subscribe(data => {
         this.disziplin = data;
-        this.sfService.anmeldungenAnDisziplin(this.disziplin.id).subscribe(data=>{
+        this.sfService.anmeldungenAnDisziplin(this.disziplin.id).subscribe(data => {
           this.anmeldungen = data;
         });
+        for (var i = 0; i < this.disziplin.variablen.length; i++)
+          this.leistungen.push("");
       }); // (+) converts string 'id' to a number
     });
+    this.selectedAnmeldungen = [{}];
+    console.log('AfterView');
   }
 
   private enoughPermissionsToWrite() {
     let role = localStorage.getItem('role');
-    if (role == 'admin' || role == 'schiedsrichter'){
+    if (role == 'admin' || role == 'schiedsrichter') {
       return true;
     } else {
       return false;
     }
+  }
+
+  private speichern(){
   }
 
 }
