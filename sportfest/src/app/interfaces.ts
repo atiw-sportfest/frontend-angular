@@ -59,24 +59,25 @@ export interface VariableNEU {
 }
 export interface TypNEU {
     id?: number,
-    datentyp: string,
-    einheit: string,
-    format: string,
+    datentyp?: string,
+    einheit?: string,
+    format?: string,
     bsp?: string
 }
 
 export interface ErgebnisNEU {
     id?: number,
     leistungen?: LeistungNEU[],
-    klasse: Klasse,
-    schueler: SchuelerNEU,
-    disziplin: DisziplinNEU,
-    punkte: number
+    klasse?: Klasse,
+    schueler?: SchuelerNEU,
+    disziplin?: DisziplinNEU,
+    punkte?: number
 }
 
 export interface LeistungNEU {
-    wert: string,
-    variable: VariableNEU
+    id?: number,
+    wert?: string,
+    variable?: VariableNEU
 }
 export interface AnmeldungNEU {
     id?: number,

@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
-import { DisziplinNEU, TypNEU, ErgebnisNEU, AnmeldungNEU } from './interfaces';
+import { DisziplinNEU, TypNEU, ErgebnisNEU, AnmeldungNEU, LeistungNEU } from './interfaces';
 import { TechnischerService } from './technischer.service';
 
 @Injectable()
@@ -178,7 +178,7 @@ export class SportfestService {
         ],
         klasse: {
           kid: 1234,
-          name: "1234"
+          name: "FS151"
         },
         schueler: {
           sid: 3041,
@@ -250,8 +250,8 @@ export class SportfestService {
           vorname: "Bernd",
           name: "Vogel",
           klasse: {
-            kid: 1234,
-            name: "FS151"
+            kid: 1235,
+            name: "FI123"
           },
           gid: 1
         },
@@ -599,6 +599,10 @@ export class SportfestService {
     return Observable.of(undefined);
   }
 
+  public ergebnisseVonDisziplin(did: number): Observable<ErgebnisNEU[]>{
+    return Observable.of(this.ergebnisseVAR);
+  }
+
   public anmeldungenAnDisziplin(id: number): Observable<AnmeldungNEU[]> {
     let tmp: AnmeldungNEU[] = [];
     for (let anmeldung of this.anmeldungen)
@@ -606,5 +610,10 @@ export class SportfestService {
         tmp.push(anmeldung);
 
     return Observable.of(tmp);
+  }
+
+  public leistungHinzufügen(leistung: LeistungNEU, did: number, sid: number): Observable<LeistungNEU[]>{
+    this.ergebnisseVAR[0].leistungen.push(leistung);
+    return Observable.of(this.ergebnisseVAR[0].leistungen);
   }
 }

@@ -24,13 +24,13 @@
           <td>
             <!-- Dropdown zur Auswahl der Klasse / des Schülers -->
             <md-select placeholder="Schüler" [(ngModel)]="selectedAnmeldungen[eintragPos]">
-              <ng-container *ngFor="let anmeldung of anmeldungen">
-                <md-option [value]="anmeldung" *ngIf="anmeldungBereitsGewaehlt(eintragPos, anmeldung)">
-                  <ng-container *ngIf="!disziplin.klassenleistung">
+              <ng-container *ngFor="let anmeldung of anmeldungen; let dropdownPos = index">
+                <md-option [value]="anmeldung" *ngIf="!anmeldungBereitsGewaehlt(eintragPos, anmeldung) && uniqueKlasse(dropdownPos)">
+                  <ng-container *ngIf="!disziplin.klassenleistung" (click)="leistungenHolen(anmeldung)">
                     {{ anmeldung.schueler.vorname }} {{anmeldung.schueler.name}}
                   </ng-container>
                   <ng-container *ngIf="disziplin.klassenleistung">
-                    {{ anmeldung.schueler.kid}}
+                    {{ anmeldung.schueler.klasse.name}}
                   </ng-container>
                 </md-option>
               </ng-container>
@@ -38,7 +38,7 @@
           </td>
           <td *ngFor="let variable of disziplin.variablen; let variablePos = index">
             <md-input-container>
-              <input mdInput placeholder="{{variable.bezeichnung}}" [(ngModel)]="leistungen[eintragPos][variablePos]">
+              <input mdInput placeholder="{{variable.bezeichnung}}" [(ngModel)]="leistungen[eintragPos][variablePos].wert">
             </md-input-container>
           </td>
         </tr>
@@ -66,7 +66,34 @@
 
   <md-card-content>
     <md-card>
-      Hier stehen die Ergebnisse
+      <table>
+        <tr>
+          <th>
+            <ng-container *ngIf="!disziplin.klassenleistung">
+              Schüler
+            </ng-container>
+            <ng-container *ngIf="disziplin.klassenleistung">
+              Klasse
+            </ng-container>
+          </th>
+          <th *ngFor="let variable of disziplin.variablen">
+            {{variable.bezeichnung}}
+          </th>
+        </tr>
+        <tr *ngFor="let ergebnis of ergebnisse">
+          <td style="text-align: center;">
+            <ng-container *ngIf="!disziplin.klassenleistung" >
+              {{ergebnis.schueler.vorname}} {{ergebnis.schueler.name}}
+            </ng-container>
+            <ng-container *ngIf="disziplin.klassenleistung">
+              {{ergebnis.klasse.name}}
+            </ng-container>
+          </td>
+          <td *ngFor="let leistung of ergebnis.leistungen" style="text-align: center;">
+            {{leistung.wert}}
+          </td>
+        </tr>
+      </table>
     </md-card>
   </md-card-content>
 </ng-container>
