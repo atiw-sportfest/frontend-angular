@@ -18,26 +18,42 @@
 
   <md-card-content *ngIf="enoughPermissionsToWrite()">
     <md-card>
+      <!-- Tabelle für Ergebniseingabe des Admins -->
       <table>
         <tr *ngFor="let selectedAnmeldung of selectedAnmeldungen; let eintragPos = index">
           <td>
-            <ng-container>
-              <md-select placeholder="Schüler" [(ngModel)]="selectedAnmeldungen[eintragPos]">
-                <md-option *ngFor="let anmeldung of anmeldungen" [value]="anmeldung">
-                  {{ anmeldung.schueler.name }}
+            <!-- Dropdown zur Auswahl der Klasse / des Schülers -->
+            <md-select placeholder="Schüler" [(ngModel)]="selectedAnmeldungen[eintragPos]">
+              <ng-container *ngFor="let anmeldung of anmeldungen">
+                <md-option [value]="anmeldung" *ngIf="anmeldungBereitsGewaehlt(eintragPos, anmeldung)">
+                  <ng-container *ngIf="!disziplin.klassenleistung">
+                    {{ anmeldung.schueler.vorname }} {{anmeldung.schueler.name}}
+                  </ng-container>
+                  <ng-container *ngIf="disziplin.klassenleistung">
+                    {{ anmeldung.schueler.kid}}
+                  </ng-container>
                 </md-option>
-              </md-select>
-            </ng-container>
+              </ng-container>
+            </md-select>
           </td>
           <td *ngFor="let variable of disziplin.variablen; let variablePos = index">
             <md-input-container>
-              <input mdInput placeholder="{{variable.bezeichnung}}" [(ngModel)]="leistungen[variablePos]">
+              <input mdInput placeholder="{{variable.bezeichnung}}" [(ngModel)]="leistungen[eintragPos][variablePos]">
             </md-input-container>
+          </td>
+        </tr>
+        <tr>
+          <!-- Button um neuen Teilnehmer hinzuzufügen -->
+          <td style="width:fit-content">
+            <button md-raised-button color="primary" (click)="teilnehmerHinzufuegen()">
+              <md-icon>add</md-icon>Hinzufügen
+            </button>
           </td>
         </tr>
       </table>
     </md-card>
     <md-card>
+      <!-- Tabelle für den Speichern button -->
       <table class="full-width">
         <tr>
           <td>

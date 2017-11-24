@@ -69,7 +69,7 @@ export interface ErgebnisNEU {
     id?: number,
     leistungen?: LeistungNEU[],
     klasse: Klasse,
-    schueler: Schueler,
+    schueler: SchuelerNEU,
     disziplin: DisziplinNEU,
     punkte: number
 }
@@ -80,8 +80,15 @@ export interface LeistungNEU {
 }
 export interface AnmeldungNEU {
     id?: number,
-    schueler?: Schueler,
+    schueler?: SchuelerNEU,
     disziplin?: number 
+}
+export interface SchuelerNEU {
+    sid?: number,
+    vorname?: string,
+    name?: string,
+    klasse?: Klasse,
+    gid?: number
 }
 
 export interface Klasse {
