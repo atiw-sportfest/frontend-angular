@@ -39,6 +39,11 @@ export class EinheitVerwaltenComponent implements OnInit {
 
   sendToBackend(){
     //todo schnittstelle einrichten
+    this.einheitPool.forEach(einheit => {
+      if(einheit.id){
+        
+      }
+    });
   }
 
 }

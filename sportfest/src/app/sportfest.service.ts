@@ -537,6 +537,29 @@ export class SportfestService {
     return Observable.of(this.typen);
   }
 
+  public typenAendernNEU(id: number, typ: TypNEU): Observable<any> {
+    for (var i = 0; i < this.typen.length; i++)
+      if (this.typen[i].id == id)
+        this.typen[i] = typ;
+    return Observable.of(this.typen);
+  }
+
+  public typenLoeschenNEU(id:number): Observable<any>{
+    let pos = -1;
+    for (var i = 0; i < this.typen.length; i++)
+      if (this.typen[i].id == id)
+        pos = i;
+    if (pos > -1) {
+      this.ergebnisseVAR.splice(pos, 1);
+    }
+    return Observable.of(this.typen);
+  }
+
+  public typenHinzufuegenNEU(typ:TypNEU): Observable<any>{
+    this.typen.push(typ);
+    return Observable.of(this.typen);
+  }
+
   public ergebnisHinzufuegenNEU(ergebnis: ErgebnisNEU) {
     this.ergebnisseVAR.push(ergebnis);
   }
