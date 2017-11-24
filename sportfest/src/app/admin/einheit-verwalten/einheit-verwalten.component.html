@@ -1,0 +1,51 @@
+<md-card>
+  <md-card-header>
+    <h3>Einheiten Verwalten</h3>
+  </md-card-header>
+  <md-card-content>
+    <md-expansion-panel *ngFor="let e of einheitPool, let i = index">
+      <md-expansion-panel-header>
+        <md-panel-title>
+          {{e.einheit}}
+        </md-panel-title>
+        <md-panel-description>
+          Klicken, um zu verwalten
+        </md-panel-description>
+      </md-expansion-panel-header>
+
+      <md-input-container>
+        <input mdInput placeholder="Name" [(ngModel)]="e.einheit">
+      </md-input-container>
+
+      <md-input-container>
+        <input mdInput placeholder="Datentyp" [(ngModel)]="e.datentyp">
+      </md-input-container>
+
+      <md-input-container>
+        <input mdInput placeholder="Format [Regex]" [(ngModel)]="e.format">
+      </md-input-container>
+
+      <md-input-container>
+        <input mdInput placeholder="Beispiel" [(ngModel)]="e.bsp">
+      </md-input-container>
+
+      <button md-button (click)="deleteEinheit(i)">
+         <md-icon>delete forever</md-icon>
+      </button>
+    </md-expansion-panel>
+    <br>
+    <button md-raised-button (click)="addEinheit()" color="primary">
+         <md-icon>add</md-icon>
+    </button>
+    <br><br>
+    <table style="width:100%">
+      <tr style="width:100%">
+        <td style= "width:100%">
+          <button md-raised-button (click)="sendToBackend()" color="accent" style="width:100%">
+            <md-icon>check</md-icon> Speichern
+          </button>
+        </td>
+      </tr>
+    </table>
+  </md-card-content>
+</md-card>

@@ -32,17 +32,17 @@ export class LoginComponent implements OnInit {
           let token = data.text(); //token = bearer-Token in der Antwort des Servers
 
           // Token in localStorage packen
-          localStorage.setItem('token', token);
+          sessionStorage.setItem('token', token);
           this.sfService.userPrivileges().subscribe(data => { //Fragt Benutzernamen und Rolle des Benutzers ab
             if (data.role != 'gast') {
-              localStorage.setItem('role', data.role); //Setzt Rolle des Benutzers
-              localStorage.setItem('username', data.username);
+              sessionStorage.setItem('role', data.role); //Setzt Rolle des Benutzers
+              sessionStorage.setItem('username', data.username);
             } else {
-              localStorage.setItem('role', 'gast');
-              localStorage.setItem('username', null);
+              sessionStorage.setItem('role', 'gast');
+              sessionStorage.setItem('username', null);
             }
             if(encryptpwd == Md5.hashStr('Atiw2017')){
-              localStorage.setItem('init','true');
+              sessionStorage.setItem('init','true');
             }
             this.loginSubmit.emit(); //Overlay schließen wenn alle Request fertig sind
           },

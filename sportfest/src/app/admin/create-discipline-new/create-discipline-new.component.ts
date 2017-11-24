@@ -33,7 +33,7 @@ export class CreateDisciplineNewComponent implements OnInit {
   ngOnInit() {
     this.sfService.typenNEU().subscribe(data => {
       this.einheitPool = data;
-    })
+    });
     this.route.params.forEach((params: Params) => {
       this.idDerDisziplin = +params['id'];
     });

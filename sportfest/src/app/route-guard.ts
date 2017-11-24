@@ -15,7 +15,7 @@ export class RouteGuard implements CanActivate {
     
     let url = state.url.split('/')[1];
     
-    let role = localStorage.getItem("role");
+    let role = sessionStorage.getItem("role");
     console.log("ROLE --> ", role);
     
     switch (url) {
@@ -33,6 +33,7 @@ export class RouteGuard implements CanActivate {
       case "createDisciplineNew":
       case "activateDiscipline":
       case "uac":
+      case "einheitVerwalten":
       case "createSportfest":           
       case "import":
         return (role == "admin");

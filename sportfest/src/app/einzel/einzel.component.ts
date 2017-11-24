@@ -216,7 +216,7 @@ export class EinzelComponent implements OnInit {
   }
 
   private enoughPermissionsToWrite() {
-    let role = localStorage.getItem('role');
+    let role = sessionStorage.getItem('role');
     if (role == 'admin' || role == 'schiedsrichter'){
       return true;
     } else {
@@ -224,7 +224,7 @@ export class EinzelComponent implements OnInit {
     }
   }
   private enoughPermissionsToChange() {
-    let role = localStorage.getItem('role');
+    let role = sessionStorage.getItem('role');
     if (role == 'admin') {
       return true;
     } else {

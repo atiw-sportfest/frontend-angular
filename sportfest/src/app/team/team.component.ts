@@ -118,7 +118,7 @@ export class TeamComponent implements OnInit {
   }
 
   private enoughPermissionsToWrite() {
-    let role = localStorage.getItem('role');
+    let role = sessionStorage.getItem('role');
     if (role == 'admin' || role == 'schiedsrichter'){
       return true;
     } else {

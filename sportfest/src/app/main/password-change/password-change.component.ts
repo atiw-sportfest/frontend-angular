@@ -42,7 +42,7 @@ export class PasswordChangeComponent implements OnInit {
         (err) => {
           console.error('GET-Service "changePassword()" not reachable.');
         });
-        localStorage.setItem('init', 'false');
+        sessionStorage.setItem('init', 'false');
       this.pwSave.emit();
     }
   }

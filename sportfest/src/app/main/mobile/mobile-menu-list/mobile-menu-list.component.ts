@@ -25,7 +25,7 @@ export class MobileMenuListComponent implements OnInit {
               private sfService: SportfestService) { }
 
   ngOnInit() {
-    this.role = localStorage.getItem('role');
+    this.role = sessionStorage.getItem('role');
     this.sfService.disziplinen().subscribe(data => {
       for(let i = 0; i < data.length; i++) {
         if (data[i].teamleistung == false || data[i].did == 3) {

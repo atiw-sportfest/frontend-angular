@@ -29,9 +29,9 @@ export class HeaderComponent implements OnInit {
     private sfService: SportfestService) { }
 
   ngOnInit() {
-    this.role = localStorage.getItem('role'); // Rolle aus dem Speicher laden (wichtig beim neuladen der Seite)
-    this.username = localStorage.getItem('username'); // Benutzernamen aus dem speicher laden (wichtig beim neuladen der Seite)
-    if (localStorage.getItem('init') == 'true') {
+    this.role = sessionStorage.getItem('role'); // Rolle aus dem Speicher laden (wichtig beim neuladen der Seite)
+    this.username = sessionStorage.getItem('username'); // Benutzernamen aus dem speicher laden (wichtig beim neuladen der Seite)
+    if (sessionStorage.getItem('init') == 'true') {
       let dlg = this.dialog.open(PasswordChangeComponent, { disableClose: true });
       dlg.componentInstance.setInitPw(true);
       dlg.componentInstance.pwSave.subscribe(data => dlg.close());
@@ -66,9 +66,9 @@ export class HeaderComponent implements OnInit {
   }
 
   public logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-    localStorage.removeItem('username');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('role');
+    sessionStorage.removeItem('username');
     this.username = null;
     this.navigateToDashboard();
   }
@@ -76,15 +76,15 @@ export class HeaderComponent implements OnInit {
     let dlg = this.dialog.open(LoginComponent); //Login-Overlay öffnen
     dlg.componentInstance.loginClose.subscribe(data => dlg.close());
     dlg.componentInstance.loginSubmit.subscribe(data => {
-      if (localStorage.getItem('init') == 'true') {
+      if (sessionStorage.getItem('init') == 'true') {
         let dlg = this.dialog.open(PasswordChangeComponent, { disableClose: true });
         dlg.componentInstance.setInitPw(true);
         dlg.componentInstance.pwSave.subscribe(data => dlg.close());
       }
       dlg.close();
       console.log('Login: ' + data);
-      this.username = localStorage.getItem('username'); //Benutzernamen aus dem Local Storage auslesen
-      this.role = localStorage.getItem('role'); //Rolle aus dem Local Storage auslesen
+      this.username = sessionStorage.getItem('username'); //Benutzernamen aus dem Local Storage auslesen
+      this.role = sessionStorage.getItem('role'); //Rolle aus dem Local Storage auslesen
     });
   }
   //Routing bei Klick auf Button im Menü
@@ -114,6 +114,10 @@ export class HeaderComponent implements OnInit {
   }
   public navigateToCreateDisciplineNew(){
     this.router.navigate(['/createDisciplineNew/']);
+  }
+
+  public navigateToEinheitVerwalten(){
+    this.router.navigate(['/einheitVerwalten/']);
   }
 
   public openChangePassword() {

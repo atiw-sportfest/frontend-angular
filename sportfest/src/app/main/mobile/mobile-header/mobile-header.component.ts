@@ -23,9 +23,9 @@ export class MobileHeaderComponent implements OnInit {
     private sfService: SportfestService) { }
 
   ngOnInit() {
-    this.role = localStorage.getItem('role');
-    this.username = localStorage.getItem('username');
-    if (localStorage.getItem('init') == 'true') {
+    this.role = sessionStorage.getItem('role');
+    this.username = sessionStorage.getItem('username');
+    if (sessionStorage.getItem('init') == 'true') {
       let dlg = this.dialog.open(PasswordChangeComponent, { disableClose: true });
       dlg.componentInstance.setInitPw(true);
       dlg.componentInstance.pwSave.subscribe(data => dlg.close());
@@ -44,11 +44,11 @@ export class MobileHeaderComponent implements OnInit {
     dlg.componentInstance.pwSave.subscribe(data => dlg.close());
   }
   public logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-    localStorage.removeItem('username');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('role');
+    sessionStorage.removeItem('username');
     this.username = null;
-    this.role = localStorage.getItem('role');
+    this.role = sessionStorage.getItem('role');
     this.roleChanged.emit(this.role);
     this.navigateToDashboard();
   }
@@ -57,11 +57,11 @@ export class MobileHeaderComponent implements OnInit {
     let dlg = this.dialog.open(LoginComponent);
     dlg.componentInstance.loginClose.subscribe(data => dlg.close());
     dlg.componentInstance.loginSubmit.subscribe(data => {
-      this.username = localStorage.getItem('username'); //Benutzernamen aus dem Local Storage auslesen
-      this.role = localStorage.getItem('role'); //Rolle aus dem Local Storage auslesen
+      this.username = sessionStorage.getItem('username'); //Benutzernamen aus dem Local Storage auslesen
+      this.role = sessionStorage.getItem('role'); //Rolle aus dem Local Storage auslesen
       this.roleChanged.emit(this.role);
       dlg.close();
-      if (localStorage.getItem('init') == 'true') {
+      if (sessionStorage.getItem('init') == 'true') {
         let dlg = this.dialog.open(PasswordChangeComponent, { disableClose: true });
         dlg.componentInstance.setInitPw(true);
         dlg.componentInstance.pwSave.subscribe(data => dlg.close());
