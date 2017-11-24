@@ -11,23 +11,26 @@ import { SportfestService } from "../sportfest.service";
 export class DisziplinComponent implements OnInit {
 
   disziplin: DisziplinNEU = {};
-  anmeldungen: AnmeldungNEU[] = [];
-  selectedAnmeldungen: AnmeldungNEU[] = [{}];
-  leistungen: string[] = [];
+  anmeldungen: AnmeldungNEU[];
+  selectedAnmeldungen: AnmeldungNEU[];
+  leistungen: string[][];
   constructor(private route: ActivatedRoute, private sfService: SportfestService, private router: Router) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
+      this.leistungen = [[]];
+      this.selectedAnmeldungen = [{}];
+      this.anmeldungen = [];
+      this.disziplin = {};
       this.sfService.disziplinNEU(+params['id']).subscribe(data => {
         this.disziplin = data;
         this.sfService.anmeldungenAnDisziplin(this.disziplin.id).subscribe(data => {
           this.anmeldungen = data;
         });
         for (var i = 0; i < this.disziplin.variablen.length; i++)
-          this.leistungen.push("");
+          this.leistungen[0].push("");
       }); // (+) converts string 'id' to a number
     });
-    this.selectedAnmeldungen = [{}];
     console.log('AfterView');
   }
 
@@ -40,7 +43,24 @@ export class DisziplinComponent implements OnInit {
     }
   }
 
-  private speichern(){
+  private speichern() {
+    console.log(this.selectedAnmeldungen);
+    console.log(this.leistungen);
+  }
+
+  private teilnehmerHinzufuegen() {
+    this.selectedAnmeldungen.push({});
+    this.leistungen.push([]);
+    for (var i = 0; i < this.disziplin.variablen.length; i++)
+      this.leistungen[this.leistungen.length - 1].push("");
+  }
+
+  private anmeldungBereitsGewaehlt(pos: number, anmeldung: AnmeldungNEU): boolean {
+    for(var i=0; i<pos;i++){
+      if(this.selectedAnmeldungen[i]==anmeldung)
+        return false;
+    }
+    return true;
   }
 
 }

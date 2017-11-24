@@ -16,6 +16,7 @@ export class SportfestService {
         id: 1,
         name: "Staffel",
         beschreibung: "4 Leute einer Klasse laufen um die Wette (Klassenleistung, Gruppen)",
+        klassenleistung: true,
         aktiviert: true,
         regel: {
           id: 1,
@@ -37,6 +38,7 @@ export class SportfestService {
         id: 2,
         name: "Kistenstapeln",
         beschreibung: "Wer kommt höher? Die FS151 oder die anderen Luschen? (Klassenleistung, Jeder gegen Jeden)",
+        klassenleistung: true,
         aktiviert: true,
         regel: {
           id: 2,
@@ -70,6 +72,7 @@ export class SportfestService {
         name: "Weitsprung ",
         beschreibung: "Spring los Kartoffelbrei! (Einzelleistung, Jeder gegen Jeden)",
         aktiviert: true,
+        klassenleistung: false,
         regel: {
           id: 3,
           script: "Hier wird etwas weites passieren"
@@ -113,6 +116,7 @@ export class SportfestService {
         name: "2000M Lauf",
         beschreibung: "Lauf Forrest Laaaaaaaaaauf (Einzelleistung, Gruppen)",
         aktiviert: true,
+        klassenleistung: false,
         regel: {
           id: 4,
           script: "Hier wird etwas schnelles weites passieren"
@@ -180,7 +184,10 @@ export class SportfestService {
           sid: 3041,
           vorname: "Trulla",
           name: "Tröt",
-          kid: 1234,
+          klasse: {
+            kid: 1234,
+            name: "FS151"
+          },
           gid: 2
         },
         disziplin: {
@@ -214,7 +221,10 @@ export class SportfestService {
           sid: 3041,
           vorname: "Trulla",
           name: "Tröt",
-          kid: 1234,
+          klasse: {
+            kid: 1234,
+            name: "FS151"
+          },
           gid: 2
         },
         disziplin: 1
@@ -225,7 +235,10 @@ export class SportfestService {
           sid: 3400,
           vorname: "Bernd",
           name: "Vogel",
-          kid: 1234,
+          klasse: {
+            kid: 1234,
+            name: "FS151"
+          },
           gid: 1
         },
         disziplin: 2
@@ -236,18 +249,24 @@ export class SportfestService {
           sid: 3400,
           vorname: "Bernd",
           name: "Vogel",
-          kid: 1234,
+          klasse: {
+            kid: 1234,
+            name: "FS151"
+          },
           gid: 1
         },
         disziplin: 1
       },
       {
-        id: 4,
+        id: 3,
         schueler: {
-          sid: 3403,
-          vorname: "Max",
-          name: "Mustermann",
-          kid: 1234,
+          sid: 3400,
+          vorname: "Bernd",
+          name: "Vogel",
+          klasse: {
+            kid: 1234,
+            name: "FS151"
+          },
           gid: 1
         },
         disziplin: 3
@@ -258,7 +277,10 @@ export class SportfestService {
           sid: 3403,
           vorname: "Max",
           name: "Mustermann",
-          kid: 1234,
+          klasse: {
+            kid: 1235,
+            name: "FI152"
+          },
           gid: 1
         },
         disziplin: 3
