@@ -8,8 +8,9 @@
         <td>
           <!-- Name-->
           <md-input-container>
-            <input mdInput type="text" placeholder="Name der Disziplin" [value]="nameDerDisziplin">
+            <input mdInput type="text" placeholder="Name der Disziplin" [(ngModel)]="nameDerDisziplin">
           </md-input-container>
+          <p>{{ nameDerDisziplin}}</p>
         </td>
       </tr>
       <tr>
@@ -43,21 +44,21 @@
   <!-- Variablen-->
   <table>
     <tr *ngFor="let aov of arrayOfVars, let i = index">
-      <td style="width:50%;">
+      <td style="width:50vw">
         <md-input-container>
           <input mdInput type="text" placeholder="Name der Variable" [value]="aov.bezeichnung">
         </md-input-container>
       </td>
-      <td>
+      <td style="width:80px">
         <ng-container>
-          <md-select placeholder="Variable">
+          <md-select placeholder="Variable" [(ngModel)]="aov.typ">
             <md-option *ngFor="let e of einheitPool" [value]="e">
-              {{ e }}
+              {{ e.einheit }}
             </md-option>
           </md-select>
         </ng-container>
       </td>
-      <td>
+      <td style="width:fit-content">
         <button md-button (click)="deleteVar(i)">
           <md-icon>delete forever</md-icon>
         </button>
@@ -78,9 +79,9 @@
   <h4>Regel:</h4>
   <table>
     <tr>
-      <td colspan="3">
+      <td colspan="2">
         <md-input-container>
-          <textarea mdInput type="text" matInput rows="5" cols="40" wrap="hard" placeholder="Regel Script" [(ngModel)]="regel" style="background-color: #f2f2f2	"></textarea>
+          <textarea mdInput type="text" matInput rows="5" cols="40" wrap="hard" placeholder="Regel Script" [(ngModel)]="regel.script" (keyup)="textChanged()" style="background-color: #f2f2f2	"></textarea>
         </md-input-container>
       </td>
     </tr>
@@ -90,9 +91,8 @@
          <md-icon>cached</md-icon>Überprüfen
         </button>
       </td>
-      <td style="width: 10%; margin-right:0px;">Status:</td>
-      <td style="width: 60%;">
-        <md-icon style="width:auto">{{ statusCodeIcon}}</md-icon> {{ statusCodeText}}
+      <td style="width: 65%;margin-left:20px;">
+        Status: <md-icon style="width:fit-content" id="nichtdrücken">{{ statusCodeIcon}}</md-icon> {{ statusCodeText}}
         </td>
     </tr>
   </table>
@@ -101,16 +101,10 @@
 <md-card>
   <table>
     <tr>
-      <td style="width:40%">
-        <div class="linie"></div>
-      </td>
       <td>
-        <button [disabled]=!secondVisible style="font-size: 1.1em" md-raised-button (click)="sendToBackend()" color="accent">
+        <button [disabled]=!syntaxCorrect style="font-size: 1.1em" md-raised-button (click)="sendToBackend()" color="accent">
             <md-icon>done</md-icon> Disziplin speichern
         </button>
-      </td>
-      <td style="width: 40%">
-        <div class="linie"></div>
       </td>
     </tr>
   </table>

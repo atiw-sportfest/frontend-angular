@@ -1,6 +1,6 @@
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { Disziplin } from '../../interfaces';
+import { DisziplinNEU } from '../../interfaces';
 import { SportfestService } from '../../sportfest.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { SportfestService } from '../../sportfest.service';
 })
 export class ActivateDisciplineComponent implements OnInit {
 
-  disziplinen: Disziplin[]=[];
+  disziplinen: DisziplinNEU[]=[];
 
   constructor(private sfService: SportfestService,
               private router: Router,
@@ -21,37 +21,37 @@ export class ActivateDisciplineComponent implements OnInit {
   }
   
   public disziplinLaden(){
-    this.sfService.disziplinen().subscribe((data: Disziplin[]) => {
+    this.sfService.disziplinenNEU().subscribe((data: DisziplinNEU[]) => {
         this.disziplinen=data;
         if (!this.disziplinen) {
           this.disziplinen = [];
         }
         this.disziplinen.forEach(element => {
-        if(element.regeln==null){
-        element.regeln=[];
+        if(element.regel==null){
+        element.regel=[];
          }
       });
       },
       (err) => {
-        console.error('GET-Service "disziplin()" not reachable.');
+        console.error('GET-Service "disziplinNEU()" not reachable.');
       });
   }
   
-  public save(dis:Disziplin) {
-    this.sfService.disziplinAendern(dis.did, dis).subscribe(data => {
+  public save(dis:DisziplinNEU) {
+    this.sfService.disziplinAendernNEU(dis).subscribe(data => {
         
       },
       (err) => {
-        console.error('POST-Service "disziplinAendern()" not reachable.');
+        console.error('POST-Service "disziplinAendernNEU()" not reachable.');
       });
   }
   
-  public editDiscipline(dis: Disziplin) {
-    this.router.navigate(['/createDiscipline/' + dis.did]);
+  public editDiscipline(dis: DisziplinNEU) {
+    this.router.navigate(['/createDisciplineNew/' + dis.id]);
   }
   
-  public deleteDiscipline(dis: Disziplin) {
-    this.sfService.deleteDisziplin(dis.did).subscribe(
+  public deleteDiscipline(dis: DisziplinNEU) {
+    this.sfService.disziplinLoeschen(dis.id).subscribe(
       (data) => {
         console.log(data);
         this.disziplinLaden();

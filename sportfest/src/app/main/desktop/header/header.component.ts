@@ -113,7 +113,7 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/disziplin/'+ id]);
   }
   public navigateToCreateDisciplineNew(){
-    this.router.navigate(['/createDisciplineNew']);
+    this.router.navigate(['/createDisciplineNew/']);
   }
 
   public openChangePassword() {
