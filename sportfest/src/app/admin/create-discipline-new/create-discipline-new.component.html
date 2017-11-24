@@ -8,8 +8,9 @@
         <td>
           <!-- Name-->
           <md-input-container>
-            <input mdInput type="text" placeholder="Name der Disziplin" [value]="nameDerDisziplin">
+            <input mdInput type="text" placeholder="Name der Disziplin" [(ngModel)]="nameDerDisziplin">
           </md-input-container>
+          <p>{{ nameDerDisziplin}}</p>
         </td>
       </tr>
       <tr>
@@ -50,7 +51,7 @@
       </td>
       <td style="width:80px">
         <ng-container>
-          <md-select placeholder="Variable">
+          <md-select placeholder="Variable" [(ngModel)]="aov.typ">
             <md-option *ngFor="let e of einheitPool" [value]="e">
               {{ e.einheit }}
             </md-option>

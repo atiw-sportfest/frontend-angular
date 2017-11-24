@@ -21,7 +21,7 @@ export class CreateDisciplineNewComponent implements OnInit {
   regel: RegelNEU;
 
   einheitPool: TypNEU[];
-
+  selectedEinheit: TypNEU;
   statusCodeText: string;
   statusCodeIcon: string;
 
@@ -35,17 +35,17 @@ export class CreateDisciplineNewComponent implements OnInit {
       this.einheitPool = data;
     })
     this.route.params.forEach((params: Params) => {
-      this.idDerDisziplin = +params['did'];
+      this.idDerDisziplin = +params['id'];
     });
     if (this.idDerDisziplin) {
-      this.sfService.disziplin(this.idDerDisziplin).subscribe((data: DisziplinNEU) => {
-        this.idDerDisziplin = data.id;
+      this.sfService.disziplinNEU(this.idDerDisziplin).subscribe((data: DisziplinNEU) => {
         this.nameDerDisziplin = data.name;
         this.beschreibungDerDisziplin = data.beschreibung;
         this.klassenleistung = data.klassenleistung;
         this.regel = data.regel;
         this.arrayOfVars = data.variablen;
 
+        console.log("Name: " + this.nameDerDisziplin);
       });
     } else {
       this.regel = { id: null, script: "" };
@@ -105,13 +105,15 @@ export class CreateDisciplineNewComponent implements OnInit {
 
   sendToBackend() {
     let disziplinDTO: DisziplinNEU;
-    disziplinDTO.aktiviert = true;
-    disziplinDTO.beschreibung = this.beschreibungDerDisziplin;
-    disziplinDTO.id = this.idDerDisziplin;
-    disziplinDTO.klassenleistung = this.klassenleistung;
-    disziplinDTO.name = this.nameDerDisziplin;
-    disziplinDTO.regel = this.regel;
-    disziplinDTO.variablen = this.arrayOfVars;
+    disziplinDTO = {
+      id: this.idDerDisziplin,
+      name: this.nameDerDisziplin,
+      beschreibung: this.beschreibungDerDisziplin,
+      aktiviert: true,
+      regel: this.regel,
+      klassenleistung: this.klassenleistung,
+      variablen: this.arrayOfVars,
+    }
 
     console.log("disziplinDTO", disziplinDTO);
 
@@ -128,7 +130,7 @@ export class CreateDisciplineNewComponent implements OnInit {
       this.sfService.disziplinHinzufuegenNEU(disziplinDTO).subscribe(
         (data) => {
           console.log(data);
-          this.router.navigate["disziplin/" + data.id];
+          this.router.navigate(["/disziplin/" + disziplinDTO.id]);
         },
         (err) => {
           console.log(err);
