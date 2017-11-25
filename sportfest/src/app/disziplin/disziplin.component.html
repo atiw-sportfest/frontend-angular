@@ -38,8 +38,9 @@
           </td>
           <td *ngFor="let variable of disziplin.variablen; let variablePos = index">
             <md-input-container>
-              <input mdInput placeholder="{{variable.bezeichnung}}" [(ngModel)]="leistungen[eintragPos][variablePos].wert">
+              <input mdInput placeholder="{{variable.bezeichnung}}" [(ngModel)]="leistungen[eintragPos][variablePos].wert" [pattern]="leistungen[eintragPos][variablePos].variable.typ.format">
             </md-input-container>
+            {{leistungen[eintragPos][variablePos].variable.typ.format}}
           </td>
         </tr>
         <tr>

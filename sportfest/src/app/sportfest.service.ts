@@ -29,7 +29,7 @@ export class SportfestService {
             id: 1,
             datentyp: "String",
             einheit: "Zeit",
-            format: "\d*:[0-5][0-9]",
+            format: "\\d*:[0-5][0-9]",
             bsp: "3:20"
           }
         }]
@@ -51,7 +51,7 @@ export class SportfestService {
             id: 2,
             datentyp: "Integer",
             einheit: "Anzahl",
-            format: "\d*",
+            format: "\\d*",
             bsp: "5"
           }
         },
@@ -62,7 +62,7 @@ export class SportfestService {
             id: 1,
             datentyp: "String",
             einheit: "Zeit",
-            format: "\d*:[0-5][0-9]",
+            format: "\\d*:[0-5][0-9]",
             bsp: "3:20"
           }
         }]
@@ -84,7 +84,7 @@ export class SportfestService {
             id: 3,
             datentyp: "double",
             einheit: "Meter",
-            format: "\d*,\d*",
+            format: "\\d*,\\d*",
             bsp: "2,89"
           }
         },
@@ -95,7 +95,7 @@ export class SportfestService {
             id: 3,
             datentyp: "double",
             einheit: "Meter",
-            format: "\d*,\d*",
+            format: "\\d*,\\d*",
             bsp: "2,89"
           }
         },
@@ -106,7 +106,7 @@ export class SportfestService {
             id: 3,
             datentyp: "double",
             einheit: "Meter",
-            format: "\d*,\d*",
+            format: "\\d*,\\d*",
             bsp: "2,89"
           }
         }]
@@ -128,7 +128,7 @@ export class SportfestService {
             id: 1,
             datentyp: "String",
             einheit: "Zeit",
-            format: "\d*:[0-5][0-9]",
+            format: "\\d*:[0-5][0-9]",
             bsp: "3:20"
           }
         }]
@@ -139,21 +139,21 @@ export class SportfestService {
         id: 1,
         datentyp: "String",
         einheit: "Zeit",
-        format: "\d*:[0-5][0-9]",
+        format: "\\d*:[0-5][0-9]",
         bsp: "3:20"
       },
       {
         id: 2,
         datentyp: "Integer",
         einheit: "Anzahl",
-        format: "\d*",
+        format: "\\d*",
         bsp: "5"
       },
       {
         id: 3,
         datentyp: "double",
         einheit: "Meter",
-        format: "\d*,\d*",
+        format: "\\d*,\\d*",
         bsp: "2,89"
       }
     ];
@@ -170,7 +170,7 @@ export class SportfestService {
                 id: 1,
                 datentyp: "String",
                 einheit: "Zeit",
-                format: "\d*:[0-5][0-9]",
+                format: "\\d*:[0-5][0-9]",
                 bsp: "3:20"
               }
             }
@@ -206,7 +206,7 @@ export class SportfestService {
               id: 1,
               datentyp: "String",
               einheit: "Zeit",
-              format: "\d*:[0-5][0-9]",
+              format: "\\d*:[0-5][0-9]",
               bsp: "3:20"
             }
           }]

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DisziplinNEU, AnmeldungNEU, LeistungNEU, ErgebnisNEU } from '../interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SportfestService } from '../sportfest.service';
+import { FormGroup } from '@angular/forms/src/model';
 
 @Component({
   selector: 'app-disziplin',
@@ -15,6 +16,7 @@ export class DisziplinComponent implements OnInit {
   selectedAnmeldungen: AnmeldungNEU[];
   leistungen: LeistungNEU[][];
   ergebnisse: ErgebnisNEU[];
+  form:FormGroup;
   constructor(private route: ActivatedRoute, private sfService: SportfestService, private router: Router) { }
 
   ngOnInit() {
@@ -103,6 +105,17 @@ export class DisziplinComponent implements OnInit {
     console.log("Not yet implemented");
     //An dieser Stelle die Leistungen eines Teilnehmers von der Datenbank abrufen
     //
+  }
+
+  private regexpPruefen(regexp:string, input:string){
+    console.log("Regex: "+regexp);
+    console.log("Input:"+input);
+
+    var re = new RegExp(regexp);
+    if(re.test(input)){
+      //idee haben was man hier tun kann
+    }
+
   }
 
 }
