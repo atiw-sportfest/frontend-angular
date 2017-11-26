@@ -23,7 +23,7 @@
         <tr *ngFor="let selectedAnmeldung of selectedAnmeldungen; let eintragPos = index">
           <td>
             <!-- Dropdown zur Auswahl der Klasse / des Schülers -->
-            <md-select placeholder="Schüler" [(ngModel)]="selectedAnmeldungen[eintragPos]">
+            <md-select placeholder="Schüler" [(ngModel)]="selectedAnmeldungen[eintragPos]" required>
               <ng-container *ngFor="let anmeldung of anmeldungen; let dropdownPos = index">
                 <md-option [value]="anmeldung" *ngIf="!anmeldungBereitsGewaehlt(eintragPos, anmeldung) && uniqueKlasse(dropdownPos)">
                   <ng-container *ngIf="!disziplin.klassenleistung" (click)="leistungenHolen(anmeldung)">
@@ -40,7 +40,7 @@
             <md-input-container>
               <input mdInput id="name" name="name" placeholder="{{variable.bezeichnung}}" [(ngModel)]="leistungen[eintragPos][variablePos].wert" [pattern]="variable.typ.format" #name="ngModel">
             </md-input-container>
-            <small *ngIf="name.invalid && (name.dirty || name.touched) && !name.pending" style="color: red; padding-top: 0px">
+            <small *ngIf="name.invalid && (name.dirty || name.touched)" style="color: red; padding-top: 0px">
             <br>
               Beispiel: {{variable.typ.bsp}}
             </small>
@@ -61,7 +61,7 @@
       <table class="full-width">
         <tr>
           <td>
-            <button md-raised-button color="primary" class="full-width" (click)="speichern()" >Speichern</button>
+            <button md-raised-button color="primary" class="full-width" (click)="speichern()" [disabled]="!speicherBedingungenErfuellt()">Speichern</button>
           </td>
         </tr>
       </table>
@@ -84,7 +84,6 @@
           <th *ngFor="let variable of disziplin.variablen">
             {{variable.bezeichnung}}
           </th>
-          <th *ngFor="let variable of disziplin.variablen">{{variable.bezeichnung}}</th>
         </tr>
         <tr *ngFor="let ergebnis of ergebnisse">
           <td style="text-align: center;">

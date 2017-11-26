@@ -46,7 +46,8 @@ export interface DisziplinNEU {
     aktiviert?: boolean,
     klassenleistung?: boolean,
     regel?: RegelNEU,
-    variablen?: VariableNEU[]
+    variablen?: VariableNEU[],
+    versus?: boolean
 }
 export interface RegelNEU {
     id?: number,

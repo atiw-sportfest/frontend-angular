@@ -17,6 +17,7 @@ export class SportfestService {
         name: "Staffel",
         beschreibung: "4 Leute einer Klasse laufen um die Wette (Klassenleistung, Gruppen)",
         klassenleistung: true,
+        versus: true,
         aktiviert: true,
         regel: {
           id: 1,
@@ -39,6 +40,7 @@ export class SportfestService {
         name: "Kistenstapeln",
         beschreibung: "Wer kommt höher? Die FS151 oder die anderen Luschen? (Klassenleistung, Jeder gegen Jeden)",
         klassenleistung: true,
+        versus: false,
         aktiviert: true,
         regel: {
           id: 2,
@@ -72,6 +74,7 @@ export class SportfestService {
         name: "Weitsprung ",
         beschreibung: "Spring los Kartoffelbrei! (Einzelleistung, Jeder gegen Jeden)",
         aktiviert: true,
+        versus: false,
         klassenleistung: false,
         regel: {
           id: 3,
@@ -117,6 +120,7 @@ export class SportfestService {
         beschreibung: "Lauf Forrest Laaaaaaaaaauf (Einzelleistung, Gruppen)",
         aktiviert: true,
         klassenleistung: false,
+        versus: true,
         regel: {
           id: 4,
           script: "Hier wird etwas schnelles weites passieren"
@@ -194,6 +198,7 @@ export class SportfestService {
           id: 1,
           name: "Staffel",
           beschreibung: "4 Leute einer Klasse laufen um die Wette (Klassenleistung, Gruppen)",
+          versus: true,
           aktiviert: true,
           regel: {
             id: 1,
