@@ -38,9 +38,12 @@
           </td>
           <td *ngFor="let variable of disziplin.variablen; let variablePos = index">
             <md-input-container>
-              <input mdInput placeholder="{{variable.bezeichnung}}" [(ngModel)]="leistungen[eintragPos][variablePos].wert" [pattern]="leistungen[eintragPos][variablePos].variable.typ.format">
+              <input mdInput id="name" name="name" placeholder="{{variable.bezeichnung}}" [(ngModel)]="leistungen[eintragPos][variablePos].wert" [pattern]="variable.typ.format" #name="ngModel">
             </md-input-container>
-            {{leistungen[eintragPos][variablePos].variable.typ.format}}
+            <small *ngIf="name.invalid && (name.dirty || name.touched) && !name.pending" style="color: red; padding-top: 0px">
+            <br>
+              Beispiel: {{variable.typ.bsp}}
+            </small>
           </td>
         </tr>
         <tr>
@@ -58,13 +61,14 @@
       <table class="full-width">
         <tr>
           <td>
-            <button md-raised-button color="primary" class="full-width" (click)="speichern()">Speichern</button>
+            <button md-raised-button color="primary" class="full-width" (click)="speichern()" >Speichern</button>
           </td>
         </tr>
       </table>
     </md-card>
   </md-card-content>
 
+  <!-- Tabelle mit Ergebnissen -->
   <md-card-content>
     <md-card>
       <table>
@@ -80,10 +84,11 @@
           <th *ngFor="let variable of disziplin.variablen">
             {{variable.bezeichnung}}
           </th>
+          <th *ngFor="let variable of disziplin.variablen">{{variable.bezeichnung}}</th>
         </tr>
         <tr *ngFor="let ergebnis of ergebnisse">
           <td style="text-align: center;">
-            <ng-container *ngIf="!disziplin.klassenleistung" >
+            <ng-container *ngIf="!disziplin.klassenleistung">
               {{ergebnis.schueler.vorname}} {{ergebnis.schueler.name}}
             </ng-container>
             <ng-container *ngIf="disziplin.klassenleistung">
