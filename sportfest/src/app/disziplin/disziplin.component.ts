@@ -188,9 +188,136 @@ export class DisziplinComponent implements OnInit {
           ergebnis.rang = counter;
         }
       })
+
     } else {
       console.error("Keine Disziplin vorhanden");
     }
   }
+
+  /*
+    Sortieralgorithmen
+  */
+
+  public sortByRang() {
+    if (this.ergebnisse) {
+      this.ergebnisse = this.ergebnisse.sort((n1, n2) => {
+        if (n1.punkte > n2.punkte) {
+          return -1;
+        }
+        if (n1.punkte < n2.punkte) {
+          return 1;
+        }
+        if (this.disziplin.klassenleistung) {
+          if (n1.punkte == n2.punkte) {
+            if (n1.klasse > n2.klasse) {
+              return 1;
+            }
+
+            if (n1.klasse < n2.klasse) {
+              return -1;
+            }
+          }
+        } else {
+          if (n1.punkte == n2.punkte) {
+            if (n1.schueler > n2.schueler) {
+              return 1;
+            }
+
+            if (n1.schueler < n2.schueler) {
+              return -1;
+            }
+          }
+        }
+        return 0;
+      });
+    }
+  }
+  public sortByRangRev() {
+    if (this.ergebnisse) {
+      this.ergebnisse = this.ergebnisse.sort((n1, n2) => {
+        if (n1.punkte > n2.punkte) {
+          return 1;
+        }
+        if (n1.punkte < n2.punkte) {
+          return -1;
+        }
+        if (this.disziplin.klassenleistung) {
+          if (n1.punkte == n2.punkte) {
+            if (n1.klasse > n2.klasse) {
+              return -1;
+            }
+
+            if (n1.klasse < n2.klasse) {
+              return 1;
+            }
+          }
+        } else {
+          if (n1.punkte == n2.punkte) {
+            if (n1.schueler > n2.schueler) {
+              return -1;
+            }
+            if (n1.schueler < n2.schueler) {
+              return 1;
+            }
+          }
+        }
+        return 0;
+      });
+    }
+  }
+
+  public sortByKlasse() {
+    if (this.ergebnisse) {
+      this.ergebnisse = this.ergebnisse.sort((n1, n2) => {
+        if (n1.klasse > n2.klasse) {
+          return -1;
+        }
+        if (n1.klasse < n2.klasse) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+  }
+
+  public sortByKlasseRev() {
+    if (this.ergebnisse) {
+      this.ergebnisse = this.ergebnisse.sort((n1, n2) => {
+        if (n1.klasse > n2.klasse) {
+          return 1;
+        }
+        if (n1.klasse < n2.klasse) {
+          return -1;
+        }
+        return 0;
+      });
+    }
+  }
+
+  public sortBySchueler() {
+    if (this.ergebnisse) {
+      this.ergebnisse = this.ergebnisse.sort((n1, n2) => {
+        if (n1.schueler > n2.schueler) {
+          return -1;
+        }
+        if (n1.schueler < n2.schueler) { return 1; }
+        return 0;
+      });
+    }
+  }
+
+  public sortBySchuelerRev() {
+    if (this.ergebnisse) {
+      this.ergebnisse = this.ergebnisse.sort((n1, n2) => {
+        if (n1.schueler > n2.schueler)
+          return 1;
+
+        if (n1.schueler < n2.schueler)
+          return -1;
+        return 0;
+      });
+    }
+  }
+
 }
 
