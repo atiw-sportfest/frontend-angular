@@ -71,6 +71,37 @@
   <!-- Tabelle mit Ergebnissen -->
   <md-card-content>
     <md-card>
+      <table class="sortieren">
+        <tr>
+          <th>
+            Rank Sortieren
+          </th>
+          <th >
+            <ng-container *ngIf="!disziplin.klassenleistung">
+              Schüler Sortieren
+            </ng-container>
+            <ng-container *ngIf="disziplin.klassenleistung">
+              Klasse Sortieren
+            </ng-container>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <button md-raised-button color="primary" (click)="sortByRangRev()"><md-icon>keyboard_arrow_up</md-icon></button>
+            <button md-raised-button color="primary" (click)="sortByRang()"><md-icon>keyboard_arrow_down</md-icon></button>
+          </td>
+          <td>
+            <ng-container *ngIf="!disziplin.klassenleistung">
+              <button md-raised-button color="primary" (click)="sortBySchuelerRev()"><md-icon>keyboard_arrow_up</md-icon></button>
+              <button md-raised-button color="primary" (click)="sortBySchueler()"><md-icon>keyboard_arrow_down</md-icon></button>
+            </ng-container>
+            <ng-container *ngIf="disziplin.klassenleistung">
+              <button md-raised-button color="primary" (click)="sortByKlasseRev()"><md-icon>keyboard_arrow_up</md-icon></button>
+              <button md-raised-button color="primary" (click)="sortByKlasse()"><md-icon>keyboard_arrow_down</md-icon></button>
+            </ng-container>
+          </td>
+        </tr>
+      </table>
       <table class="ergebnisse">
         <tr>
           <th>
@@ -98,7 +129,7 @@
           <td>
             {{ergebnis.rang}}
           </td>
-          <td >
+          <td>
             <ng-container *ngIf="!disziplin.klassenleistung">
               {{ergebnis.schueler.vorname}} {{ergebnis.schueler.name}}
             </ng-container>
