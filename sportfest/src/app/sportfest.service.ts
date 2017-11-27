@@ -248,14 +248,14 @@ export class SportfestService {
           name: "FS151"
         },
         schueler: {
-          sid: 3041,
-          vorname: "Trulla",
-          name: "Tröt",
+          sid: 3400,
+          vorname: "Bernd",
+          name: "Vogel",
           klasse: {
             kid: 1234,
             name: "FS151"
           },
-          gid: 2
+          gid: 1
         },
         disziplin: {
           id: 1,
@@ -279,7 +279,7 @@ export class SportfestService {
             }
           }]
         },
-        punkte: 5
+        punkte: 8
       }
     ]
     this.anmeldungen = [
