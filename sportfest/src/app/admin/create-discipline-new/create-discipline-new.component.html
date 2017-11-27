@@ -63,12 +63,12 @@
   <!-- Variablen-->
   <table>
     <tr *ngFor="let aov of arrayOfVars, let i = index">
-      <td style="width:50vw">
+      <td style="width:66%">
         <md-input-container>
           <input mdInput type="text" placeholder="Name der Variable" [value]="aov.bezeichnung">
         </md-input-container>
       </td>
-      <td style="width:80px">
+      <td style="width:26%">
         <ng-container>
           <md-select placeholder="Variable" [(ngModel)]="aov.typ">
             <md-option *ngFor="let e of einheitPool" [value]="e">
@@ -77,7 +77,7 @@
           </md-select>
         </ng-container>
       </td>
-      <td style="width:fit-content">
+      <td style="width:8%">
         <button md-button (click)="deleteVar(i)">
           <md-icon>delete forever</md-icon>
         </button>
@@ -97,6 +97,12 @@
   <!-- Regeln -->
   <h4>Regel:</h4>
   <table>
+    <tr>
+      <td colspan="2">
+        Hilfen für das Schreiben des Scripts: <a href="http://groovy-lang.org/documentation.html" target="_blank">Groovy Dokumentation
+        </a>
+      </td>
+    </tr>
     <tr>
       <td colspan="2">
         <md-input-container>

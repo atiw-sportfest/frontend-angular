@@ -10,7 +10,10 @@ export class SportfestService {
   private typen: TypNEU[];
   private ergebnisseVAR: ErgebnisNEU[];
   private anmeldungen: AnmeldungNEU[];
+  private codeCorrect: boolean;
   constructor(private techService: TechnischerService) {
+    this.codeCorrect = false;
+
     this.disziplinenVAR = [
       {
         id: 1,
@@ -450,6 +453,14 @@ export class SportfestService {
     //return this.techService.deleteRequest('/disziplin/' + id);
   }
 
+  public scriptPruefen(script: string): Observable<any> {
+      this.codeCorrect = !this.codeCorrect;
+      
+    return Observable.of(this.codeCorrect);
+    //return this.techService.putRequest(???);
+  }
+
+
   /**
    * ***********************************************
    * Ergebnis Resource
@@ -549,7 +560,7 @@ export class SportfestService {
     return Observable.of(this.typen);
   }
 
-  public typenLoeschenNEU(id:number): Observable<any>{
+  public typenLoeschenNEU(id: number): Observable<any> {
     let pos = -1;
     for (var i = 0; i < this.typen.length; i++)
       if (this.typen[i].id == id)
@@ -560,7 +571,7 @@ export class SportfestService {
     return Observable.of(this.typen);
   }
 
-  public typenHinzufuegenNEU(typ:TypNEU): Observable<any>{
+  public typenHinzufuegenNEU(typ: TypNEU): Observable<any> {
     this.typen.push(typ);
     return Observable.of(this.typen);
   }
@@ -604,7 +615,7 @@ export class SportfestService {
     return Observable.of(undefined);
   }
 
-  public ergebnisseVonDisziplin(did: number): Observable<ErgebnisNEU[]>{
+  public ergebnisseVonDisziplin(did: number): Observable<ErgebnisNEU[]> {
     return Observable.of(this.ergebnisseVAR);
   }
 
@@ -617,7 +628,7 @@ export class SportfestService {
     return Observable.of(tmp);
   }
 
-  public leistungHinzufügen(leistung: LeistungNEU, did: number, sid: number): Observable<LeistungNEU[]>{
+  public leistungHinzufügen(leistung: LeistungNEU, did: number, sid: number): Observable<LeistungNEU[]> {
     this.ergebnisseVAR[0].leistungen.push(leistung);
     return Observable.of(this.ergebnisseVAR[0].leistungen);
   }
