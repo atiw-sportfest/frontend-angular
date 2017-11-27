@@ -25,8 +25,8 @@
             <!-- Dropdown zur Auswahl der Klasse / des Schülers -->
             <md-select placeholder="Schüler" [(ngModel)]="selectedAnmeldungen[eintragPos]" required>
               <ng-container *ngFor="let anmeldung of anmeldungen; let dropdownPos = index">
-                <md-option [value]="anmeldung" *ngIf="!anmeldungBereitsGewaehlt(eintragPos, anmeldung) && uniqueKlasse(dropdownPos)">
-                  <ng-container *ngIf="!disziplin.klassenleistung" (click)="leistungenHolen(anmeldung)">
+                <md-option [value]="anmeldung" *ngIf="!anmeldungBereitsGewaehlt(eintragPos, anmeldung) && uniqueKlasse(dropdownPos)" (click)="leistungenHolen(eintragPos)">
+                  <ng-container *ngIf="!disziplin.klassenleistung">
                     {{ anmeldung.schueler.vorname }} {{anmeldung.schueler.name}}
                   </ng-container>
                   <ng-container *ngIf="disziplin.klassenleistung">
@@ -39,7 +39,7 @@
           <td *ngFor="let variable of disziplin.variablen; let variablePos = index">
             <md-input-container>
               <input mdInput id="name" name="name" placeholder="{{variable.bezeichnung}}" [(ngModel)]="leistungen[eintragPos][variablePos].wert"
-                [pattern]="variable.typ.format" #name="ngModel">
+                [pattern]="variable.typ.format" #name="ngModel" [disabled]="!enoughPermissionsToChange(eintragPos, variablePos)">
               <md-error>
                 Beispiel: {{variable.typ.bsp}}
               </md-error>
