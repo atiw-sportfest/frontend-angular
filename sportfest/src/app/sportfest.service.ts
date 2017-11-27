@@ -184,6 +184,65 @@ export class SportfestService {
             }
           }
         ],
+        versus: 9,
+        klasse: {
+          kid: 1234,
+          name: "FS151"
+        },
+        schueler: {
+          sid: 3041,
+          vorname: "Trulla",
+          name: "Tröt",
+          klasse: {
+            kid: 1234,
+            name: "FS151"
+          },
+          gid: 2
+        },
+        disziplin: {
+          id: 1,
+          name: "Staffel",
+          beschreibung: "4 Leute einer Klasse laufen um die Wette (Klassenleistung, Gruppen)",
+          versus: true,
+          aktiviert: true,
+          regel: {
+            id: 1,
+            script: "Hier wird etwas schnelles passieren"
+          },
+          variablen: [{
+            id: 1,
+            bezeichnung: "Laufzeit",
+            typ: {
+              id: 1,
+              datentyp: "String",
+              einheit: "Zeit",
+              format: "\\d*:[0-5][0-9]",
+              bsp: "3:20"
+            }
+          }]
+        },
+        punkte: 5
+      },
+      {
+        id: 2,
+        leistungen: [
+          {
+            id: 2,
+            wert: "120",
+            variable: {
+              id: 1,
+              bezeichnung: "Laufzeit",
+              typ: {
+                id: 1,
+                datentyp: "String",
+                einheit: "Zeit",
+                format: "\\d*:[0-5][0-9]",
+                bsp: "3:20"
+              }
+            }
+          }
+        ],
+        versus: 9,
         klasse: {
           kid: 1234,
           name: "FS151"
