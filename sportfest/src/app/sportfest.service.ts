@@ -562,6 +562,7 @@ export class SportfestService {
 
   public typenHinzufuegenNEU(typ:TypNEU): Observable<any>{
     this.typen.push(typ);
+    console.log(this.typen);
     return Observable.of(this.typen);
   }
 

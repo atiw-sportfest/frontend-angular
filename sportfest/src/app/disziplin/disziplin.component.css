@@ -4,18 +4,39 @@
 md-list {
     cursor: pointer;
 }
-td {
-    width: 10%;
+table.ergebnisse {
+    margin: auto;
+    padding: 10px;
+    background-color: rgba(0,110, 199, 1);  
+    color: white; 
+    border-radius: 5px;
+    text-align: center
 }
-th{
-    vertical-align: bottom !important;
+
+table.ergebnisse th {
+    padding-right:  5px;
+    padding-left:  5px;
+    border-bottom: solid;
+    vertical-align: middle !important;
 }
-p{
-    display: table-cell;
-    vertical-align: bottom !important;
-    padding: 0px;
-    margin:0;
+
+table.ergebnisse md-icon {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
+
+/*cdk-overlay-0, .cdk-overlay-pane, .cdk-overlay-container, .cdk-global-overlay-wrapper {
+    position: relative;
+}
+https://github.com/Gbuomprisco/ng2-material-dropdown
+https://www.muicss.com/docs/v1/angular/dropdowns
+material.es5.js 3219*/
+     
 
 .full-width{
     margin: auto;

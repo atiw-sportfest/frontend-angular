@@ -16,33 +16,33 @@ export class DisziplinComponent implements OnInit {
   selectedAnmeldungen: AnmeldungNEU[];
   leistungen: LeistungNEU[][];
   ergebnisse: ErgebnisNEU[];
-  form: FormGroup;
   constructor(private route: ActivatedRoute, private sfService: SportfestService, private router: Router) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.leistungen = [[]];
-      this.selectedAnmeldungen = [{}];
       this.anmeldungen = [];
       this.disziplin = {};
       this.sfService.disziplinNEU(+params['id']).subscribe(data => {
         this.disziplin = data;
+        this.ergebnisseAbfragen();
+        this.initializeAdmin();
         this.sfService.anmeldungenAnDisziplin(this.disziplin.id).subscribe(data => {
           this.anmeldungen = data;
         });
-        this.sfService.ergebnisseVonDisziplin(this.disziplin.id).subscribe(data => {
-          this.ergebnisse = data;
-        })
-        for (let i = 0; i < this.disziplin.variablen.length; i++)
-          this.leistungen[0].push({
-            wert: "",
-            variable: this.disziplin.variablen[i]
-          });
       }); // (+) converts string 'id' to a number
     });
     console.log('AfterView');
   }
 
+  private initializeAdmin() {
+    this.leistungen = [[]];
+    this.selectedAnmeldungen = [{}];
+    for (let i = 0; i < this.disziplin.variablen.length; i++)
+      this.leistungen[0].push({
+        wert: "",
+        variable: this.disziplin.variablen[i]
+      });
+  }
   private enoughPermissionsToWrite() {
     let role = sessionStorage.getItem('role');
     if (role == 'admin' || role == 'schiedsrichter') {
@@ -66,13 +66,7 @@ export class DisziplinComponent implements OnInit {
           neueLeistungen[i].push(this.leistungen[i][j])
       }
     }
-    this.leistungen = [[]];
-    this.selectedAnmeldungen = [{}];
-    for (let i = 0; i < this.disziplin.variablen.length; i++)
-      this.leistungen[0].push({
-        wert: "",
-        variable: this.disziplin.variablen[i]
-      });
+    this.initializeAdmin();
     console.log(this.selectedAnmeldungen);
     console.log(this.leistungen);
   }
@@ -90,7 +84,7 @@ export class DisziplinComponent implements OnInit {
 
   private anmeldungBereitsGewaehlt(pos: number, anmeldung: AnmeldungNEU): boolean {
     for (let i = 0; i < this.selectedAnmeldungen.length; i++) {
-      if(this.selectedAnmeldungen[i] == anmeldung && i != pos)
+      if (this.selectedAnmeldungen[i] == anmeldung && i != pos)
         return true;
     }
     return false;
@@ -112,13 +106,11 @@ export class DisziplinComponent implements OnInit {
     //
   }
 
-  private regexpPruefen(regexp: string, input: string) {
-    console.log("Regex: " + regexp);
-    console.log("Input:" + input);
+  private regexPruefen(teilnehmerPos: number, variablePos: number) {
 
-    var re = new RegExp(regexp);
-    if (re.test(input)) {
-      //idee haben was man hier tun kann
+    var re = new RegExp(this.disziplin.variablen[variablePos].typ.format);
+    if (this.leistungen[teilnehmerPos][variablePos].wert && re.test(this.leistungen[teilnehmerPos][variablePos].wert)) {
+
     }
 
   }
@@ -126,24 +118,62 @@ export class DisziplinComponent implements OnInit {
   private speicherBedingungenErfuellt(): boolean {
     //Überprüfen ob in jeder Zeile ein Telnehmer ausgewählt wurde
     for (let eintrag of this.selectedAnmeldungen)
-        if(_.isEmpty(eintrag))
-          return false;
+      if (_.isEmpty(eintrag))
+        return false;
     //Überprüfen ob bei Versus mindestens zwei Teilnehmer eingetragen sind
     if (this.disziplin.versus)
       if (this.selectedAnmeldungen.length < 2)
         return false;
-    //Überprüfen ob für jeden Teilnehmer eine neue Leistung eingetragen wurde
+    //Überprüfen ob für jeden Teilnehmer eine neue Leistung eingetragen wurde und diese der Regex entspricht
     let leistungspruefung: boolean[] = [];
     for (let i = 0; i < this.leistungen.length; i++) {
       leistungspruefung[i] = false;
-      for (let leistung of this.leistungen[i])
-        if (!leistung.id && leistung.wert)
+      for (let leistung of this.leistungen[i]) {
+        if (!leistung.id && leistung.wert)  //Wenn es eine Leistung mit eingetragenem Wert, aber keiner id gibt, ist diese neu
           leistungspruefung[i] = true;
+        let re = new RegExp(leistung.variable.typ.format); //Regex Prüfung
+        if (leistung.wert && !re.test(leistung.wert))
+          return false;
+      }
     }
-    for(let neueLeistung of leistungspruefung)
-      if(!neueLeistung)
+    for (let neueLeistung of leistungspruefung)
+      if (!neueLeistung)  //Wenn es eine Zeile ohne eine neue Leistung gibt, kann nicht gespeichert werden.
         return false;
     return true;
   }
 
+  private ergebnisseAbfragen() {
+    if (this.disziplin) {
+      this.sfService.ergebnisseVonDisziplin(this.disziplin.id).subscribe(data => {
+        this.ergebnisse = data;
+        let tmp = -1;
+        let counter = 0;
+        if (this.disziplin.versus) { //Wenn Versus vorhanden, danach sortieren und neu Numerieren beginnend bei 1
+          this.ergebnisse.sort((e1, e2) => e1.versus - e2.versus);
+          for (let ergebnis of this.ergebnisse) {
+            if (ergebnis.versus != tmp) {
+              tmp = ergebnis.versus;
+              counter++;
+            }
+            ergebnis.visibleVersus = counter;
+          }
+        }
+
+        tmp = -1;
+        counter = 0;
+        //Nach Punkten sortieren und Rang vergeben
+        this.ergebnisse.sort((e1, e2) => e1.punkte - e2.punkte);
+        for (let ergebnis of this.ergebnisse) {
+          if (ergebnis.punkte != tmp) {
+            tmp = ergebnis.punkte;
+            counter++;
+          }
+          ergebnis.rang = counter;
+        }
+      })
+    } else {
+      console.error("Keine Disziplin vorhanden");
+    }
+  }
 }
+

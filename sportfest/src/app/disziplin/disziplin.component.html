@@ -19,7 +19,7 @@
   <md-card-content *ngIf="enoughPermissionsToWrite()">
     <md-card>
       <!-- Tabelle für Ergebniseingabe des Admins -->
-      <table>
+      <table style="width: 100%">
         <tr *ngFor="let selectedAnmeldung of selectedAnmeldungen; let eintragPos = index">
           <td>
             <!-- Dropdown zur Auswahl der Klasse / des Schülers -->
@@ -38,12 +38,12 @@
           </td>
           <td *ngFor="let variable of disziplin.variablen; let variablePos = index">
             <md-input-container>
-              <input mdInput id="name" name="name" placeholder="{{variable.bezeichnung}}" [(ngModel)]="leistungen[eintragPos][variablePos].wert" [pattern]="variable.typ.format" #name="ngModel">
+              <input mdInput id="name" name="name" placeholder="{{variable.bezeichnung}}" [(ngModel)]="leistungen[eintragPos][variablePos].wert"
+                [pattern]="variable.typ.format" #name="ngModel">
+              <md-error>
+                Beispiel: {{variable.typ.bsp}}
+              </md-error>
             </md-input-container>
-            <small *ngIf="name.invalid && (name.dirty || name.touched)" style="color: red; padding-top: 0px">
-            <br>
-              Beispiel: {{variable.typ.bsp}}
-            </small>
           </td>
         </tr>
         <tr>
@@ -71,8 +71,11 @@
   <!-- Tabelle mit Ergebnissen -->
   <md-card-content>
     <md-card>
-      <table>
+      <table class="ergebnisse">
         <tr>
+          <th>
+            Rang
+          </th>
           <th>
             <ng-container *ngIf="!disziplin.klassenleistung">
               Schüler
@@ -81,12 +84,21 @@
               Klasse
             </ng-container>
           </th>
+          <th>
+            Punkte
+          </th>
           <th *ngFor="let variable of disziplin.variablen">
             {{variable.bezeichnung}}
           </th>
+          <th *ngIf="disziplin.versus">
+            Versus
+          </th>
         </tr>
         <tr *ngFor="let ergebnis of ergebnisse">
-          <td style="text-align: center;">
+          <td>
+            {{ergebnis.rang}}
+          </td>
+          <td >
             <ng-container *ngIf="!disziplin.klassenleistung">
               {{ergebnis.schueler.vorname}} {{ergebnis.schueler.name}}
             </ng-container>
@@ -94,8 +106,14 @@
               {{ergebnis.klasse.name}}
             </ng-container>
           </td>
-          <td *ngFor="let leistung of ergebnis.leistungen" style="text-align: center;">
+          <td>
+            {{ergebnis.punkte}}
+          </td>
+          <td *ngFor="let leistung of ergebnis.leistungen">
             {{leistung.wert}}
+          </td>
+          <td *ngIf="disziplin.versus">
+            {{ergebnis.visibleVersus}}
           </td>
         </tr>
       </table>

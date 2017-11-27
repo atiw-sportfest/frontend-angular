@@ -72,7 +72,10 @@ export interface ErgebnisNEU {
     klasse?: Klasse,
     schueler?: SchuelerNEU,
     disziplin?: DisziplinNEU,
-    punkte?: number
+    punkte?: number,
+    rang?: number, //Nur notwendig für das Anzeigen der Ergebnisse, kommt nicht vom Backend
+    versus?: number,
+    visibleVersus?: number //Nur notwendig für das Anzeigen der Ergebnisse, berechnet aus versus vom Backend
 }
 
 export interface LeistungNEU {
