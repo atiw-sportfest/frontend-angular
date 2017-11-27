@@ -87,17 +87,17 @@
         </tr>
         <tr>
           <td>
-            <button md-raised-button color="primary" (click)="sortByRangRev()"><md-icon>keyboard_arrow_up</md-icon></button>
-            <button md-raised-button color="primary" (click)="sortByRang()"><md-icon>keyboard_arrow_down</md-icon></button>
+            <button md-raised-button color="primary" (click)="sortByRang()"><md-icon>keyboard_arrow_up</md-icon></button>
+            <button md-raised-button color="primary" (click)="sortByRangRev()"><md-icon>keyboard_arrow_down</md-icon></button>
           </td>
           <td>
             <ng-container *ngIf="!disziplin.klassenleistung">
-              <button md-raised-button color="primary" (click)="sortBySchuelerRev()"><md-icon>keyboard_arrow_up</md-icon></button>
-              <button md-raised-button color="primary" (click)="sortBySchueler()"><md-icon>keyboard_arrow_down</md-icon></button>
+              <button md-raised-button color="primary" (click)="sortBySchueler()"><md-icon>keyboard_arrow_up</md-icon></button>
+              <button md-raised-button color="primary" (click)="sortBySchuelerRev()"><md-icon>keyboard_arrow_down</md-icon></button>
             </ng-container>
             <ng-container *ngIf="disziplin.klassenleistung">
-              <button md-raised-button color="primary" (click)="sortByKlasseRev()"><md-icon>keyboard_arrow_up</md-icon></button>
-              <button md-raised-button color="primary" (click)="sortByKlasse()"><md-icon>keyboard_arrow_down</md-icon></button>
+              <button md-raised-button color="primary" (click)="sortByKlasse()"><md-icon>keyboard_arrow_up</md-icon></button>
+              <button md-raised-button color="primary" (click)="sortByKlasseRev()"><md-icon>keyboard_arrow_down</md-icon></button>
             </ng-container>
           </td>
         </tr>

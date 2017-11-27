@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { DisziplinComponent } from './disziplin.component';
+import { MaterialModule } from '@angular/material';
 
 describe('DisziplinComponent', () => {
   let component: DisziplinComponent;
@@ -22,4 +22,11 @@ describe('DisziplinComponent', () => {
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should add a Teilnehmer', () => {
+    console.log(component);
+    let anzahl = component.selectedAnmeldungen.length;
+    component.teilnehmerHinzufuegen(); 
+    expect(component.selectedAnmeldungen.length).toBe(anzahl+1);
+  })
 });
