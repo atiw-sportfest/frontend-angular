@@ -5,6 +5,7 @@ md-list {
     cursor: pointer;
 }
 table.ergebnisse {
+    width: 100%;
     margin: auto;
     padding: 10px;
     background-color: rgba(0,110, 199, 1);  

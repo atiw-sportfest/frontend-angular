@@ -52,6 +52,17 @@ export class DisziplinComponent implements OnInit {
     }
   }
 
+  private enoughPermissionsToChange(teilnehmerPos: number, variablePos: number): boolean {
+    let role = sessionStorage.getItem('role');
+    if (this.leistungen[teilnehmerPos][variablePos].id) //Leistung hat eine ID wenn Sie von der Datenbank kommt
+      if (role == 'admin') //Wenn Leistung eine ID hat (Also eine "alte Leistung ist"), kann Sie nur ein Admin ändern
+        return true;
+      else
+        return false;
+    else
+      return true;
+  }
+
   private speichern() {
     //Hier an die Schnittstelle senden. Unterscheiden zwishcen neuen und alten leistungen.
     let alteLeistungen = [];
@@ -100,10 +111,17 @@ export class DisziplinComponent implements OnInit {
     return true;
   }
 
-  private leistungenHolen(anmeldung: AnmeldungNEU) {
-    console.log("Not yet implemented");
+  private leistungenHolen(anmeldungPos: number) {
     //An dieser Stelle die Leistungen eines Teilnehmers von der Datenbank abrufen
-    //
+    console.log(this.selectedAnmeldungen[anmeldungPos]);
+    this.sfService.leistungVonDisziplinUndKlasseUndOptionalerSchueler(this.selectedAnmeldungen[anmeldungPos].disziplin, this.selectedAnmeldungen[anmeldungPos].schueler.klasse.kid, this.selectedAnmeldungen[anmeldungPos].schueler.sid).subscribe(data => {
+      for (let i = data.length; i < this.disziplin.variablen.length; i++)
+        data.push({
+          wert: "",
+          variable: this.disziplin.variablen[i]
+        });
+      this.leistungen[anmeldungPos] = data;
+    });
   }
 
   private regexPruefen(teilnehmerPos: number, variablePos: number) {

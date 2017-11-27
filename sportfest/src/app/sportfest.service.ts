@@ -169,6 +169,7 @@ export class SportfestService {
         id: 1,
         leistungen: [
           {
+            id: 1,
             wert: "10:23",
             variable: {
               id: 1,
@@ -454,8 +455,8 @@ export class SportfestService {
   }
 
   public scriptPruefen(script: string): Observable<any> {
-      this.codeCorrect = !this.codeCorrect;
-      
+    this.codeCorrect = !this.codeCorrect;
+
     return Observable.of(this.codeCorrect);
     //return this.techService.putRequest(???);
   }
@@ -631,6 +632,10 @@ export class SportfestService {
 
   public leistungHinzufügen(leistung: LeistungNEU, did: number, sid: number): Observable<LeistungNEU[]> {
     this.ergebnisseVAR[0].leistungen.push(leistung);
+    return Observable.of(this.ergebnisseVAR[0].leistungen);
+  }
+
+  public leistungVonDisziplinUndKlasseUndOptionalerSchueler(did: number, kid: number, sid?: number): Observable<LeistungNEU[]> {
     return Observable.of(this.ergebnisseVAR[0].leistungen);
   }
 }
