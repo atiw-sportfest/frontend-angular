@@ -113,7 +113,6 @@ export class DisziplinComponent implements OnInit {
 
   private leistungenHolen(anmeldungPos: number) {
     //An dieser Stelle die Leistungen eines Teilnehmers von der Datenbank abrufen
-    console.log(this.selectedAnmeldungen[anmeldungPos]);
     this.sfService.leistungVonDisziplinUndKlasseUndOptionalerSchueler(this.selectedAnmeldungen[anmeldungPos].disziplin, this.selectedAnmeldungen[anmeldungPos].schueler.klasse.kid, this.selectedAnmeldungen[anmeldungPos].schueler.sid).subscribe(data => {
       for (let i = data.length; i < this.disziplin.variablen.length; i++)
         data.push({
