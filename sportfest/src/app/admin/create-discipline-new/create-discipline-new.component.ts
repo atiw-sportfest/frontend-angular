@@ -14,6 +14,7 @@ export class CreateDisciplineNewComponent implements OnInit {
   beschreibungDerDisziplin: string;
   klassenleistung: boolean;
   anzahlDerVersuchen: number;
+  versus:boolean;
 
   arrayOfVars: VariableNEU[];
 
@@ -44,6 +45,7 @@ export class CreateDisciplineNewComponent implements OnInit {
         this.klassenleistung = data.klassenleistung;
         this.regel = data.regel;
         this.arrayOfVars = data.variablen;
+        this.versus = data.versus;
 
         console.log("Name: " + this.nameDerDisziplin);
       });
@@ -54,6 +56,7 @@ export class CreateDisciplineNewComponent implements OnInit {
       this.beschreibungDerDisziplin = "";
       this.klassenleistung = false;
       this.arrayOfVars = [];
+      this.versus=false;
 
       this.statusCodeText = "Code nicht Überprüft";
       this.statusCodeIcon = "error";
@@ -113,6 +116,7 @@ export class CreateDisciplineNewComponent implements OnInit {
       regel: this.regel,
       klassenleistung: this.klassenleistung,
       variablen: this.arrayOfVars,
+      versus:this.versus
     }
 
     console.log("disziplinDTO", disziplinDTO);

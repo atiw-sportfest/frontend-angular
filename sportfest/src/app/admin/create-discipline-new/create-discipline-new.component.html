@@ -6,16 +6,17 @@
     <table>
       <tr>
         <td>
+          <h4>Name</h4>
           <!-- Name-->
           <md-input-container>
             <input mdInput type="text" placeholder="Name der Disziplin" [(ngModel)]="nameDerDisziplin">
           </md-input-container>
-          <p>{{ nameDerDisziplin}}</p>
         </td>
       </tr>
       <tr>
         <!--Beschreibung -->
         <td>
+          <h4>Beschreibung</h4>
           <md-input-container>
             <textarea mdInput type="text" matInput rows="5" cols="40" wrap="hard" placeholder="Beschreibung der Disziplin" [(ngModel)]="beschreibungDerDisziplin"
               style="background-color: #f2f2f2"></textarea>
@@ -27,12 +28,30 @@
         <tr>
           <!-- Leistungen-->
           <td>
-            <md-radio-button [value]="false">Einzelleistung</md-radio-button>
+            <h4>Leistungen</h4>
+            <md-radio-button [value]="false">Individualsportarten
+            </md-radio-button>
           </td>
         </tr>
         <tr>
           <td>
-            <md-radio-button [value]="true">Klassenleistung</md-radio-button>
+            <md-radio-button [value]="true">Manschaftssportarten
+            </md-radio-button>
+          </td>
+        </tr>
+      </md-radio-group>
+      <tr></tr>
+      <md-radio-group [(ngModel)]="versus">
+        <tr>
+          <!-- Versus-->
+          <td>
+            <h4>Vergleich</h4>
+            <md-radio-button [value]="false">Jeder gegen Jeden</md-radio-button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <md-radio-button [value]="true">Direkter Vergleich (A gegen B)</md-radio-button>
           </td>
         </tr>
       </md-radio-group>
@@ -81,7 +100,8 @@
     <tr>
       <td colspan="2">
         <md-input-container>
-          <textarea mdInput type="text" matInput rows="5" cols="40" wrap="hard" placeholder="Regel Script" [(ngModel)]="regel.script" (keyup)="textChanged()" style="background-color: #f2f2f2	"></textarea>
+          <textarea mdInput type="text" matInput rows="5" cols="40" wrap="hard" placeholder="Regel Script" [(ngModel)]="regel.script"
+            (keyup)="textChanged()" style="background-color: #f2f2f2	"></textarea>
         </md-input-container>
       </td>
     </tr>
@@ -92,8 +112,9 @@
         </button>
       </td>
       <td style="width: 65%;margin-left:20px;">
-        Status: <md-icon style="width:fit-content" id="nichtdrücken">{{ statusCodeIcon}}</md-icon> {{ statusCodeText}}
-        </td>
+        Status:
+        <md-icon style="width:fit-content" id="nichtdrücken">{{ statusCodeIcon}}</md-icon> {{ statusCodeText}}
+      </td>
     </tr>
   </table>
 </md-card>

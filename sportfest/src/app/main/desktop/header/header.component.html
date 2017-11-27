@@ -16,40 +16,31 @@
     <button md-button [mdMenuTriggerFor]="menu0" (click)="loadDD()">Einzel - Sportarten</button>
     <md-menu #menu0="mdMenu">
       <div *ngFor="let einzel of disziplinenEinzel">
-        <button *ngIf="einzel.aktiviert" md-menu-item (click)="navigateToEinzel(einzel.did, einzel.name)">{{ einzel.name }}</button>
+        <button *ngIf="einzel.aktiviert" md-menu-item (click)="navigateToDisziplin(einzel.id)">{{ einzel.name }}</button>
       </div>
     </md-menu>
     <!--Team-->
     <button md-button [mdMenuTriggerFor]="menu1" (click)="loadDD()">Team - Sportarten</button>
     <md-menu #menu1="mdMenu">
       <div *ngFor="let team of disziplinenTeam">
-        <button *ngIf="team.aktiviert" md-menu-item (click)="navigateToTeam(team.did, team.name)">{{ team.name }}</button>
+        <button *ngIf="team.aktiviert" md-menu-item (click)="navigateToDisziplin(team.id)">{{ team.name }}</button>
       </div>
     </md-menu>
 
-    <!--DisziplinNEU-->
-    <button md-button [mdMenuTriggerFor]="menu1" (click)="loadDDNEU()">DisziplinNEU</button>
-    <md-menu #menu1="mdMenu">
-      <div *ngFor="let disziplin of disziplinen">
-        <button *ngIf="disziplin.aktiviert" md-menu-item (click)="navigateToDisziplin(disziplin.id)">{{ disziplin.name }}</button>
-      </div>
-    </md-menu>
-    
     <button md-button *ngIf="username && role=='admin'" [mdMenuTriggerFor]="menu2">Admin</button>
     <md-menu #menu2="mdMenu">
-      <button md-menu-item (click)="navigateToCreateDiscipline()">Disziplin anlegen</button>
-      <button md-menu-item (click)="navigateToActivateDiscipline()">Disziplin aktivieren</button>
+      <button md-menu-item (click)="navigateToCreateDisciplineNew()">Disziplin anlegen</button>
+      <button md-menu-item (click)="navigateToActivateDiscipline()">Disziplin verwalten</button>
+      <button md-menu-item (click)="navigateToEinheitVerwalten()">Einheiten verwalten</button>
       <button md-menu-item (click)="navigateToUAC()">Benutzerverwaltung</button>
-      <button md-menu-item (click)="navigateToImportKlasse()">Import</button>
+      <button md-menu-item (click)="navigateToImportKlasse()">Klassendaten verwalten</button>
       <button md-menu-item (click)="navigateToCreateSportfest()">Neues Sportfest</button>
-      <button md-menu-item (click)="navigateToCreateDisciplineNew()">Disziplin anlegen NEU</button>
-      <button md-menu-item (click)="navigateToEinheitVerwalten()">Einheiten Verwalten</button>
     </md-menu>
-    
+
     <span class="fill-remaining-space"></span>
 
     <div *ngIf="username">
-      <span class="user" >{{ username }}</span>
+      <span class="user">{{ username }}</span>
       <md-icon [mdMenuTriggerFor]="menu3" class="noselect">more_vert</md-icon>
       <md-menu #menu3="mdMenu">
         <button md-menu-item (click)="openChangePassword()">Passwort ändern</button>
@@ -57,10 +48,9 @@
       </md-menu>
       &nbsp;
     </div>
-    <div class="user" *ngIf="!username"><span>Gast</span>
-      &nbsp;
+    <div class="user" *ngIf="!username"><span>Gast</span> &nbsp;
       <button md-button (click)="login()">Login</button>
     </div>
-    
+
   </md-toolbar>
 </div>
