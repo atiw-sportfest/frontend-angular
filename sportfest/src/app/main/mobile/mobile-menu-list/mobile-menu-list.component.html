@@ -7,7 +7,7 @@
         <div *ngFor="let einzel of disziplinenEinzel"> 
           <md-list-item class="subsub"
                         *ngIf="einzel.aktiviert"
-                        (click)="navigateToEinzel(einzel.did, einzel.name)">
+                        (click)="navigateToDisziplin(einzel.id)">
                         {{ einzel.name }}
           </md-list-item>
         </div>
@@ -17,7 +17,7 @@
         <div *ngFor="let team of disziplinenTeam">
           <md-list-item class="subsub"
                         *ngIf="team.aktiviert"
-                        (click)="navigateToTeam(team.did, team.name)">
+                        (click)="navigateToDisziplin(team.id)">
                         {{ team.name }}
           </md-list-item>
          </div>
@@ -27,10 +27,11 @@
   <md-list-item *ngIf="role=='admin'" class="main" (click)="expandAdmin()">Admin</md-list-item>
     <div *ngIf="selectedAdmin">
       <md-list-item class="sub" (click)="navigateToCreateDiscipline()">Disziplin anlegen</md-list-item>
-      <md-list-item class="sub" (click)="navigateToActivateDiscipline()">Disziplin aktivieren</md-list-item>
+      <md-list-item class="sub" (click)="navigateToActivateDiscipline()">Disziplin verwalten</md-list-item>
+      <md-list-item class="sub" (click)="navigateToEinheitVerwalten()">Einheiten verwalten</md-list-item>
       <md-list-item class="sub" (click)="navigateToUAC()">Benutzerverwaltung</md-list-item>
       <md-list-item class="sub" (click)="navigateToCreateSportfest()">Neues Sportfest</md-list-item>
     </div>
     
-  <md-list-item *ngIf="role=='admin'" class="main" (click)="navigateToImportKlasse()">Import</md-list-item>
+  <md-list-item *ngIf="role=='admin'" class="main" (click)="navigateToImportKlasse()">Klassendaten verwalten</md-list-item>
 </md-list>

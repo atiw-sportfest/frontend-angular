@@ -41,9 +41,10 @@ export class HeaderComponent implements OnInit {
   public loadDD() { //Lädt Disziplinen bei Klick auf Sportarten
     this.disziplinenEinzel = [];
     this.disziplinenTeam = [];
-    this.sfService.disziplinen().subscribe(data => {
+    this.sfService.disziplinenNEU().subscribe(data => {
+      console.log(data);
       for (let i = 0; i < data.length; i++) {
-        if (data[i].teamleistung == false || data[i].did == 3) {
+        if (!data[i].klassenleistung) {
           this.disziplinenEinzel.push(data[i]);
         } else {
           this.disziplinenTeam.push(data[i]);
@@ -53,6 +54,9 @@ export class HeaderComponent implements OnInit {
       (err) => {
         console.error('GET-Service "disziplinen()" not reachable.');
       });
+
+      console.log("Einzel: "+this.disziplinenEinzel[0]);
+      console.log("Team: "+this.disziplinenTeam[0]);
   }
 
   public loadDDNEU() { //Lädt Disziplinen bei Klick auf Sportarten
@@ -109,14 +113,14 @@ export class HeaderComponent implements OnInit {
   public navigateToUAC() {
     this.router.navigate(['/uac']);
   }
-  public navigateToDisziplin(id: number){
-    this.router.navigate(['/disziplin/'+ id]);
+  public navigateToDisziplin(id: number) {
+    this.router.navigate(['/disziplin/' + id]);
   }
-  public navigateToCreateDisciplineNew(){
+  public navigateToCreateDisciplineNew() {
     this.router.navigate(['/createDisciplineNew/']);
   }
 
-  public navigateToEinheitVerwalten(){
+  public navigateToEinheitVerwalten() {
     this.router.navigate(['/einheitVerwalten/']);
   }
 

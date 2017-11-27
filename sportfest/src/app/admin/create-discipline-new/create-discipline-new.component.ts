@@ -14,6 +14,7 @@ export class CreateDisciplineNewComponent implements OnInit {
   beschreibungDerDisziplin: string;
   klassenleistung: boolean;
   anzahlDerVersuchen: number;
+  versus: boolean;
 
   arrayOfVars: VariableNEU[];
 
@@ -44,6 +45,7 @@ export class CreateDisciplineNewComponent implements OnInit {
         this.klassenleistung = data.klassenleistung;
         this.regel = data.regel;
         this.arrayOfVars = data.variablen;
+        this.versus = data.versus;
 
         console.log("Name: " + this.nameDerDisziplin);
       });
@@ -54,6 +56,7 @@ export class CreateDisciplineNewComponent implements OnInit {
       this.beschreibungDerDisziplin = "";
       this.klassenleistung = false;
       this.arrayOfVars = [];
+      this.versus = false;
 
       this.statusCodeText = "Code nicht Überprüft";
       this.statusCodeIcon = "error";
@@ -76,25 +79,29 @@ export class CreateDisciplineNewComponent implements OnInit {
     console.log("Mit Compiler verbinden!");
 
     this.statusCodeText = "Code wird überprüft";
+    this.sfService.scriptPruefen(this.regelString).subscribe(data => {
+      this.syntaxCorrect = data;
 
-    // if (CODECORRECT(this.regel)) {
-    //   this.statusCodeText = "Der Code ist Syntaktisch richtig";
-    //   this.statusCodeIcon = "check circle";
-    // } else {
-    //   this.statusCodeText = "Fehler / Nicht Überprüft";
-    //   this.statusCodeIcon = "error";
-    // }
+    });
 
-    //DEBUG-Code
-    if (this.statusCodeIcon == "error") {
-      this.statusCodeText = "Der Code ist syntaktisch richtig";
+    if (this.syntaxCorrect) {
+      this.statusCodeText = "Der Code ist Syntaktisch richtig";
       this.statusCodeIcon = "done";
-      this.syntaxCorrect = true;
     } else {
       this.statusCodeText = "Syntaktischer Fehler im Code";
       this.statusCodeIcon = "error";
-      this.syntaxCorrect = false;
     }
+
+    //DEBUG-Code
+    // if (this.statusCodeIcon == "error") {
+    //   this.statusCodeText = "Der Code ist syntaktisch richtig";
+    //   this.statusCodeIcon = "done";
+    //   this.syntaxCorrect = true;
+    // } else {
+    //   this.statusCodeText = "Syntaktischer Fehler im Code";
+    //   this.statusCodeIcon = "error";
+    //   this.syntaxCorrect = false;
+    // }
   }
 
   textChanged() {
@@ -113,6 +120,7 @@ export class CreateDisciplineNewComponent implements OnInit {
       regel: this.regel,
       klassenleistung: this.klassenleistung,
       variablen: this.arrayOfVars,
+      versus: this.versus
     }
 
     console.log("disziplinDTO", disziplinDTO);

@@ -12,23 +12,24 @@ export class MobileMenuListComponent implements OnInit {
 
   @Input() role: string;
   @Output() itemSelected = new EventEmitter<any>();
-  
+
   selectedSportarten = false;
   selectedEinzel = false;
   selectedTeam = false;
   selectedAdmin = false;
-  
+
   disziplinenTeam: Array<any> = [];
   disziplinenEinzel: Array<any> = [];
-  
+
   constructor(private router: Router,
-              private sfService: SportfestService) { }
+    private sfService: SportfestService) { }
 
   ngOnInit() {
     this.role = sessionStorage.getItem('role');
-    this.sfService.disziplinen().subscribe(data => {
-      for(let i = 0; i < data.length; i++) {
-        if (data[i].teamleistung == false || data[i].did == 3) {
+    this.sfService.disziplinenNEU().subscribe(data => {
+      console.log(data);
+      for (let i = 0; i < data.length; i++) {
+        if (!data[i].klassenleistung) {
           this.disziplinenEinzel.push(data[i]);
         } else {
           this.disziplinenTeam.push(data[i]);
@@ -37,15 +38,11 @@ export class MobileMenuListComponent implements OnInit {
     },
       (err) => {
         console.error('GET-Service "disziplinen()" not reachable.');
-    });
+      });
   }
-  
-  public navigateToEinzel(did: number, name: string) {
-    this.router.navigate(['/einzel/' + did + '/' + name]);
-    this.itemSelected.emit();
-  }
-  public navigateToTeam(did: number, name: string) {
-    this.router.navigate(['/team/' + did + '/' + name]);
+
+  public navigateToDisziplin(id: number) {
+    this.router.navigate(['/disziplin/' + id]);
     this.itemSelected.emit();
   }
   public navigateToDashboard() {
@@ -53,7 +50,7 @@ export class MobileMenuListComponent implements OnInit {
     this.itemSelected.emit();
   }
   public navigateToCreateDiscipline() {
-    this.router.navigate(['/createDiscipline']);
+    this.router.navigate(['/createDisciplineNew']);
     this.itemSelected.emit();
   }
   public navigateToImportKlasse() {
@@ -78,10 +75,14 @@ export class MobileMenuListComponent implements OnInit {
     this.router.navigate(['/createSportfest']);
     this.itemSelected.emit();
   }
-  
+
+    public navigateToEinheitVerwalten() {
+    this.router.navigate(['/einheitVerwalten/']);
+  }
+
   public expandSportarten() {
     this.loadDD();
-    
+
     if (this.selectedSportarten) {
       this.selectedSportarten = false;
     } else {
@@ -115,15 +116,15 @@ export class MobileMenuListComponent implements OnInit {
       this.selectedTeam = true;
     }
   }
-  
-  public loadDD(){
-    this.disziplinenEinzel=[];
-    this.disziplinenTeam=[];
-    this.sfService.disziplinen().subscribe(data => {
-      for(let i = 0; i < data.length; i++) {
-        if(data[i].teamleistung == false || data[i].did == 3) {
+
+  public loadDD() {
+    this.disziplinenEinzel = [];
+    this.disziplinenTeam = [];
+    this.sfService.disziplinenNEU().subscribe(data => {
+      for (let i = 0; i < data.length; i++) {
+        if (!data[i].klassenleistung) {
           this.disziplinenEinzel.push(data[i]);
-        }else {
+        } else {
           this.disziplinenTeam.push(data[i]);
         }
       }
