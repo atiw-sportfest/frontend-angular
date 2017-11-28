@@ -667,9 +667,14 @@ export class SportfestService {
     return Observable.of(this.ergebnisseVAR);
   }
 
-  public ergebnissVonDisziplinUndKlasseUndOptionalerSchueler(did: number, kid: number, sid?: number): Observable<ErgebnisNEU> {
+  public ergebnissVonDisziplinUndKlasseUndOptionalerSchueler(disziplin: DisziplinNEU, kid: number, sid?: number): Observable<ErgebnisNEU> {
+    if(disziplin.klassenleistung){
+      
+    }else{
+      
+    }
     for (let ergebnis of this.ergebnisseVAR)
-      if (ergebnis.disziplin.id == did
+      if (ergebnis.disziplin.id == disziplin.id
         && ergebnis.klasse.kid == kid
         && (!sid || ergebnis.schueler.sid == sid))
         return Observable.of(ergebnis);
@@ -694,7 +699,12 @@ export class SportfestService {
     return Observable.of(this.ergebnisseVAR[0].leistungen);
   }
 
-  public leistungVonDisziplinUndKlasseUndOptionalerSchueler(did: number, kid: number, sid?: number): Observable<LeistungNEU[]> {
+  public leistungVonDisziplinUndKlasseUndOptionalerSchueler(disziplin: DisziplinNEU, kid: number, sid?: number): Observable<LeistungNEU[]> {
+    if(disziplin.klassenleistung){
+
+    }else{
+
+    }
     return Observable.of(this.ergebnisseVAR[0].leistungen);
   }
 }

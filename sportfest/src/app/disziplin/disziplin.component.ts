@@ -33,7 +33,6 @@ export class DisziplinComponent implements OnInit {
         });
       }); // (+) converts string 'id' to a number
     });
-    console.log('AfterView');
   }
 
   initializeAdmin() {
@@ -73,7 +72,6 @@ export class DisziplinComponent implements OnInit {
       let allesEingetragen = true;
       for (let teilnehmer of this.leistungen) { //Einträge überprüfen
         for (let leistung of teilnehmer) {
-          console.log(_.isEmpty(leistung.wert));
           if (_.isEmpty(leistung.wert)) {
             allesEingetragen = false;
             break;
@@ -94,7 +92,6 @@ export class DisziplinComponent implements OnInit {
       for (let i = 0; i < this.leistungen.length; i++) { //Einträge überprüfen
         let allesEingetragen = true;
         for (let leistung of this.leistungen[i]) {
-          console.log(_.isEmpty(leistung.wert));
           if (_.isEmpty(leistung.wert)) {
             allesEingetragen = false;
             break;
