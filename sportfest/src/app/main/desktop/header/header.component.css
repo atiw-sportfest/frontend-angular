@@ -52,6 +52,18 @@
   / every toolbar row uses a flexbox row layout.*/
   flex: 1 1 auto;
 }
+
+.wide{
+  height:20px;
+  vertical-align: middle;
+  cursor: default;
+}
+
+
+.mat-menu-content >*{
+  padding-top: 0px !important;
+}
+
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */

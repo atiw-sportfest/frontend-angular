@@ -97,16 +97,6 @@ export class CreateDisciplineNewComponent implements OnInit {
       this.statusCodeIcon = "error";
     }
 
-    //DEBUG-Code
-    // if (this.statusCodeIcon == "error") {
-    //   this.statusCodeText = "Der Code ist syntaktisch richtig";
-    //   this.statusCodeIcon = "done";
-    //   this.syntaxCorrect = true;
-    // } else {
-    //   this.statusCodeText = "Syntaktischer Fehler im Code";
-    //   this.statusCodeIcon = "error";
-    //   this.syntaxCorrect = false;
-    // }
   }
 
   textChanged() {

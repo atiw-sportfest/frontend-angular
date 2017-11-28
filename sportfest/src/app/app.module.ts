@@ -10,6 +10,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Http, HttpModule, RequestOptions } from '@angular/http';
 import { Location } from '@angular/common';
+import { MdCardModule } from '@angular/material';
+import { MdButtonModule } from '@angular/material';
+import { MdDialogModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { EinzelComponent } from './einzel/einzel.component';
@@ -32,6 +35,7 @@ import { MobileHeaderImageComponent } from './main/mobile/mobile-header-image/mo
 import { DisziplinComponent } from './disziplin/disziplin.component';
 import { CreateDisciplineNewComponent } from './admin/create-discipline-new/create-discipline-new.component';
 import { EinheitVerwaltenComponent } from './admin/einheit-verwalten/einheit-verwalten.component';
+import { DestructiveDialogComponent } from './main/destructive-dialog/destructive-dialog.component';
 
 const routConfig: Routes = [
   {
@@ -95,8 +99,8 @@ const routConfig: Routes = [
     path: 'createDisciplineNew',
     component: CreateDisciplineNewComponent,
     canActivate: [RouteGuard]
-  },{
-        path: 'einheitVerwalten',
+  }, {
+    path: 'einheitVerwalten',
     component: EinheitVerwaltenComponent,
     canActivate: [RouteGuard]
   }
@@ -130,7 +134,8 @@ export const BASEPATH = 'http://' + location.host + '/backend';
     MobileHeaderImageComponent,
     DisziplinComponent,
     CreateDisciplineNewComponent,
-    EinheitVerwaltenComponent
+    EinheitVerwaltenComponent,
+    DestructiveDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -141,7 +146,10 @@ export const BASEPATH = 'http://' + location.host + '/backend';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule
+    HttpModule,
+    MdCardModule,
+    MdButtonModule,
+    MdDialogModule
   ],
   providers: [
     TechnischerService,

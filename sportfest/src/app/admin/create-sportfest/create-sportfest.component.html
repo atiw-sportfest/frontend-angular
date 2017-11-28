@@ -1,15 +1,28 @@
 <md-card>
   <md-card-header>
+    <h3>Sportfest beenden</h3>
+  </md-card-header>
+  <md-card-content>
+    Mit Beendingung des Sportfest werden allen Bonuspunkte verrechnet.<br> Dieser Vorgang kann <b>nicht</b> Rückgängig gemacht
+    werden!
+    <br><br>
+    <md-card-actions>
+      <button md-raised-button color="warn" (click)="openDialog('Sportfest beenden',0)">Sportfest beenden</button>
+    </md-card-actions>
+  </md-card-content>
+</md-card>
+<br>
+<md-card>
+  <md-card-header>
     <h3>Neues Sportfest</h3>
   </md-card-header>
   <md-card-content>
+    <br> Achtung beim Anlegen eines neuen Sportfests wird die <b>Datenbank geleert</b>!
     <br>
-    Achtung beim Anlegen eines neuen Sportfests wird die Datenbank geleert!
-    <br>
-    Sichern Sie vorher die Datenbank.
+    <b>Sichern Sie vorher die Datenbank.</b>
     <br><br>
     <md-card-actions>
-      <button md-raised-button color="warn" (click)="new()" >Neues Sportfest</button>  
+      <button md-raised-button color="warn" (click)="openDialog('Neues Sportfest starten',1)">Neues Sportfest</button>
     </md-card-actions>
   </md-card-content>
 </md-card>
