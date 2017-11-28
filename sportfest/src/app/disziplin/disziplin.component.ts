@@ -16,6 +16,7 @@ export class DisziplinComponent implements OnInit {
   selectedAnmeldungen: AnmeldungNEU[];
   leistungen: LeistungNEU[][];
   ergebnisse: ErgebnisNEU[];
+  beschreibung: string;
   constructor(private route: ActivatedRoute, private sfService: SportfestService, private router: Router) { }
 
   ngOnInit() {
@@ -24,6 +25,7 @@ export class DisziplinComponent implements OnInit {
       this.disziplin = {};
       this.sfService.disziplinNEU(+params['id']).subscribe(data => {
         this.disziplin = data;
+        this.beschreibung = this.disziplin.klassenleistung ? "Klasse" : "Schüler";
         this.ergebnisseAbfragen();
         this.initializeAdmin();
         this.sfService.anmeldungenAnDisziplin(this.disziplin.id).subscribe(data => {
@@ -138,7 +140,6 @@ export class DisziplinComponent implements OnInit {
     console.log(fertigeErgebnisse);
     this.initializeAdmin();
   }
-
 
   teilnehmerHinzufuegen() {
     //Eine Leere Zeile einfügen

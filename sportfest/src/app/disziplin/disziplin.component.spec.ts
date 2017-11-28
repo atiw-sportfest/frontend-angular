@@ -8,17 +8,21 @@ describe('DisziplinComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DisziplinComponent ],
       imports: [MaterialModule],
+      declarations: [ DisziplinComponent ]
     })
-    .compileComponents();
+    .compileComponents().then(()=>{
+      fixture = TestBed.createComponent(DisziplinComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
   }));
 
-  beforeEach(() => {
+  /*beforeEach(() => {
     fixture = TestBed.createComponent(DisziplinComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+  });*/
 
   it('should be created', () => {
     expect(component).toBeTruthy();

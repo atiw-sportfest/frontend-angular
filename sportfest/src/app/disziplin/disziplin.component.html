@@ -23,7 +23,7 @@
         <tr *ngFor="let selectedAnmeldung of selectedAnmeldungen; let eintragPos = index">
           <td>
             <!-- Dropdown zur Auswahl der Klasse / des Schülers -->
-            <md-select placeholder="Schüler" [(ngModel)]="selectedAnmeldungen[eintragPos]" required>
+            <md-select [placeholder]="beschreibung" [(ngModel)]="selectedAnmeldungen[eintragPos]" required>
               <ng-container *ngFor="let anmeldung of anmeldungen; let dropdownPos = index">
                 <md-option [value]="anmeldung" *ngIf="!anmeldungBereitsGewaehlt(eintragPos, anmeldung) && uniqueKlasse(dropdownPos)" (click)="leistungenHolen(eintragPos)">
                   <ng-container *ngIf="!disziplin.klassenleistung">
