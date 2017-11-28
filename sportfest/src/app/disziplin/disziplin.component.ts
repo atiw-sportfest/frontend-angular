@@ -16,7 +16,8 @@ export class DisziplinComponent implements OnInit {
   selectedAnmeldungen: AnmeldungNEU[];
   leistungen: LeistungNEU[][];
   ergebnisse: ErgebnisNEU[];
-  constructor( private route: ActivatedRoute,  private sfService: SportfestService,  private router: Router) { }
+  beschreibung: string;
+  constructor(private route: ActivatedRoute, private sfService: SportfestService, private router: Router) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -24,6 +25,7 @@ export class DisziplinComponent implements OnInit {
       this.disziplin = {};
       this.sfService.disziplinNEU(+params['id']).subscribe(data => {
         this.disziplin = data;
+        this.beschreibung = this.disziplin.klassenleistung ? "Klasse" : "Schüler";
         this.ergebnisseAbfragen();
         this.initializeAdmin();
         this.sfService.anmeldungenAnDisziplin(this.disziplin.id).subscribe(data => {
@@ -34,7 +36,7 @@ export class DisziplinComponent implements OnInit {
     console.log('AfterView');
   }
 
-   initializeAdmin() {
+  initializeAdmin() {
     this.leistungen = [[]];
     this.selectedAnmeldungen = [{}];
     for (let i = 0; i < this.disziplin.variablen.length; i++)
@@ -43,7 +45,7 @@ export class DisziplinComponent implements OnInit {
         variable: this.disziplin.variablen[i]
       });
   }
-   enoughPermissionsToWrite() {
+  enoughPermissionsToWrite() {
     let role = sessionStorage.getItem('role');
     if (role == 'admin' || role == 'schiedsrichter') {
       return true;
@@ -52,7 +54,7 @@ export class DisziplinComponent implements OnInit {
     }
   }
 
-   enoughPermissionsToChange(teilnehmerPos: number, variablePos: number): boolean {
+  enoughPermissionsToChange(teilnehmerPos: number, variablePos: number): boolean {
     let role = sessionStorage.getItem('role');
     if (this.leistungen[teilnehmerPos][variablePos].id) //Leistung hat eine ID wenn Sie von der Datenbank kommt
       if (role == 'admin') //Wenn Leistung eine ID hat (Also eine "alte Leistung ist"), kann Sie nur ein Admin ändern
@@ -63,7 +65,7 @@ export class DisziplinComponent implements OnInit {
       return true;
   }
 
-   speichern() {
+  speichern() {
     //Hier an die Schnittstelle senden. Unterscheiden zwishcen neuen und alten leistungen.
     let alteLeistungen = [];
     let neueLeistungen = [];
@@ -82,7 +84,7 @@ export class DisziplinComponent implements OnInit {
     console.log(this.leistungen);
   }
 
-   teilnehmerHinzufuegen() {
+  teilnehmerHinzufuegen() {
     //Eine Leere Zeile einfügen
     this.selectedAnmeldungen.push({});
     this.leistungen.push([]);
@@ -93,7 +95,7 @@ export class DisziplinComponent implements OnInit {
       });
   }
 
-   anmeldungBereitsGewaehlt(pos: number, anmeldung: AnmeldungNEU): boolean {
+  anmeldungBereitsGewaehlt(pos: number, anmeldung: AnmeldungNEU): boolean {
     for (let i = 0; i < this.selectedAnmeldungen.length; i++) {
       if (this.selectedAnmeldungen[i] == anmeldung && i != pos)
         return true;
@@ -101,7 +103,7 @@ export class DisziplinComponent implements OnInit {
     return false;
   }
 
-   uniqueKlasse(pos: number) {
+  uniqueKlasse(pos: number) {
     for (let i = 0; i < pos; i++) {
       if (this.disziplin.klassenleistung) {
         if (this.anmeldungen[i].schueler.klasse.kid == this.anmeldungen[pos].schueler.klasse.kid)
@@ -111,7 +113,7 @@ export class DisziplinComponent implements OnInit {
     return true;
   }
 
-   leistungenHolen(anmeldungPos: number) {
+  leistungenHolen(anmeldungPos: number) {
     //An dieser Stelle die Leistungen eines Teilnehmers von der Datenbank abrufen
     this.sfService.leistungVonDisziplinUndKlasseUndOptionalerSchueler(this.selectedAnmeldungen[anmeldungPos].disziplin, this.selectedAnmeldungen[anmeldungPos].schueler.klasse.kid, this.selectedAnmeldungen[anmeldungPos].schueler.sid).subscribe(data => {
       for (let i = data.length; i < this.disziplin.variablen.length; i++)
@@ -123,7 +125,7 @@ export class DisziplinComponent implements OnInit {
     });
   }
 
-   regexPruefen(teilnehmerPos: number, variablePos: number) {
+  regexPruefen(teilnehmerPos: number, variablePos: number) {
 
     var re = new RegExp(this.disziplin.variablen[variablePos].typ.format);
     if (this.leistungen[teilnehmerPos][variablePos].wert && re.test(this.leistungen[teilnehmerPos][variablePos].wert)) {
@@ -132,7 +134,7 @@ export class DisziplinComponent implements OnInit {
 
   }
 
-   speicherBedingungenErfuellt(): boolean {
+  speicherBedingungenErfuellt(): boolean {
     //Überprüfen ob in jeder Zeile ein Telnehmer ausgewählt wurde
     for (let eintrag of this.selectedAnmeldungen)
       if (_.isEmpty(eintrag))
@@ -159,7 +161,7 @@ export class DisziplinComponent implements OnInit {
     return true;
   }
 
-   ergebnisseAbfragen() {
+  ergebnisseAbfragen() {
     if (this.disziplin) {
       this.sfService.ergebnisseVonDisziplin(this.disziplin.id).subscribe(data => {
         this.ergebnisse = data;
