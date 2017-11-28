@@ -16,7 +16,7 @@ export class DisziplinComponent implements OnInit {
   selectedAnmeldungen: AnmeldungNEU[];
   leistungen: LeistungNEU[][];
   ergebnisse: ErgebnisNEU[];
-  constructor( private route: ActivatedRoute,  private sfService: SportfestService,  private router: Router) { }
+  constructor(private route: ActivatedRoute, private sfService: SportfestService, private router: Router) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -34,7 +34,7 @@ export class DisziplinComponent implements OnInit {
     console.log('AfterView');
   }
 
-   initializeAdmin() {
+  initializeAdmin() {
     this.leistungen = [[]];
     this.selectedAnmeldungen = [{}];
     for (let i = 0; i < this.disziplin.variablen.length; i++)
@@ -43,7 +43,7 @@ export class DisziplinComponent implements OnInit {
         variable: this.disziplin.variablen[i]
       });
   }
-   enoughPermissionsToWrite() {
+  enoughPermissionsToWrite() {
     let role = sessionStorage.getItem('role');
     if (role == 'admin' || role == 'schiedsrichter') {
       return true;
@@ -52,7 +52,7 @@ export class DisziplinComponent implements OnInit {
     }
   }
 
-   enoughPermissionsToChange(teilnehmerPos: number, variablePos: number): boolean {
+  enoughPermissionsToChange(teilnehmerPos: number, variablePos: number): boolean {
     let role = sessionStorage.getItem('role');
     if (this.leistungen[teilnehmerPos][variablePos].id) //Leistung hat eine ID wenn Sie von der Datenbank kommt
       if (role == 'admin') //Wenn Leistung eine ID hat (Also eine "alte Leistung ist"), kann Sie nur ein Admin ändern
@@ -63,26 +63,84 @@ export class DisziplinComponent implements OnInit {
       return true;
   }
 
-   speichern() {
-    //Hier an die Schnittstelle senden. Unterscheiden zwishcen neuen und alten leistungen.
-    let alteLeistungen = [];
-    let neueLeistungen = [];
-    for (let i = 0; i < this.leistungen.length; i++) {
-      alteLeistungen.push([]);
-      neueLeistungen.push([]);
-      for (let j = 0; j < this.leistungen[i].length; j++) {
-        if (this.leistungen[i][j].id)
-          alteLeistungen[i].push(this.leistungen[i][j]);
-        else
-          neueLeistungen[i].push(this.leistungen[i][j])
+  speichern() {
+    //fertige Ergebnisse filtern
+    let fertigeErgebnisse: ErgebnisNEU[] = [];
+    if (this.disziplin.versus) { //Wenn die Disziplin eine Manschaftssportart ist...
+      //... müssen alle Leistungen eingetragen sein um ein Ergebnis zu erzeugen.
+      let allesEingetragen = true;
+      for (let teilnehmer of this.leistungen) { //Einträge überprüfen
+        for (let leistung of teilnehmer) {
+          console.log(_.isEmpty(leistung.wert));
+          if (_.isEmpty(leistung.wert)) {
+            allesEingetragen = false;
+            break;
+          }
+        }
+      }
+      if (allesEingetragen) {
+        for (let i = 0; i < this.leistungen.length; i++) {
+          fertigeErgebnisse.push({  //Für jeden ausgewählten Teilnehmer (Klasse oder Schüler) ein Ergebnis erzeugen
+            disziplin: this.disziplin,
+            klasse: this.selectedAnmeldungen[i].schueler.klasse,
+            leistungen: this.leistungen[i],
+            schueler: this.selectedAnmeldungen[i].schueler,
+          });
+        }
+      }
+    } else { // wenn Disziplin eine Individualsportart ist, kann jeder einzelne Teilnehmer bei erfolgreicher Prügung ein Ergebnis bekommen
+      for (let i = 0; i < this.leistungen.length; i++) { //Einträge überprüfen
+        let allesEingetragen = true;
+        for (let leistung of this.leistungen[i]) {
+          console.log(_.isEmpty(leistung.wert));
+          if (_.isEmpty(leistung.wert)) {
+            allesEingetragen = false;
+            break;
+          }
+        }
+        if (allesEingetragen) {
+          fertigeErgebnisse.push({
+            disziplin: this.disziplin,
+            klasse: this.selectedAnmeldungen[i].schueler.klasse,
+            leistungen: this.leistungen[i],
+            schueler: this.selectedAnmeldungen[i].schueler,
+          });
+        }
       }
     }
+    //Fertige Ergebnisse aus den angezeigten Daten löschen.
+    for (let ergebnis of fertigeErgebnisse) {
+      let index = this.leistungen.indexOf(ergebnis.leistungen);
+      if (index > -1) {
+        this.leistungen.splice(index, 1);
+        this.selectedAnmeldungen.splice(index, 1);
+      }
+    }
+
+    //Überprüfen welche Leistungen neu, und welche Alt sind.
+    for (let i = 0; i < this.leistungen.length; i++) {
+      let alteLeistungen: LeistungNEU[] = [];
+      let neueLeistungen: LeistungNEU[] = [];
+      for (let j = 0; j < this.leistungen[i].length; j++) {
+        if (this.leistungen[i][j].id)
+          alteLeistungen.push(this.leistungen[i][j]);
+        else{
+          if(!_.isEmpty(this.leistungen[i][j].wert))
+            neueLeistungen.push(this.leistungen[i][j]);
+        }
+      }
+      console.log("Sende neue Leistungen: " + this.disziplin.id + "/" + this.selectedAnmeldungen[i].schueler);
+      console.log(neueLeistungen);
+      console.log("Sende alte Leistungen: " + this.disziplin.id + "/" + this.selectedAnmeldungen[i].schueler);
+      console.log(alteLeistungen);
+    }
+    console.log("Sende Ergebnisse");
+    console.log(fertigeErgebnisse);
     this.initializeAdmin();
-    console.log(this.selectedAnmeldungen);
-    console.log(this.leistungen);
   }
 
-   teilnehmerHinzufuegen() {
+
+  teilnehmerHinzufuegen() {
     //Eine Leere Zeile einfügen
     this.selectedAnmeldungen.push({});
     this.leistungen.push([]);
@@ -93,7 +151,7 @@ export class DisziplinComponent implements OnInit {
       });
   }
 
-   anmeldungBereitsGewaehlt(pos: number, anmeldung: AnmeldungNEU): boolean {
+  anmeldungBereitsGewaehlt(pos: number, anmeldung: AnmeldungNEU): boolean {
     for (let i = 0; i < this.selectedAnmeldungen.length; i++) {
       if (this.selectedAnmeldungen[i] == anmeldung && i != pos)
         return true;
@@ -101,7 +159,7 @@ export class DisziplinComponent implements OnInit {
     return false;
   }
 
-   uniqueKlasse(pos: number) {
+  uniqueKlasse(pos: number) {
     for (let i = 0; i < pos; i++) {
       if (this.disziplin.klassenleistung) {
         if (this.anmeldungen[i].schueler.klasse.kid == this.anmeldungen[pos].schueler.klasse.kid)
@@ -111,7 +169,7 @@ export class DisziplinComponent implements OnInit {
     return true;
   }
 
-   leistungenHolen(anmeldungPos: number) {
+  leistungenHolen(anmeldungPos: number) {
     //An dieser Stelle die Leistungen eines Teilnehmers von der Datenbank abrufen
     this.sfService.leistungVonDisziplinUndKlasseUndOptionalerSchueler(this.selectedAnmeldungen[anmeldungPos].disziplin, this.selectedAnmeldungen[anmeldungPos].schueler.klasse.kid, this.selectedAnmeldungen[anmeldungPos].schueler.sid).subscribe(data => {
       for (let i = data.length; i < this.disziplin.variablen.length; i++)
@@ -123,7 +181,7 @@ export class DisziplinComponent implements OnInit {
     });
   }
 
-   regexPruefen(teilnehmerPos: number, variablePos: number) {
+  regexPruefen(teilnehmerPos: number, variablePos: number) {
 
     var re = new RegExp(this.disziplin.variablen[variablePos].typ.format);
     if (this.leistungen[teilnehmerPos][variablePos].wert && re.test(this.leistungen[teilnehmerPos][variablePos].wert)) {
@@ -132,7 +190,7 @@ export class DisziplinComponent implements OnInit {
 
   }
 
-   speicherBedingungenErfuellt(): boolean {
+  speicherBedingungenErfuellt(): boolean {
     //Überprüfen ob in jeder Zeile ein Telnehmer ausgewählt wurde
     for (let eintrag of this.selectedAnmeldungen)
       if (_.isEmpty(eintrag))
@@ -157,9 +215,10 @@ export class DisziplinComponent implements OnInit {
       if (!neueLeistung)  //Wenn es eine Zeile ohne eine neue Leistung gibt, kann nicht gespeichert werden.
         return false;
     return true;
+
   }
 
-   ergebnisseAbfragen() {
+  ergebnisseAbfragen() {
     if (this.disziplin) {
       this.sfService.ergebnisseVonDisziplin(this.disziplin.id).subscribe(data => {
         this.ergebnisse = data;
