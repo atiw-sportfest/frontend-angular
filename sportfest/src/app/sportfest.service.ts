@@ -357,6 +357,14 @@ export class SportfestService {
   }
 
 
+/**
+ * Neue Dinge
+ */
+
+public sporfestBeenden(): Observable<any>{
+  //return this.techService.putRequest();
+  return Observable.of(true);
+}
 
 
   /**

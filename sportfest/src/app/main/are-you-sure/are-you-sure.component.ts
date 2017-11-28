@@ -1,5 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { MdDialog, MdDialogRef } from '@angular/material';
+import { Component, OnInit, Inject } from '@angular/core';
+import {MD_DIALOG_DATA} from '@angular/material';
+import {MdDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-are-you-sure',
@@ -7,22 +8,19 @@ import { MdDialog, MdDialogRef } from '@angular/material';
   styleUrls: ['./are-you-sure.component.css']
 })
 export class AreYouSureComponent implements OnInit {
-  @Output() closed: EventEmitter<any> = new EventEmitter<any>();  
+  title:string;
 
-  constructor(public dialogRef: MdDialogRef<AreYouSureComponent>) { }
+  constructor(public thisDialogRef: MdDialogRef<AreYouSureComponent>, @Inject(MD_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
-  }
-  
-  accept() {
-    // TODO
-    console.log("REST aufrufen zum erstellen eines neuen Sportfests");
-    this.closed.emit();
-  }
-  
-  decline() {
-    // TODO
-    this.closed.emit()
+    this.title=this.data.title+"?";
   }
 
+  onCloseConfirm() {
+    this.thisDialogRef.close('Confirm');
+  }
+
+  onCloseCancel() {
+    this.thisDialogRef.close('Cancel');
+  }
 }
