@@ -37,7 +37,6 @@ export class KlassenImportComponent implements OnInit {
   
   // Button Download wurde geklickt
   public download() {
-    console.log(this.selectedDownloadableClass);
     this.sfService.schuelerAnmeldebogen(this.selectedDownloadableClass).subscribe();    
    }
   
@@ -46,7 +45,6 @@ export class KlassenImportComponent implements OnInit {
     let fileList: FileList = event.target.files;
     if (fileList.length > 0) {
         this.anmeldebogenFile = fileList[0];
-        console.log(this.anmeldebogenFile);
         // const formData: FormData = new FormData();
         // formData.append('uploadFile', this.file, this.file.name);
     }
@@ -84,7 +82,6 @@ export class KlassenImportComponent implements OnInit {
     let fileList: FileList = event.target.files;
     if (fileList.length > 0) {
         this.teilnehmerFile = fileList[0];
-        console.log(this.teilnehmerFile);
         // const formData: FormData = new FormData();
         // formData.append('uploadFile', this.file, this.file.name);
     }

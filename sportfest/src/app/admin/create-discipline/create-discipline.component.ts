@@ -63,7 +63,6 @@ export class CreateDisciplineComponent implements OnInit {
     // Datentypen holen
     this.sfService.datentypenHolen().subscribe(
       (data) => {
-        console.log("Datentypen DATA", data);
         this.datentypen = data;
       },
       (err) => {

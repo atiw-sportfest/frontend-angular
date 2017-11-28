@@ -29,7 +29,6 @@ describe('DisziplinComponent', () => {
   });
 
   it('should add a Teilnehmer', () => {
-    console.log(component);
     let anzahl = component.selectedAnmeldungen.length;
     component.teilnehmerHinzufuegen(); 
     expect(component.selectedAnmeldungen.length).toBe(anzahl+1);

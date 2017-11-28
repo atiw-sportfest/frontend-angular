@@ -65,8 +65,6 @@ export class CreateDisciplineNewComponent implements OnInit {
 
 
         }
-        console.log(this.arrayOfVars[0].typ.einheit);
-        console.log(this.einheitPool[0].einheit);
       });
     });
   }
@@ -129,9 +127,6 @@ export class CreateDisciplineNewComponent implements OnInit {
       variablen: this.arrayOfVars,
       versus: this.versus
     }
-
-    console.log("disziplinDTO", disziplinDTO);
-
 
     if (disziplinDTO.id) { //Disziplin existiert schon
       this.sfService.disziplinAendernNEU(disziplinDTO).subscribe(

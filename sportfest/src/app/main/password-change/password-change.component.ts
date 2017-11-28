@@ -69,7 +69,6 @@ export class PasswordChangeComponent implements OnInit {
 
   public setInitPw(init: boolean) {
     this.initPw = init;
-    console.log(this.initPw);
   }
   public keypress(event: any) {
     if (event.keyCode == 13) { // Enter gedrückt

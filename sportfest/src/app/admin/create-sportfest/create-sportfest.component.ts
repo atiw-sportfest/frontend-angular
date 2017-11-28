@@ -41,7 +41,6 @@ export class CreateSportfestComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Dialog closed:' + result);
       this.selectedOption = result;
       this.handleResults();
     });

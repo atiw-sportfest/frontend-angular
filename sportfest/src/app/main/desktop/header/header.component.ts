@@ -54,9 +54,6 @@ export class HeaderComponent implements OnInit {
       (err) => {
         console.error('GET-Service "disziplinen()" not reachable.');
       });
-
-      console.log("Einzel: "+this.disziplinenEinzel[0]);
-      console.log("Team: "+this.disziplinenTeam[0]);
   }
 
   public loadDDNEU() { //Lädt Disziplinen bei Klick auf Sportarten
@@ -86,7 +83,6 @@ export class HeaderComponent implements OnInit {
         dlg.componentInstance.pwSave.subscribe(data => dlg.close());
       }
       dlg.close();
-      console.log('Login: ' + data);
       this.username = sessionStorage.getItem('username'); //Benutzernamen aus dem Local Storage auslesen
       this.role = sessionStorage.getItem('role'); //Rolle aus dem Local Storage auslesen
     });

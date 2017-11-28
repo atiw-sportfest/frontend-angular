@@ -51,7 +51,7 @@ export class UserAccountControlComponent implements OnInit {
   public addUser() {
     if (this.selectedRole && this.username && this.password) {//Benutzername und Rolle wurde gesetzt
       let encryptpwd = Md5.hashStr(this.password);
-      console.log(encryptpwd.toString());
+      //console.log(encryptpwd.toString());
       this.sfService.userHinzufuegen(this.username, encryptpwd.toString(), this.selectedRole).subscribe(//Benutz in Datenbank einfügen
         (data) => {
           console.log(data);

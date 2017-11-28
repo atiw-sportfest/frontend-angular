@@ -22,7 +22,6 @@ export class DashboardComponent implements OnInit {
       this.visibleTeilnehmer.forEach(element => {
         element.rang = 1;
       });
-      console.log(this.visibleTeilnehmer);
       this.sortByRang();
 
       this.l = this.visibleTeilnehmer.length;

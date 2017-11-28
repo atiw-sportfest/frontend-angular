@@ -18,7 +18,6 @@ export class TechnischerService {
   }
 
   public getRequest(ressourceAPI: string) {
-    console.log(BASEPATH);
     return this.http.get(BASEPATH + ressourceAPI, {headers: this.createAuthorizationHeader()}).map(data => data.json()).catch(
       (e) => {
         if (e.status >= 400) {

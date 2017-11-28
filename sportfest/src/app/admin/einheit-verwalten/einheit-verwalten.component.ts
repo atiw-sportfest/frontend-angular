@@ -24,7 +24,6 @@ export class EinheitVerwaltenComponent implements OnInit {
       einheit.shouldDelete = false;
     });
 
-    console.log(this.einheitPool);
   }
 
   deleteEinheit(index: number) {
