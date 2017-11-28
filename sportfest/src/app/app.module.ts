@@ -35,7 +35,6 @@ import { MobileHeaderImageComponent } from './main/mobile/mobile-header-image/mo
 import { DisziplinComponent } from './disziplin/disziplin.component';
 import { CreateDisciplineNewComponent } from './admin/create-discipline-new/create-discipline-new.component';
 import { EinheitVerwaltenComponent } from './admin/einheit-verwalten/einheit-verwalten.component';
-import { DestructiveDialogComponent } from './main/destructive-dialog/destructive-dialog.component';
 
 const routConfig: Routes = [
   {
@@ -134,8 +133,7 @@ export const BASEPATH = 'http://' + location.host + '/backend';
     MobileHeaderImageComponent,
     DisziplinComponent,
     CreateDisciplineNewComponent,
-    EinheitVerwaltenComponent,
-    DestructiveDialogComponent
+    EinheitVerwaltenComponent
   ],
   imports: [
     BrowserModule,

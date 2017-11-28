@@ -1,5 +1,4 @@
 import { AreYouSureComponent } from '../../main/are-you-sure/are-you-sure.component';
-import { DestructiveDialogComponent } from '../../main/destructive-dialog/destructive-dialog.component';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA, MdSnackBar } from '@angular/material';
 import { SportfestService } from '../../sportfest.service';
 import { Component, OnInit, Inject } from '@angular/core';

@@ -97,8 +97,8 @@ export interface SchuelerNEU {
 }
 
 export interface Klasse {
-    kid?: number,
-    name?: string
+    id?: number,
+    bezeichnung?: string
 }
 export interface Schueler {
     sid?: number,
