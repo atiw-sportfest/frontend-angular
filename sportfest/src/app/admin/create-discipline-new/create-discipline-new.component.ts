@@ -34,36 +34,41 @@ export class CreateDisciplineNewComponent implements OnInit {
   ngOnInit() {
     this.sfService.typenNEU().subscribe(data => {
       this.einheitPool = data;
-    });
-    this.route.params.forEach((params: Params) => {
-      this.idDerDisziplin = +params['id'];
-    });
-    if (this.idDerDisziplin) {
-      this.sfService.disziplinNEU(this.idDerDisziplin).subscribe((data: DisziplinNEU) => {
-        this.nameDerDisziplin = data.name;
-        this.beschreibungDerDisziplin = data.beschreibung;
-        this.klassenleistung = data.klassenleistung;
-        this.regel = data.regel;
-        this.arrayOfVars = data.variablen;
-        this.versus = data.versus;
 
-        console.log("Name: " + this.nameDerDisziplin);
+      this.route.params.forEach((params: Params) => {
+        this.idDerDisziplin = +params['id'];
+        if (this.idDerDisziplin) {
+          this.sfService.disziplinNEU(this.idDerDisziplin).subscribe((data: DisziplinNEU) => {
+            this.nameDerDisziplin = data.name;
+            this.beschreibungDerDisziplin = data.beschreibung;
+            this.klassenleistung = data.klassenleistung;
+            this.regel = data.regel;
+            this.assignVars(data.variablen);
+            this.versus = data.versus;
+
+            this.statusCodeText = "Der Code ist Syntaktisch richtig";
+            this.statusCodeIcon = "done";
+            this.syntaxCorrect = true;
+          });
+        } else {
+          this.regel = { id: null, script: "" };
+          this.idDerDisziplin = null;
+          this.nameDerDisziplin = "";
+          this.beschreibungDerDisziplin = "";
+          this.klassenleistung = false;
+          this.arrayOfVars = [];
+          this.versus = false;
+
+          this.statusCodeText = "Code nicht Überprüft";
+          this.statusCodeIcon = "error";
+          this.syntaxCorrect = false;
+
+
+        }
+        console.log(this.arrayOfVars[0].typ.einheit);
+        console.log(this.einheitPool[0].einheit);
       });
-    } else {
-      this.regel = { id: null, script: "" };
-      this.idDerDisziplin = null;
-      this.nameDerDisziplin = "";
-      this.beschreibungDerDisziplin = "";
-      this.klassenleistung = false;
-      this.arrayOfVars = [];
-      this.versus = false;
-
-      this.statusCodeText = "Code nicht Überprüft";
-      this.statusCodeIcon = "error";
-      this.syntaxCorrect = false;
-
-
-    }
+    });
   }
 
   deleteVar(i: number) {
@@ -108,6 +113,18 @@ export class CreateDisciplineNewComponent implements OnInit {
     this.statusCodeText = "Code nicht Überprüft";
     this.statusCodeIcon = "error";
     this.syntaxCorrect = false;
+  }
+
+  assignVars(vars: VariableNEU[]) {
+    for (let outer = 0; outer < vars.length; outer++) {
+      for (let inner = 0; inner < this.einheitPool.length; inner++) {
+        if (vars[outer].typ.id == this.einheitPool[inner].id) {
+          vars[outer].typ = this.einheitPool[inner];
+          break;
+        }
+      }
+    }
+    this.arrayOfVars = vars;
   }
 
   sendToBackend() {
