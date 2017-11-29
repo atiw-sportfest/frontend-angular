@@ -8,17 +8,17 @@
           <md-list-item class="subsub"
                         *ngIf="einzel.aktiviert"
                         (click)="navigateToDisziplin(einzel.id)">
-                        {{ einzel.name }}
+                        {{ einzel.bezeichnung }}
           </md-list-item>
         </div>
       </div>
-    <md-list-item class="sub" (click)="expandTeam()">Team</md-list-item>
+    <md-list-item class="sub" (click)="expandTeam()">Klassen</md-list-item>
       <div *ngIf="selectedTeam">
         <div *ngFor="let team of disziplinenTeam">
           <md-list-item class="subsub"
                         *ngIf="team.aktiviert"
                         (click)="navigateToDisziplin(team.id)">
-                        {{ team.name }}
+                        {{ team.bezeichnung }}
           </md-list-item>
          </div>
       </div>
