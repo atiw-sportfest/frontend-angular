@@ -20,7 +20,7 @@
       </div>
     </md-menu>
     <!--Team-->
-    <button md-button [mdMenuTriggerFor]="menu1" (click)="loadDD()">Team - Sportarten</button>
+    <button md-button [mdMenuTriggerFor]="menu1" (click)="loadDD()">Klassen - Sportarten</button>
     <md-menu #menu1="mdMenu">
       <div *ngFor="let team of disziplinenTeam">
         <button *ngIf="team.aktiviert" md-menu-item (click)="navigateToDisziplin(team.id)">{{ team.name }}</button>
