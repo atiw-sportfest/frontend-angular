@@ -39,7 +39,7 @@ export class CreateDisciplineNewComponent implements OnInit {
         this.idDerDisziplin = +params['id'];
         if (this.idDerDisziplin) {
           this.sfService.disziplinNEU(this.idDerDisziplin).subscribe((data: DisziplinNEU) => {
-            this.nameDerDisziplin = data.name;
+            this.nameDerDisziplin = data.bezeichnung;
             this.beschreibungDerDisziplin = data.beschreibung;
             this.klassenleistung = data.klassenleistung;
             this.regel = data.regel;
@@ -119,7 +119,7 @@ export class CreateDisciplineNewComponent implements OnInit {
     let disziplinDTO: DisziplinNEU;
     disziplinDTO = {
       id: this.idDerDisziplin,
-      name: this.nameDerDisziplin,
+      bezeichnung: this.nameDerDisziplin,
       beschreibung: this.beschreibungDerDisziplin,
       aktiviert: true,
       regel: this.regel,

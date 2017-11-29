@@ -41,7 +41,7 @@ export interface Disziplin {
 
 export interface DisziplinNEU {
     id?: number,
-    name?: string,
+    bezeichnung?: string,
     beschreibung?: string,
     aktiviert?: boolean,
     klassenleistung?: boolean,

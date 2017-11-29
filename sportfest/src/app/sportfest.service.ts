@@ -17,7 +17,7 @@ export class SportfestService {
     this.disziplinenVAR = [
       {
         id: 1,
-        name: "Staffel",
+        bezeichnung: "Staffel",
         beschreibung: "4 Leute einer Klasse laufen um die Wette (Klassenleistung, Gruppen)",
         klassenleistung: true,
         versus: true,
@@ -40,7 +40,7 @@ export class SportfestService {
       },
       {
         id: 2,
-        name: "Kistenstapeln",
+        bezeichnung: "Kistenstapeln",
         beschreibung: "Wer kommt höher? Die FS151 oder die anderen Luschen? (Klassenleistung, Jeder gegen Jeden)",
         klassenleistung: true,
         versus: false,
@@ -74,7 +74,7 @@ export class SportfestService {
       },
       {
         id: 3,
-        name: "Weitsprung ",
+        bezeichnung: "Weitsprung ",
         beschreibung: "Spring los Kartoffelbrei! (Einzelleistung, Jeder gegen Jeden)",
         aktiviert: true,
         versus: false,
@@ -119,7 +119,7 @@ export class SportfestService {
       },
       {
         id: 4,
-        name: "2000M Lauf",
+        bezeichnung: "2000M Lauf",
         beschreibung: "Lauf Forrest Laaaaaaaaaauf (Einzelleistung, Gruppen)",
         aktiviert: true,
         klassenleistung: false,
@@ -201,7 +201,7 @@ export class SportfestService {
         },
         disziplin: {
           id: 1,
-          name: "Staffel",
+          bezeichnung: "Staffel",
           beschreibung: "4 Leute einer Klasse laufen um die Wette (Klassenleistung, Gruppen)",
           versus: true,
           aktiviert: true,
@@ -259,7 +259,7 @@ export class SportfestService {
         },
         disziplin: {
           id: 1,
-          name: "Staffel",
+          bezeichnung: "Staffel",
           beschreibung: "4 Leute einer Klasse laufen um die Wette (Klassenleistung, Gruppen)",
           versus: true,
           aktiviert: true,
