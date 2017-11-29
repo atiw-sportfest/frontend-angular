@@ -11,7 +11,7 @@
         <th></th>
       </tr>
       <tr *ngFor="let dis of disziplinen, let i = index" >
-        <td>{{ dis.name }}</td>
+        <td>{{ dis.bezeichnung }}</td>
         <td>
           <md-slide-toggle [(ngModel)]="dis.aktiviert" (change)="save(dis)"></md-slide-toggle>
         </td>
