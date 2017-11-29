@@ -29,8 +29,8 @@
           <td>
             <md-card>
               <md-list *ngFor="let klasse of klassenMitLeistungen">
-                <h3 (click)="aufklappen(klasse.kid)">{{klasse.name}}</h3>
-                <div [hidden]="!aufgeklappt[klasse.kid]">
+                <h3 (click)="aufklappen(klasse.id)">{{klasse.bezeichnung}}</h3>
+                <div [hidden]="!aufgeklappt[klasse.id]">
                   <table width="100%">
                     <tr>
                       <th></th>
@@ -40,7 +40,7 @@
                         </th> 
                       </ng-container>
                     </tr>
-                    <ng-container *ngFor="let s of schuelerEinerKlasseMitLeistung[klasse.kid]">
+                    <ng-container *ngFor="let s of schuelerEinerKlasseMitLeistung[klasse.id]">
                       <ng-container *ngIf="s">
                         <tr>
                           <td>
@@ -48,7 +48,7 @@
                           </td>
                           <ng-container *ngFor="let v of variablen">
                             <td align="center">
-                              {{ ergebnisseEinesSchuelersEinerKlasse[klasse.kid][s.sid][v.var_id].wert }}
+                              {{ ergebnisseEinesSchuelersEinerKlasse[klasse.id][s.sid][v.var_id].wert }}
                             </td>
                           </ng-container>
                         </tr>
@@ -97,14 +97,14 @@
     </md-card-header>
     <md-card-content>
       <md-select placeholder="Klasse" [(ngModel)]="neueLeistung.kid">
-        <md-option *ngFor="let klasse of angemeldeteKlassen" [value]="klasse.kid">
-          {{ klasse.name }}
+        <md-option *ngFor="let klasse of angemeldeteKlassen" [value]="klasse.id">
+          {{ klasse.bezeichnung }}
         </md-option>
       </md-select>
       
       <md-select placeholder="Schüler" [(ngModel)]="neueLeistung.sid">
         <md-option *ngFor="let s of angemeldeteSchuelerEinerKlasse[neueLeistung.kid]" [value]="s.sid">
-          <div *ngIf="s.kid==neueLeistung.kid"> 
+          <div *ngIf="s.id==neueLeistung.kid"> 
             {{ s.vorname }} {{ s.name }}
           </div>
         </md-option>

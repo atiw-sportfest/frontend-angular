@@ -160,7 +160,7 @@ export class DisziplinComponent implements OnInit {
   uniqueKlasse(pos: number) {
     for (let i = 0; i < pos; i++) {
       if (this.disziplin.klassenleistung) {
-        if (this.anmeldungen[i].schueler.klasse.kid == this.anmeldungen[pos].schueler.klasse.kid)
+        if (this.anmeldungen[i].schueler.klasse.id == this.anmeldungen[pos].schueler.klasse.id)
           return false;
       }
     }
@@ -169,7 +169,7 @@ export class DisziplinComponent implements OnInit {
 
   leistungenHolen(anmeldungPos: number) {
     //An dieser Stelle die Leistungen eines Teilnehmers von der Datenbank abrufen
-    this.sfService.leistungVonDisziplinUndKlasseUndOptionalerSchueler(this.selectedAnmeldungen[anmeldungPos].disziplin, this.selectedAnmeldungen[anmeldungPos].schueler.klasse.kid, this.selectedAnmeldungen[anmeldungPos].schueler.sid).subscribe(data => {
+    this.sfService.leistungVonDisziplinUndKlasseUndOptionalerSchueler(this.selectedAnmeldungen[anmeldungPos].disziplin, this.selectedAnmeldungen[anmeldungPos].schueler.klasse.id, this.selectedAnmeldungen[anmeldungPos].schueler.sid).subscribe(data => {
       for (let i = data.length; i < this.disziplin.variablen.length; i++)
         data.push({
           wert: "",
@@ -266,11 +266,11 @@ export class DisziplinComponent implements OnInit {
         }
         if (this.disziplin.klassenleistung) {
           if (n1.punkte == n2.punkte) {
-            if (n1.klasse.name > n2.klasse.name) {
+            if (n1.klasse.bezeichnung > n2.klasse.bezeichnung) {
               return 1;
             }
 
-            if (n1.klasse.name < n2.klasse.name) {
+            if (n1.klasse.bezeichnung < n2.klasse.bezeichnung) {
               return -1;
             }
           }
@@ -300,11 +300,11 @@ export class DisziplinComponent implements OnInit {
         }
         if (this.disziplin.klassenleistung) {
           if (n1.punkte == n2.punkte) {
-            if (n1.klasse.name > n2.klasse.name) {
+            if (n1.klasse.bezeichnung > n2.klasse.bezeichnung) {
               return -1;
             }
 
-            if (n1.klasse.name < n2.klasse.name) {
+            if (n1.klasse.bezeichnung < n2.klasse.bezeichnung) {
               return 1;
             }
           }
@@ -326,10 +326,10 @@ export class DisziplinComponent implements OnInit {
   public sortByKlasse() {
     if (this.ergebnisse) {
       this.ergebnisse = this.ergebnisse.sort((n1, n2) => {
-        if (n1.klasse.name > n2.klasse.name) {
+        if (n1.klasse.bezeichnung > n2.klasse.bezeichnung) {
           return -1;
         }
-        if (n1.klasse.name < n2.klasse.name) {
+        if (n1.klasse.bezeichnung < n2.klasse.bezeichnung) {
           return 1;
         }
         return 0;
@@ -340,10 +340,10 @@ export class DisziplinComponent implements OnInit {
   public sortByKlasseRev() {
     if (this.ergebnisse) {
       this.ergebnisse = this.ergebnisse.sort((n1, n2) => {
-        if (n1.klasse.name > n2.klasse.name) {
+        if (n1.klasse.bezeichnung > n2.klasse.bezeichnung) {
           return 1;
         }
-        if (n1.klasse.name < n2.klasse.name) {
+        if (n1.klasse.bezeichnung < n2.klasse.bezeichnung) {
           return -1;
         }
         return 0;

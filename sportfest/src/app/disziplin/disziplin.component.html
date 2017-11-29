@@ -30,7 +30,7 @@
                     {{ anmeldung.schueler.vorname }} {{anmeldung.schueler.name}}
                   </ng-container>
                   <ng-container *ngIf="disziplin.klassenleistung">
-                    {{ anmeldung.schueler.klasse.name}}
+                    {{ anmeldung.schueler.klasse.bezeichnung}}
                   </ng-container>
                 </md-option>
               </ng-container>
@@ -134,7 +134,7 @@
               {{ergebnis.schueler.vorname}} {{ergebnis.schueler.name}}
             </ng-container>
             <ng-container *ngIf="disziplin.klassenleistung">
-              {{ergebnis.klasse.name}}
+              {{ergebnis.klasse.bezeichnung}}
             </ng-container>
           </td>
           <td>

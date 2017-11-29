@@ -86,8 +86,8 @@ export class TeamComponent implements OnInit {
   getKlassenNameById(kid: number){
     let result = "";
     this.klassen.forEach((klasse: Klasse) => {
-      if(klasse.kid == kid){
-        result = klasse.name;
+      if(klasse.id == kid){
+        result = klasse.bezeichnung;
       }
     });
     return result;

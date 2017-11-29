@@ -186,16 +186,16 @@ export class SportfestService {
         ],
         versus: 9,
         klasse: {
-          kid: 1234,
-          name: "FS151"
+          id: 1234,
+          bezeichnung: "FS151"
         },
         schueler: {
           sid: 3041,
           vorname: "Trulla",
           name: "Tröt",
           klasse: {
-            kid: 1234,
-            name: "FS151"
+            id: 1234,
+            bezeichnung: "FS151"
           },
           gid: 2
         },
@@ -244,16 +244,16 @@ export class SportfestService {
         ],
         versus: 9,
         klasse: {
-          kid: 1234,
-          name: "FS151"
+          id: 1234,
+          bezeichnung: "FS151"
         },
         schueler: {
           sid: 3400,
           vorname: "Bernd",
           name: "Vogel",
           klasse: {
-            kid: 1234,
-            name: "FS151"
+            id: 1234,
+            bezeichnung: "FS151"
           },
           gid: 1
         },
@@ -290,8 +290,8 @@ export class SportfestService {
           vorname: "Trulla",
           name: "Tröt",
           klasse: {
-            kid: 1234,
-            name: "FS151"
+            id: 1234,
+            bezeichnung: "FS151"
           },
           gid: 2
         },
@@ -304,8 +304,8 @@ export class SportfestService {
           vorname: "Bernd",
           name: "Vogel",
           klasse: {
-            kid: 1234,
-            name: "FS151"
+            id: 1234,
+            bezeichnung: "FS151"
           },
           gid: 1
         },
@@ -318,8 +318,8 @@ export class SportfestService {
           vorname: "Bernd",
           name: "Vogel",
           klasse: {
-            kid: 1235,
-            name: "FI123"
+            id: 1235,
+            bezeichnung: "FI123"
           },
           gid: 1
         },
@@ -332,8 +332,8 @@ export class SportfestService {
           vorname: "Bernd",
           name: "Vogel",
           klasse: {
-            kid: 1234,
-            name: "FS151"
+            id: 1234,
+            bezeichnung: "FS151"
           },
           gid: 1
         },
@@ -346,8 +346,8 @@ export class SportfestService {
           vorname: "Max",
           name: "Mustermann",
           klasse: {
-            kid: 1235,
-            name: "FI152"
+            id: 1235,
+            bezeichnung: "FI152"
           },
           gid: 1
         },
@@ -682,7 +682,7 @@ public sporfestBeenden(): Observable<any>{
     }
     for (let ergebnis of this.ergebnisseVAR)
       if (ergebnis.disziplin.id == disziplin.id
-        && ergebnis.klasse.kid == kid
+        && ergebnis.klasse.id == kid
         && (!sid || ergebnis.schueler.sid == sid))
         return Observable.of(ergebnis);
     return Observable.of(undefined);

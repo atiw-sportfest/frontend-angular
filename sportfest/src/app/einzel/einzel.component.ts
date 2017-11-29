@@ -19,8 +19,8 @@ export class EinzelComponent implements OnInit {
   variablen: Array<Variable> = [];
 
   angemeldeteKlassen: Array<Klasse> = [{
-    kid: 14,
-    name: "FS151"}];
+    id: 14,
+    bezeichnung: "FS151"}];
 
   angemeldeteSchuelerEinerKlasse: Array<Array<Schueler>> = [[]];
 
@@ -68,8 +68,8 @@ export class EinzelComponent implements OnInit {
           this.sfService.klasseMitAnmeldung(this.sportartID).subscribe((klassen: Klasse[]) => {
             this.angemeldeteKlassen = klassen;
             this.angemeldeteKlassen.forEach(klasse => {
-              this.sfService.schuelerPerDisziplin(klasse.kid, this.sportartID).subscribe((schueler: Schueler[])=>{
-                this.angemeldeteSchuelerEinerKlasse[klasse.kid] = schueler;
+              this.sfService.schuelerPerDisziplin(klasse.id, this.sportartID).subscribe((schueler: Schueler[])=>{
+                this.angemeldeteSchuelerEinerKlasse[klasse.id] = schueler;
               });
             });
           });

@@ -44,8 +44,8 @@
         <tr *ngFor="let i of kontrahentenCountHelper">
           <td>
             <md-select placeholder="Klasse" [(ngModel)]="this.neueLeistungen[i].kid">
-              <md-option *ngFor="let klasse of klassen" [value]="klasse.kid">
-                {{ klasse.name }}
+              <md-option *ngFor="let klasse of klassen" [value]="klasse.id">
+                {{ klasse.bezeichnung }}
               </md-option>
             </md-select>
           </td>

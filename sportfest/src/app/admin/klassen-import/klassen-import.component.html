@@ -13,8 +13,8 @@
             <br><br> Bitte die <b>ausgefüllte Datei unten wieder hochladen</b>.
             <br><br>
             <md-select placeholder="Klasse" [(ngModel)]="selectedDownloadableClass" (change)="changeDownloadPath()">
-              <md-option *ngFor="let klasse of klassen" [value]="klasse.kid">
-                {{ klasse.name }}
+              <md-option *ngFor="let klasse of klassen" [value]="klasse.id">
+                {{ klasse.bezeichnung }}
               </md-option>
             </md-select>
           </td>
