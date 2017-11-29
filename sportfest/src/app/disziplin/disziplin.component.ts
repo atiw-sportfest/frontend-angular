@@ -149,6 +149,14 @@ export class DisziplinComponent implements OnInit {
       });
   }
 
+  teilnehmerLoeschen(teilnehmerPos: number){
+    this.selectedAnmeldungen.splice(teilnehmerPos, 1);
+    this.leistungen.splice(teilnehmerPos,1);
+    if(this.selectedAnmeldungen.length==0){
+      this.initializeAdmin();
+    }
+  }
+
   anmeldungBereitsGewaehlt(pos: number, anmeldung: AnmeldungNEU): boolean {
     for (let i = 0; i < this.selectedAnmeldungen.length; i++) {
       if (this.selectedAnmeldungen[i] == anmeldung && i != pos)
