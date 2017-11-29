@@ -221,7 +221,7 @@ export class SportfestService {
             }
           }]
         },
-        punkte: 5
+        punkte: 10
       },
       {
         id: 2,
@@ -279,7 +279,7 @@ export class SportfestService {
             }
           }]
         },
-        punkte: 8
+        punkte: 6
       }
     ]
     this.anmeldungen = [

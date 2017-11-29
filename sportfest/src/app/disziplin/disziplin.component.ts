@@ -231,7 +231,7 @@ export class DisziplinComponent implements OnInit {
         let tmp = -1;
         let counter = 0;
         if (this.disziplin.versus) { //Wenn Versus vorhanden, danach sortieren und neu Numerieren beginnend bei 1
-          this.ergebnisse.sort((e1, e2) => e1.versus - e2.versus);
+          this.ergebnisse.sort((e1, e2) => e2.versus - e1.versus);
           for (let ergebnis of this.ergebnisse) {
             if (ergebnis.versus != tmp) {
               tmp = ergebnis.versus;
@@ -244,7 +244,7 @@ export class DisziplinComponent implements OnInit {
         tmp = -1;
         counter = 0;
         //Nach Punkten sortieren und Rang vergeben
-        this.ergebnisse.sort((e1, e2) => e1.punkte - e2.punkte);
+        this.ergebnisse.sort((e1, e2) => e2.punkte - e1.punkte);
         for (let ergebnis of this.ergebnisse) {
           if (ergebnis.punkte != tmp) {
             tmp = ergebnis.punkte;
