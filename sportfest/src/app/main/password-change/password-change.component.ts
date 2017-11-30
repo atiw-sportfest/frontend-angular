@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { SportfestService } from '../../sportfest.service';
 import { Md5 } from 'ts-md5/dist/md5';
-import {MAT_DIALOG_DATA} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-password-change',
@@ -9,9 +9,6 @@ import {MAT_DIALOG_DATA} from '@angular/material';
   styleUrls: ['./password-change.component.css']
 })
 export class PasswordChangeComponent implements OnInit {
-
-  @Output() pwCancel = new EventEmitter<any>();
-  @Output() pwSave = new EventEmitter<any>();
 
   recent: string;
   new: string;
@@ -23,14 +20,14 @@ export class PasswordChangeComponent implements OnInit {
   newNotEqual = false;
   msgNewNotEqual = 'Passwörter sind nicht identisch!';
 
-  constructor(private sfService: SportfestService, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(private sfService: SportfestService, public thisDialogRef: MatDialogRef<PasswordChangeComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
     this.initPw = this.data.initPw;
   }
 
   public cancel() {
-    this.pwCancel.emit();
+    this.thisDialogRef.close("Cancel");
   }
   public save() {
     if (!this.recent)
@@ -44,8 +41,8 @@ export class PasswordChangeComponent implements OnInit {
         (err) => {
           console.error('GET-Service "changePassword()" not reachable.');
         });
-        sessionStorage.setItem('init', 'false');
-      this.pwSave.emit();
+      sessionStorage.setItem('init', 'false');
+      this.thisDialogRef.close("Save");
     }
   }
   private inputsValid() {
@@ -60,10 +57,10 @@ export class PasswordChangeComponent implements OnInit {
     } else {
       valid = false;
       this.newNotEqual = true;
-      if(newEncrypt == Md5.hashStr('Atiw2017')){
-        this.msgNewNotEqual='Passwort ist initial Passwort!';
-      }else{
-        this.msgNewNotEqual='Passwörter sind nicht identisch!';
+      if (newEncrypt == Md5.hashStr('Atiw2017')) {
+        this.msgNewNotEqual = 'Passwort ist initial Passwort!';
+      } else {
+        this.msgNewNotEqual = 'Passwörter sind nicht identisch!';
       }
     }
     return valid;

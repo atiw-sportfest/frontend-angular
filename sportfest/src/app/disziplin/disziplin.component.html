@@ -24,7 +24,7 @@
           <td>
             <!-- Dropdown zur Auswahl der Klasse / des Schülers -->
             <mat-form-field>
-              <mat-select placeholder="beschreibung" [(ngModel)]="selectedAnmeldungen[eintragPos]" required>
+              <mat-select [placeholder]="beschreibung" [(ngModel)]="selectedAnmeldungen[eintragPos]" required>
                 <ng-container *ngFor="let anmeldung of anmeldungen; let dropdownPos = index">
                   <mat-option [value]="anmeldung" *ngIf="!anmeldungBereitsGewaehlt(eintragPos, anmeldung) && uniqueKlasse(dropdownPos)" (click)="leistungenHolen(eintragPos)">
                     <ng-container *ngIf="!disziplin.klassenleistung">
