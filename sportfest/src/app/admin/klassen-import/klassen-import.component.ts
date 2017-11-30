@@ -2,7 +2,7 @@ import { Klasse } from '../../interfaces';
 import { SportfestService } from '../../sportfest.service';
 import { Component, OnInit } from '@angular/core';
 import { RequestOptions, Http } from '@angular/http';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import { BASEPATH } from '../../app.module';
 
 @Component({
@@ -24,7 +24,7 @@ export class KlassenImportComponent implements OnInit {
   
   constructor(private http: Http,
               private sfService: SportfestService,
-              public snackBar: MdSnackBar) { }
+              public snackBar: MatSnackBar) { }
 
   ngOnInit() {
      this.sfService.klassen().subscribe((data: Klasse[]) => {

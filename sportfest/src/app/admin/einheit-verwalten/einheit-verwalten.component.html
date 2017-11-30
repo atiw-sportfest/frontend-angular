@@ -1,55 +1,55 @@
-<md-card>
-  <md-card-header>
+<mat-card>
+  <mat-card-header>
     <h3>Einheiten Verwalten</h3>
-  </md-card-header>
-  <md-card-content>
+  </mat-card-header>
+  <mat-card-content>
     <div *ngFor="let e of einheitPool, let i = index">
-      <md-expansion-panel *ngIf="!e.shouldDelete">
-        <md-expansion-panel-header>
-          <md-panel-title>
+      <mat-expansion-panel *ngIf="!e.shouldDelete">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
             {{e.einheit}}
-          </md-panel-title>
-          <md-panel-description>
+          </mat-panel-title>
+          <mat-panel-description>
             Klicken, um zu verwalten
-          </md-panel-description>
-        </md-expansion-panel-header>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
 
-        <md-input-container>
-          <input mdInput placeholder="Name" [(ngModel)]="e.einheit">
-        </md-input-container>
+        <mat-input-container>
+          <input matInput placeholder="Name" [(ngModel)]="e.einheit">
+        </mat-input-container>
 
-        <md-input-container>
-          <input mdInput placeholder="Datentyp" [(ngModel)]="e.datentyp">
-        </md-input-container>
+        <mat-input-container>
+          <input matInput placeholder="Datentyp" [(ngModel)]="e.datentyp">
+        </mat-input-container>
 
-        <md-input-container>
-          <input mdInput placeholder="Format [Regex]" [(ngModel)]="e.format">
-        </md-input-container>
+        <mat-input-container>
+          <input matInput placeholder="Format [Regex]" [(ngModel)]="e.format">
+        </mat-input-container>
         <!--Backslashes müssen Escaped werden! ("\" wird zu "\\")-->
 
-        <md-input-container>
-          <input mdInput placeholder="Beispiel" [(ngModel)]="e.bsp">
-        </md-input-container>
+        <mat-input-container>
+          <input matInput placeholder="Beispiel" [(ngModel)]="e.bsp">
+        </mat-input-container>
 
-        <button md-button (click)="deleteEinheit(i)">
-          <md-icon>delete forever</md-icon>
+        <button mat-button (click)="deleteEinheit(i)">
+          <mat-icon>delete forever</mat-icon>
         </button>
-      </md-expansion-panel>
+      </mat-expansion-panel>
     </div>
     <br>
-    <button md-raised-button (click)="addEinheit()" color="primary">
-      <md-icon>add</md-icon>
+    <button mat-raised-button (click)="addEinheit()" color="primary">
+      <mat-icon>add</mat-icon>
     </button>
     <br>
     <br>
     <table style="width:100%"><!--  speichern Button-->
       <tr style="width:100%">
         <td style="width:100%">
-          <button md-raised-button (click)="sendToBackend()" color="accent" style="width:100%">
-            <md-icon>check</md-icon> Speichern
+          <button mat-raised-button (click)="sendToBackend()" color="accent" style="width:100%">
+            <mat-icon>check</mat-icon> Speichern
           </button>
         </td>
       </tr>
     </table>
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>

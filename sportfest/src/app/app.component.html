@@ -11,18 +11,18 @@
 </div>
 
 <div id="container" *ngIf="isMobile()">
-    <md-sidenav-container>
+    <mat-sidenav-container>
         <app-mobile-header-image></app-mobile-header-image>
         <app-mobile-header (sidenavChange)="sidenav.open()" (roleChanged)="setRole($event)"></app-mobile-header>
         <router-outlet></router-outlet>
-        <md-sidenav #sidenav class="example-sidenav" mode="over">
+        <mat-sidenav #sidenav class="example-sidenav" mode="over">
             <app-mobile-header-image (closeSideNav)="sidenav.close()"></app-mobile-header-image>
-            <md-toolbar color="primary">
-                <md-icon (click)="sidenav.close()">menu</md-icon>
+            <mat-toolbar color="primary">
+                <mat-icon (click)="sidenav.close()">menu</mat-icon>
                 <span class="fill-remaining-space"></span>
                 <span class="credits">FS151</span>
-            </md-toolbar>
+            </mat-toolbar>
             <app-mobile-menu-list (itemSelected)="sidenav.close()" [role]="role"></app-mobile-menu-list>
-        </md-sidenav>
-    </md-sidenav-container>
+        </mat-sidenav>
+    </mat-sidenav-container>
 </div>

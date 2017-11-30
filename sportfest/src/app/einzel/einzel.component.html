@@ -1,34 +1,34 @@
-<md-card>
-  <md-card-header>
+<mat-card>
+  <mat-card-header>
     <h3>{{ sportart }}</h3>
-  </md-card-header>
-</md-card>
+  </mat-card-header>
+</mat-card>
 
-<md-card>
-  <md-card-header>
+<mat-card>
+  <mat-card-header>
     <h4>Beschreibung</h4>
-  </md-card-header>
-  <md-card-content>
+  </mat-card-header>
+  <mat-card-content>
     <p id="beschreibung">{{ beschreibung }}</p>
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>
 
-<md-card>
-  <md-card-header>
+<mat-card>
+  <mat-card-header>
     <h4>Ergebnisse</h4>
-  </md-card-header>
-  <md-card-content>
+  </mat-card-header>
+  <mat-card-content>
     <table width="100%">
       <tr>
         <th>
-          <button md-raised-button (click)="klasseAufklappen=!klasseAufklappen" color="accent">Klassenlisten anzeigen</button>
+          <button mat-raised-button (click)="klasseAufklappen=!klasseAufklappen" color="accent">Klassenlisten anzeigen</button>
         </th>
       </tr>
       <div *ngIf="klasseAufklappen">
         <tr>
           <td>
-            <md-card>
-              <md-list *ngFor="let klasse of klassenMitLeistungen">
+            <mat-card>
+              <mat-list *ngFor="let klasse of klassenMitLeistungen">
                 <h3 (click)="aufklappen(klasse.id)">{{klasse.bezeichnung}}</h3>
                 <div [hidden]="!aufgeklappt[klasse.id]">
                   <table width="100%">
@@ -56,22 +56,22 @@
                     </ng-container>
                   </table>
                 </div>
-              </md-list>
-            </md-card>
+              </mat-list>
+            </mat-card>
           </td>
         </tr>
       </div>
       <tr>
         <td align="center" valign="top">
-          <md-card>
-            <md-card-header>
+          <mat-card>
+            <mat-card-header>
               <h4>Bestenliste "{{sportart}}"</h4>
-            </md-card-header>
-            <md-card-content>
+            </mat-card-header>
+            <mat-card-content>
               <table>
                 <tr>
                   <th align="left" (click)="(sortRev)? sortByRangRev() : sortByRang()">
-                    Platzierung <md-icon>import_export</md-icon>
+                    Platzierung <mat-icon>import_export</mat-icon>
                   </th>
                   <th align="left">Name</th>
                   <th align="left">Ergebnis</th>
@@ -82,33 +82,33 @@
                   <td>{{s.ergebnis}}<td>
                 </tr>
               </table>
-            </md-card-content>
-          </md-card>
+            </mat-card-content>
+          </mat-card>
         </td>
       </tr>      
     </table>    
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>
 
 <ng-container *ngIf="enoughPermissionsToWrite()">
-  <md-card>
-    <md-card-header>
+  <mat-card>
+    <mat-card-header>
       <h4>Ergebnis eintragen</h4>
-    </md-card-header>
-    <md-card-content>
-      <md-select placeholder="Klasse" [(ngModel)]="neueLeistung.kid">
-        <md-option *ngFor="let klasse of angemeldeteKlassen" [value]="klasse.id">
+    </mat-card-header>
+    <mat-card-content>
+      <mat-select placeholder="Klasse" [(ngModel)]="neueLeistung.kid">
+        <mat-option *ngFor="let klasse of angemeldeteKlassen" [value]="klasse.id">
           {{ klasse.bezeichnung }}
-        </md-option>
-      </md-select>
+        </mat-option>
+      </mat-select>
       
-      <md-select placeholder="Schüler" [(ngModel)]="neueLeistung.sid">
-        <md-option *ngFor="let s of angemeldeteSchuelerEinerKlasse[neueLeistung.kid]" [value]="s.sid">
+      <mat-select placeholder="Schüler" [(ngModel)]="neueLeistung.sid">
+        <mat-option *ngFor="let s of angemeldeteSchuelerEinerKlasse[neueLeistung.kid]" [value]="s.sid">
           <div *ngIf="s.id==neueLeistung.kid"> 
             {{ s.vorname }} {{ s.name }}
           </div>
-        </md-option>
-      </md-select>
+        </mat-option>
+      </mat-select>
       
       <table>
         <tr><br></tr>
@@ -116,24 +116,24 @@
           <td> 
 
             <ng-container *ngIf="row.typ.zustaende">
-              <md-select placeholder="{{variablen[i].desc}}" [(ngModel)]="this.neueLeistung.ergebnisse[i].wert">
-                <md-option *ngFor="let z of row.typ.zustaende" [value]="z.name">
+              <mat-select placeholder="{{variablen[i].desc}}" [(ngModel)]="this.neueLeistung.ergebnisse[i].wert">
+                <mat-option *ngFor="let z of row.typ.zustaende" [value]="z.name">
                   {{z.name}}
-                </md-option>
-              </md-select>
+                </mat-option>
+              </mat-select>
             </ng-container>
 
             <ng-container *ngIf="!row.typ.zustaende">
-              <md-input-container> 
-                <input mdInput type="text" placeholder={{variablen[i].desc}} [(ngModel)]="this.neueLeistung.ergebnisse[i].wert">
-                <md-hint *ngIf="touched" >Bitte ausfüllen.</md-hint>
-              </md-input-container>
+              <mat-input-container> 
+                <input matInput type="text" placeholder={{variablen[i].desc}} [(ngModel)]="this.neueLeistung.ergebnisse[i].wert">
+                <mat-hint *ngIf="touched" >Bitte ausfüllen.</mat-hint>
+              </mat-input-container>
             </ng-container>
           </td>
 
         </tr>  
       </table>  
-      <button md-raised-button (click)="sichern()" color="accent" [disabled]="sicherbar()">Speichern</button>
-    </md-card-content>
-  </md-card>
+      <button mat-raised-button (click)="sichern()" color="accent" [disabled]="sicherbar()">Speichern</button>
+    </mat-card-content>
+  </mat-card>
 </ng-container>

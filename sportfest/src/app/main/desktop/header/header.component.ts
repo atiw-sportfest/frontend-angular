@@ -3,7 +3,7 @@ import { LoginComponent } from '../../login/login.component';
 import { SportfestService } from '../../../sportfest.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { MdDialog } from "@angular/material";
+import { MatDialog } from "@angular/material";
 import { Md5 } from 'ts-md5/dist/md5';
 import { DisziplinNEU } from '../../../interfaces';
 
@@ -25,16 +25,15 @@ export class HeaderComponent implements OnInit {
   disziplinen: Array<DisziplinNEU> = [];
 
   constructor(private router: Router,
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private sfService: SportfestService) { }
 
   ngOnInit() {
     this.role = sessionStorage.getItem('role'); // Rolle aus dem Speicher laden (wichtig beim neuladen der Seite)
     this.username = sessionStorage.getItem('username'); // Benutzernamen aus dem speicher laden (wichtig beim neuladen der Seite)
     if (sessionStorage.getItem('init') == 'true') {
-      let dlg = this.dialog.open(PasswordChangeComponent, { disableClose: true });
-      dlg.componentInstance.setInitPw(true);
-      dlg.componentInstance.pwSave.subscribe(data => dlg.close());
+      let dlg = this.dialog.open(PasswordChangeComponent, { disableClose: true, data: { initPw: true } } );
+      dlg.afterClosed().subscribe(data => dlg.close());
     }
   }
 
@@ -75,12 +74,10 @@ export class HeaderComponent implements OnInit {
   }
   public login() {
     let dlg = this.dialog.open(LoginComponent); //Login-Overlay öffnen
-    dlg.componentInstance.loginClose.subscribe(data => dlg.close());
-    dlg.componentInstance.loginSubmit.subscribe(data => {
+    dlg.afterClosed().subscribe(data => {
       if (sessionStorage.getItem('init') == 'true') {
-        let dlg = this.dialog.open(PasswordChangeComponent, { disableClose: true });
-        dlg.componentInstance.setInitPw(true);
-        dlg.componentInstance.pwSave.subscribe(data => dlg.close());
+        let dlg = this.dialog.open(PasswordChangeComponent, { disableClose: true, data: { initPw: true } });
+        dlg.afterClosed().subscribe(data => dlg.close());
       }
       dlg.close();
       this.username = sessionStorage.getItem('username'); //Benutzernamen aus dem Local Storage auslesen
@@ -122,8 +119,7 @@ export class HeaderComponent implements OnInit {
 
   public openChangePassword() {
     let dlg = this.dialog.open(PasswordChangeComponent, { disableClose: true });
-    dlg.componentInstance.pwCancel.subscribe(data => dlg.close());
-    dlg.componentInstance.pwSave.subscribe(data => dlg.close());
+    dlg.afterClosed().subscribe(data => dlg.close());
   }
 
   public navigateToCreateSportfest() {

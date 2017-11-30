@@ -1,9 +1,9 @@
-<md-card>
-  <md-card-header>
+<mat-card>
+  <mat-card-header>
     <h3>Disziplin aktivieren / deaktivieren</h3>
-  </md-card-header>
+  </mat-card-header>
   <br>
-  <md-card-content>
+  <mat-card-content>
     <table>
       <tr>
         <th>Disziplin</th>
@@ -13,15 +13,15 @@
       <tr *ngFor="let dis of disziplinen, let i = index" >
         <td>{{ dis.bezeichnung }}</td>
         <td>
-          <md-slide-toggle [(ngModel)]="dis.aktiviert" (change)="save(dis)"></md-slide-toggle>
+          <mat-slide-toggle [(ngModel)]="dis.aktiviert" (change)="save(dis)"></mat-slide-toggle>
         </td>
         <td>
-          <md-icon (click)="editDiscipline(dis)" >edit</md-icon>
+          <mat-icon (click)="editDiscipline(dis)" >edit</mat-icon>
         </td>
         <td>
-          <md-icon (click)="deleteDiscipline(dis)" >delete forever</md-icon>
+          <mat-icon (click)="deleteDiscipline(dis)" >delete forever</mat-icon>
         </td>
       </tr>
     </table>
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>

@@ -1,144 +1,144 @@
-<md-card>
-  <md-card-header>
+<mat-card>
+  <mat-card-header>
     <h3>Anlegen einer Disziplin</h3>
-  </md-card-header>
-  <md-card-content>
+  </mat-card-header>
+  <mat-card-content>
     <table>
       <tr>
         <td>
-          <md-slide-toggle [(ngModel)]="teamleistung">Teamleistung</md-slide-toggle>
+          <mat-slide-toggle [(ngModel)]="teamleistung">Teamleistung</mat-slide-toggle>
         </td>
       <tr>
       <tr>
         <td>
-          <md-input-container> 
-            <input mdInput type="text" placeholder="Name" [(ngModel)]="sportart">
-          </md-input-container>
+          <mat-input-container> 
+            <input matInput type="text" placeholder="Name" [(ngModel)]="sportart">
+          </mat-input-container>
         </td>
       <tr>
       <tr>
         <td>
-          <md-input-container> 
-            <textarea mdInput wrap="hard" type="text" placeholder="Beschreibung" [(ngModel)]="beschreibung"></textarea>
-          </md-input-container>
+          <mat-input-container> 
+            <textarea matInput wrap="hard" type="text" placeholder="Beschreibung" [(ngModel)]="beschreibung"></textarea>
+          </mat-input-container>
         </td>
       <tr>
       <tr>
         <td>
-          <md-input-container> 
-            <input mdInput type="number" placeholder="Min Teilnehmeranzahl" [(ngModel)]="minTeilnehmeranzahl">
-          </md-input-container>
+          <mat-input-container> 
+            <input matInput type="number" placeholder="Min Teilnehmeranzahl" [(ngModel)]="minTeilnehmeranzahl">
+          </mat-input-container>
         </td>
       <tr>
       <tr>
         <td>
-          <md-input-container> 
-            <input mdInput type="number" placeholder="Max Teilnehmeranzahl" [(ngModel)]="maxTeilnehmeranzahl">
-          </md-input-container>
+          <mat-input-container> 
+            <input matInput type="number" placeholder="Max Teilnehmeranzahl" [(ngModel)]="maxTeilnehmeranzahl">
+          </mat-input-container>
         </td>
       <tr>
       <ng-container *ngIf="teamleistung">
         <tr>
           <td>
-            <md-input-container> 
-              <input mdInput type="number" placeholder="Anzahl der Kontrahenten" [(ngModel)]="kontrahentenAnzahl">
-            </md-input-container>
+            <mat-input-container> 
+              <input matInput type="number" placeholder="Anzahl der Kontrahenten" [(ngModel)]="kontrahentenAnzahl">
+            </mat-input-container>
           </td>
         <tr>
       </ng-container>
     </table>
-  </md-card-content>
-  <md-card-actions>
-    <!--<button md-raised-button color="primary" (click)="submit()">Weiter</button>-->
-  </md-card-actions>
-</md-card>
+  </mat-card-content>
+  <mat-card-actions>
+    <!--<button mat-raised-button color="primary" (click)="submit()">Weiter</button>-->
+  </mat-card-actions>
+</mat-card>
 <br>
-<md-card *ngIf="secondVisible">
-  <md-card-header>
+<mat-card *ngIf="secondVisible">
+  <mat-card-header>
     <h3>Regel-Variable anlegen</h3>
-  </md-card-header>	
-  <md-card-content>
+  </mat-card-header>	
+  <mat-card-content>
    
     <table>
       <tr *ngFor="let row of rulesVar, let i = index">
         <td> 
-          <md-input-container> 
-              <input mdInput type="text" placeholder="Name der Regel-Variable" [(ngModel)]="rulesVar[i].name">
-          </md-input-container>
+          <mat-input-container> 
+              <input matInput type="text" placeholder="Name der Regel-Variable" [(ngModel)]="rulesVar[i].name">
+          </mat-input-container>
         </td>  
         <td> 
-          <md-input-container> 
-              <input mdInput type="text" placeholder="ExpressionID" [(ngModel)]="rulesVar[i].expressionParameter">
-          </md-input-container>
+          <mat-input-container> 
+              <input matInput type="text" placeholder="ExpressionID" [(ngModel)]="rulesVar[i].expressionParameter">
+          </mat-input-container>
         </td>  
         <td> 
-          <md-input-container> 
-              <input mdInput type="text" placeholder="Beschreibung" [(ngModel)]="rulesVar[i].desc">
-          </md-input-container>
+          <mat-input-container> 
+              <input matInput type="text" placeholder="Beschreibung" [(ngModel)]="rulesVar[i].desc">
+          </mat-input-container>
         </td>   
         <td> 
-          <md-input-container> 
-            <input mdInput type="number" placeholder="Sortier-Index" [(ngModel)]="rulesVar[i].sortIndex">
-          </md-input-container>
+          <mat-input-container> 
+            <input matInput type="number" placeholder="Sortier-Index" [(ngModel)]="rulesVar[i].sortIndex">
+          </mat-input-container>
         </td> 
         <td> 
-          <md-slide-toggle [(ngModel)]="rulesVar[i].sortAsc">{{ getAufAbsteigend(rulesVar[i].sortAsc) }}</md-slide-toggle>
+          <mat-slide-toggle [(ngModel)]="rulesVar[i].sortAsc">{{ getAufAbsteigend(rulesVar[i].sortAsc) }}</mat-slide-toggle>
         </td>   
         <td> 
-          <md-select placeholder="Datentyp" [(ngModel)]="rulesVar[i].typ.tid">
-            <md-option *ngFor="let t of datentypen" [value]="t.tid">
+          <mat-select placeholder="Datentyp" [(ngModel)]="rulesVar[i].typ.tid">
+            <mat-option *ngFor="let t of datentypen" [value]="t.tid">
               {{ t.name }}
-            </md-option>
-          </md-select>
+            </mat-option>
+          </mat-select>
         </td>  
         <td>
-          <md-icon (click)="removeRuleVarLine(i)" style="cursor: pointer">delete</md-icon>
+          <mat-icon (click)="removeRuleVarLine(i)" style="cursor: pointer">delete</mat-icon>
         </td>
       </tr>  
     </table>
-     <button md-raised-button color="primary" (click)="addNewRuleVarLine()"><md-icon>add</md-icon>Regel-Variable hinzufügen</button>
-  </md-card-content>
-</md-card>
+     <button mat-raised-button color="primary" (click)="addNewRuleVarLine()"><mat-icon>add</mat-icon>Regel-Variable hinzufügen</button>
+  </mat-card-content>
+</mat-card>
 <br>
-<md-card *ngIf="secondVisible">
-  <md-card-header>
+<mat-card *ngIf="secondVisible">
+  <mat-card-header>
     <h3>Regel anlegen</h3>
-  </md-card-header>
-  <md-card-content>
+  </mat-card-header>
+  <mat-card-content>
     <table>
       <tr *ngFor="let row of rules, let i = index">
         <td>
-          <md-input-container style="width: 320px"> 
-              <input mdInput type="text" placeholder="Regel" [(ngModel)]="rules[i].expression">
-          </md-input-container>
+          <mat-input-container style="width: 320px"> 
+              <input matInput type="text" placeholder="Regel" [(ngModel)]="rules[i].expression">
+          </mat-input-container>
         </td>  
         <td> 
-          <md-input-container> 
-              <input mdInput type="number" placeholder="Punkte" [(ngModel)]="rules[i].points">
-          </md-input-container>
+          <mat-input-container> 
+              <input matInput type="number" placeholder="Punkte" [(ngModel)]="rules[i].points">
+          </mat-input-container>
         </td>
         <td>
-          <md-icon (click)="removeRuleLine(i)" style="cursor: pointer">delete</md-icon>
+          <mat-icon (click)="removeRuleLine(i)" style="cursor: pointer">delete</mat-icon>
         </td>
       </tr>  
     </table>
-    <button md-raised-button color="primary" (click)="addNewRuleLine()"><md-icon>add</md-icon>Regel hinzufügen</button>
-  </md-card-content>
-</md-card>
+    <button mat-raised-button color="primary" (click)="addNewRuleLine()"><mat-icon>add</mat-icon>Regel hinzufügen</button>
+  </mat-card-content>
+</mat-card>
 <br>
-<button md-raised-button color="primary" (click)="addNewRuleSet()"><md-icon>add</md-icon>Regelsatz hinzufügen</button>
+<button mat-raised-button color="primary" (click)="addNewRuleSet()"><mat-icon>add</mat-icon>Regelsatz hinzufügen</button>
 <br>
-<md-card>
+<mat-card>
   <table>
     <tr>
       <td style="width:40%"><div class="linie"></div></td>
       <td>
         <button [disabled]=!secondVisible style="font-size: 1.1em"
-          md-raised-button (click)="sendToBackend()" color="accent">
-            <md-icon>done</md-icon> Disziplin speichern
+          mat-raised-button (click)="sendToBackend()" color="accent">
+            <mat-icon>done</mat-icon> Disziplin speichern
         </button>
     </td>
     <td style="width: 40%"><div class="linie"></div></td>
     </tr>
   </table>
-</md-card>
+</mat-card>

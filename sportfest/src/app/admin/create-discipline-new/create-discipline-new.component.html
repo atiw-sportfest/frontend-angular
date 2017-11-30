@@ -1,99 +1,99 @@
-<md-card>
-  <md-card-header>
+<mat-card>
+  <mat-card-header>
     <h3>Anlegen einer Disziplin</h3>
-  </md-card-header>
-  <md-card-content>
+  </mat-card-header>
+  <mat-card-content>
     <table>
       <tr>
         <td>
           <h4>Name</h4>
           <!-- Name-->
-          <md-input-container>
-            <input mdInput type="text" placeholder="Name der Disziplin" [(ngModel)]="nameDerDisziplin">
-          </md-input-container>
+          <mat-form-field>
+            <input matInput type="text" placeholder="Name der Disziplin" [(ngModel)]="nameDerDisziplin">
+          </mat-form-field>
         </td>
       </tr>
       <tr>
         <!--Beschreibung -->
         <td>
           <h4>Beschreibung</h4>
-          <md-input-container>
-            <textarea mdInput type="text" matInput rows="5" cols="40" wrap="hard" placeholder="Beschreibung der Disziplin" [(ngModel)]="beschreibungDerDisziplin"
+          <mat-form-field>
+            <textarea matInput type="text" matInput rows="5" cols="40" wrap="hard" placeholder="Beschreibung der Disziplin" [(ngModel)]="beschreibungDerDisziplin"
               style="background-color: #f2f2f2"></textarea>
-          </md-input-container>
+          </mat-form-field>
         </td>
       </tr>
       <tr></tr>
-      <md-radio-group [(ngModel)]="klassenleistung">
+      <mat-radio-group [(ngModel)]="klassenleistung">
         <tr>
           <!-- Leistungen-->
           <td>
             <h4>Leistungen</h4>
-            <md-radio-button [value]="false">Individualsportarten
-            </md-radio-button>
+            <mat-radio-button [value]="false">Individualsportarten
+            </mat-radio-button>
           </td>
         </tr>
         <tr>
           <td>
-            <md-radio-button [value]="true">Manschaftssportarten
-            </md-radio-button>
+            <mat-radio-button [value]="true">Manschaftssportarten
+            </mat-radio-button>
           </td>
         </tr>
-      </md-radio-group>
+      </mat-radio-group>
       <tr></tr>
-      <md-radio-group [(ngModel)]="versus">
+      <mat-radio-group [(ngModel)]="versus">
         <tr>
           <!-- Versus-->
           <td>
             <h4>Vergleich</h4>
-            <md-radio-button [value]="false">Jeder gegen Jeden</md-radio-button>
+            <mat-radio-button [value]="false">Jeder gegen Jeden</mat-radio-button>
           </td>
         </tr>
         <tr>
           <td>
-            <md-radio-button [value]="true">Direkter Vergleich (A gegen B)</md-radio-button>
+            <mat-radio-button [value]="true">Direkter Vergleich (A gegen B)</mat-radio-button>
           </td>
         </tr>
-      </md-radio-group>
+      </mat-radio-group>
     </table>
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>
 <br>
-<md-card class="vars">
+<mat-card class="vars">
   <!-- Variablen-->
   <table>
     <tr *ngFor="let aov of arrayOfVars, let i = index">
       <td style="width:66%">
-        <md-input-container>
-          <input mdInput type="text" placeholder="Name der Variable" [value]="aov.bezeichnung">
-        </md-input-container>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Name der Variable" [value]="aov.bezeichnung">
+        </mat-form-field>
       </td>
       <td style="width:26%">
-        <ng-container>
-          <md-select placeholder="Variable" [(ngModel)]="aov.typ">
-            <md-option *ngFor="let e of einheitPool" [value]="e">
+        <mat-form-field>
+          <mat-select placeholder="Variable" [(ngModel)]="aov.typ">
+            <mat-option *ngFor="let e of einheitPool" [value]="e">
               {{ e.einheit }}
-            </md-option>
-          </md-select>
-        </ng-container>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </td>
       <td style="width:8%">
-        <button md-button (click)="deleteVar(i)">
-          <md-icon>delete forever</md-icon>
+        <button mat-button (click)="deleteVar(i)">
+          <mat-icon>delete forever</mat-icon>
         </button>
       </td>
     </tr>
     <tr>
       <td colspan="3">
-        <button md-raised-button (click)="addVar()" color="primary">
-          <md-icon>add</md-icon>Neue Variable Hinzufügen
+        <button mat-raised-button (click)="addVar()" color="primary">
+          <mat-icon>add</mat-icon>Neue Variable Hinzufügen
         </button>
       </td>
     </tr>
   </table>
-</md-card>
+</mat-card>
 <br>
-<md-card>
+<mat-card>
   <!-- Regeln -->
   <h4>Regel:</h4>
   <table>
@@ -105,34 +105,34 @@
     </tr>
     <tr>
       <td colspan="2">
-        <md-input-container>
-          <textarea mdInput type="text" matInput rows="5" cols="40" wrap="hard" placeholder="Regel Script" [(ngModel)]="regel.script"
+        <mat-input-container>
+          <textarea matInput type="text" matInput rows="5" cols="40" wrap="hard" placeholder="Regel Script" [(ngModel)]="regel.script"
             (keyup)="textChanged()" style="background-color: #f2f2f2	"></textarea>
-        </md-input-container>
+        </mat-input-container>
       </td>
     </tr>
     <tr>
       <td style="width:20%">
-        <button md-raised-button (click)="checkCode()">
-         <md-icon>cached</md-icon>Überprüfen
+        <button mat-raised-button (click)="checkCode()">
+         <mat-icon>cached</mat-icon>Überprüfen
         </button>
       </td>
       <td style="width: 65%;margin-left:20px;">
         Status:
-        <md-icon style="width:fit-content" id="nichtdrücken">{{ statusCodeIcon}}</md-icon> {{ statusCodeText}}
+        <mat-icon style="width:fit-content" id="nichtdrücken">{{ statusCodeIcon}}</mat-icon> {{ statusCodeText}}
       </td>
     </tr>
   </table>
-</md-card>
+</mat-card>
 <br>
-<md-card>
+<mat-card>
   <table>
     <tr>
       <td>
-        <button [disabled]=!syntaxCorrect style="font-size: 1.1em" md-raised-button (click)="sendToBackend()" color="accent">
-            <md-icon>done</md-icon> Disziplin speichern
+        <button [disabled]=!syntaxCorrect style="font-size: 1.1em" mat-raised-button (click)="sendToBackend()" color="accent">
+            <mat-icon>done</mat-icon> Disziplin speichern
         </button>
       </td>
     </tr>
   </table>
-</md-card>
+</mat-card>

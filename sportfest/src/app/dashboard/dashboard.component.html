@@ -1,42 +1,42 @@
-<md-card>
+<mat-card>
   <h1>Herzlich Willkommen zum ATIW Sportfest!</h1>
-</md-card>
+</mat-card>
 <br>
-<md-card>
+<mat-card>
   <h3 >Klassenranking</h3>
   <table>
     <tr>
       <th>
         <div>
           <p>Rang</p>
-          <md-icon (click)="sortByRangRev()" class="noselect">
+          <mat-icon (click)="sortByRangRev()" class="noselect">
             keyboard_arrow_up
-          </md-icon>
-          <md-icon (click)="sortByRang()" class="noselect">
+          </mat-icon>
+          <mat-icon (click)="sortByRang()" class="noselect">
             keyboard_arrow_down
-          </md-icon>
+          </mat-icon>
         </div>
       </th>
       <th>
         <div>
           <p>Klasse</p>
-          <md-icon (click)="sortByKlasseRev()" class="noselect">
+          <mat-icon (click)="sortByKlasseRev()" class="noselect">
             keyboard_arrow_up
-          </md-icon>
-          <md-icon (click)="sortByKlasse()" class="noselect">
+          </mat-icon>
+          <mat-icon (click)="sortByKlasse()" class="noselect">
             keyboard_arrow_down
-          </md-icon>
+          </mat-icon>
         </div>
       </th>
       <th>
         <div>
           <p>Punkte</p>
-          <md-icon (click)="sortByRangRev()" class="noselect">
+          <mat-icon (click)="sortByRangRev()" class="noselect">
             keyboard_arrow_up
-          </md-icon>
-          <md-icon (click)="sortByRang()" class="noselect">
+          </mat-icon>
+          <mat-icon (click)="sortByRang()" class="noselect">
             keyboard_arrow_down
-          </md-icon>
+          </mat-icon>
         </div>
       </th>
     </tr>
@@ -57,8 +57,8 @@
   </table>
   <br>
   <div style="width: 100%; text-align: center;">
-    <button style="font-size: 1.1em;" md-raised-button (click)="toggleVisible()" color="primary">
+    <button style="font-size: 1.1em;" mat-raised-button (click)="toggleVisible()" color="primary">
             {{btnText}}
         </button>
   </div>
-</md-card>
+</mat-card>

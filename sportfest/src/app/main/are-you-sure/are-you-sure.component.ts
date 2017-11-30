@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import {MD_DIALOG_DATA} from '@angular/material';
-import {MdDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA} from '@angular/material';
+import {MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-are-you-sure',
@@ -10,7 +10,7 @@ import {MdDialogRef} from '@angular/material';
 export class AreYouSureComponent implements OnInit {
   title:string;
 
-  constructor(public thisDialogRef: MdDialogRef<AreYouSureComponent>, @Inject(MD_DIALOG_DATA) public data: any) { }
+  constructor(public thisDialogRef: MatDialogRef<AreYouSureComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
     this.title=this.data.title+"?";

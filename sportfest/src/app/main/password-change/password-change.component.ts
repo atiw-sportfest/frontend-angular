@@ -1,6 +1,7 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { SportfestService } from '../../sportfest.service';
 import { Md5 } from 'ts-md5/dist/md5';
+import {MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
   selector: 'app-password-change',
@@ -22,9 +23,10 @@ export class PasswordChangeComponent implements OnInit {
   newNotEqual = false;
   msgNewNotEqual = 'Passwörter sind nicht identisch!';
 
-  constructor(private sfService: SportfestService) { }
+  constructor(private sfService: SportfestService, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
+    this.initPw = this.data.initPw;
   }
 
   public cancel() {
@@ -67,9 +69,6 @@ export class PasswordChangeComponent implements OnInit {
     return valid;
   }
 
-  public setInitPw(init: boolean) {
-    this.initPw = init;
-  }
   public keypress(event: any) {
     if (event.keyCode == 13) { // Enter gedrückt
       this.save();

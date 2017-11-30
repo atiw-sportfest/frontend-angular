@@ -2,7 +2,8 @@ import { BASEPATH } from './app.module';
 import { Http, Headers, RequestOptions, Request, RequestMethod } from '@angular/http';
 import { Component, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/Rx';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class TechnischerService {
@@ -17,7 +18,7 @@ export class TechnischerService {
      return header;
   }
 
-  public getRequest(ressourceAPI: string) {
+  public getRequest(ressourceAPI: string): Observable<any> {
     return this.http.get(BASEPATH + ressourceAPI, {headers: this.createAuthorizationHeader()}).map(data => data.json()).catch(
       (e) => {
         if (e.status >= 400) {
@@ -27,7 +28,7 @@ export class TechnischerService {
 
   }
   
-  public postFormRequest(ressourceAPI: string, body: any) {
+  public postFormRequest(ressourceAPI: string, body: any): Observable<any> {
     let headers = this.createAuthorizationHeader();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     return this.http.post(BASEPATH + ressourceAPI, body, {headers: headers}).catch(
@@ -39,7 +40,7 @@ export class TechnischerService {
 
   }
   
-  public postRequest(ressourceAPI: string, body: any) {
+  public postRequest(ressourceAPI: string, body: any): Observable<any> {
     return this.http.post(BASEPATH + ressourceAPI, body, {headers: this.createAuthorizationHeader()}).map(data => data.json()).catch(
       (e) => {
         if (e.status >= 400) {
@@ -50,7 +51,7 @@ export class TechnischerService {
   }
 
 
-  public putRequest(ressourceAPI: string, body: any) {
+  public putRequest(ressourceAPI: string, body: any): Observable<any> {
     return this.http.put(BASEPATH + ressourceAPI, body, {headers: this.createAuthorizationHeader()}).map(data => data.json()).catch(
       (e) => {
         if (e.status >= 400) {
@@ -59,7 +60,7 @@ export class TechnischerService {
       });
   }
 
-  public deleteRequest(ressourceAPI: string) {
+  public deleteRequest(ressourceAPI: string): Observable<any> {
     return this.http.delete(BASEPATH + ressourceAPI, {headers: this.createAuthorizationHeader()}).catch(
       (e) => {
         if (e.status >= 400) {

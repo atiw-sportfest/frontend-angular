@@ -1,37 +1,37 @@
-<md-list>
-  <md-list-item class="main" (click)="expandSportarten()">Sportarten</md-list-item>
+<mat-list>
+  <mat-list-item class="main" (click)="expandSportarten()">Sportarten</mat-list-item>
   <div *ngIf="selectedSportarten">
     
-    <md-list-item class="sub" (click)="expandEinzel()">Einzel</md-list-item>
+    <mat-list-item class="sub" (click)="expandEinzel()">Einzel</mat-list-item>
       <div *ngIf="selectedEinzel">
         <div *ngFor="let einzel of disziplinenEinzel"> 
-          <md-list-item class="subsub"
+          <mat-list-item class="subsub"
                         *ngIf="einzel.aktiviert"
                         (click)="navigateToDisziplin(einzel.id)">
                         {{ einzel.bezeichnung }}
-          </md-list-item>
+          </mat-list-item>
         </div>
       </div>
-    <md-list-item class="sub" (click)="expandTeam()">Klassen</md-list-item>
+    <mat-list-item class="sub" (click)="expandTeam()">Klassen</mat-list-item>
       <div *ngIf="selectedTeam">
         <div *ngFor="let team of disziplinenTeam">
-          <md-list-item class="subsub"
+          <mat-list-item class="subsub"
                         *ngIf="team.aktiviert"
                         (click)="navigateToDisziplin(team.id)">
                         {{ team.bezeichnung }}
-          </md-list-item>
+          </mat-list-item>
          </div>
       </div>
   </div>
     
-  <md-list-item *ngIf="role=='admin'" class="main" (click)="expandAdmin()">Admin</md-list-item>
+  <mat-list-item *ngIf="role=='admin'" class="main" (click)="expandAdmin()">Admin</mat-list-item>
     <div *ngIf="selectedAdmin">
-      <md-list-item class="sub" (click)="navigateToCreateDiscipline()">Disziplin anlegen</md-list-item>
-      <md-list-item class="sub" (click)="navigateToActivateDiscipline()">Disziplin verwalten</md-list-item>
-      <md-list-item class="sub" (click)="navigateToEinheitVerwalten()">Einheiten verwalten</md-list-item>
-      <md-list-item class="sub" (click)="navigateToUAC()">Benutzerverwaltung</md-list-item>
-      <md-list-item class="sub" (click)="navigateToCreateSportfest()">Neues Sportfest</md-list-item>
+      <mat-list-item class="sub" (click)="navigateToCreateDiscipline()">Disziplin anlegen</mat-list-item>
+      <mat-list-item class="sub" (click)="navigateToActivateDiscipline()">Disziplin verwalten</mat-list-item>
+      <mat-list-item class="sub" (click)="navigateToEinheitVerwalten()">Einheiten verwalten</mat-list-item>
+      <mat-list-item class="sub" (click)="navigateToUAC()">Benutzerverwaltung</mat-list-item>
+      <mat-list-item class="sub" (click)="navigateToCreateSportfest()">Neues Sportfest</mat-list-item>
     </div>
     
-  <md-list-item *ngIf="role=='admin'" class="main" (click)="navigateToImportKlasse()">Klassendaten verwalten</md-list-item>
-</md-list>
+  <mat-list-item *ngIf="role=='admin'" class="main" (click)="navigateToImportKlasse()">Klassendaten verwalten</mat-list-item>
+</mat-list>

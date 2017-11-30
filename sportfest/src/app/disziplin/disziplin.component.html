@@ -1,85 +1,87 @@
 <ng-container>
-  <md-card-content>
-    <md-card>
-      <md-card-header>
+  <mat-card-content>
+    <mat-card>
+      <mat-card-header>
         <h3>{{ disziplin.bezeichnung }}</h3>
-      </md-card-header>
-    </md-card>
+      </mat-card-header>
+    </mat-card>
 
-    <md-card>
-      <md-card-header>
+    <mat-card>
+      <mat-card-header>
         <h4>Beschreibung</h4>
-      </md-card-header>
-      <md-card-content>
+      </mat-card-header>
+      <mat-card-content>
         <p id="beschreibung">{{ disziplin.beschreibung }}</p>
-      </md-card-content>
-    </md-card>
-  </md-card-content>
+      </mat-card-content>
+    </mat-card>
+  </mat-card-content>
 
-  <md-card-content *ngIf="enoughPermissionsToWrite()">
-    <md-card>
+  <mat-card-content *ngIf="enoughPermissionsToWrite()">
+    <mat-card>
       <!-- Tabelle für Ergebniseingabe des Admins -->
       <table style="width: 100%">
         <tr *ngFor="let selectedAnmeldung of selectedAnmeldungen; let eintragPos = index">
           <td>
             <!-- Dropdown zur Auswahl der Klasse / des Schülers -->
-            <md-select [placeholder]="beschreibung" [(ngModel)]="selectedAnmeldungen[eintragPos]" required>
-              <ng-container *ngFor="let anmeldung of anmeldungen; let dropdownPos = index">
-                <md-option [value]="anmeldung" *ngIf="!anmeldungBereitsGewaehlt(eintragPos, anmeldung) && uniqueKlasse(dropdownPos)" (click)="leistungenHolen(eintragPos)">
-                  <ng-container *ngIf="!disziplin.klassenleistung">
-                    {{ anmeldung.schueler.vorname }} {{anmeldung.schueler.name}}
-                  </ng-container>
-                  <ng-container *ngIf="disziplin.klassenleistung">
-                    {{ anmeldung.schueler.klasse.bezeichnung}}
-                  </ng-container>
-                </md-option>
-              </ng-container>
-            </md-select>
+            <mat-form-field>
+              <mat-select placeholder="beschreibung" [(ngModel)]="selectedAnmeldungen[eintragPos]" required>
+                <ng-container *ngFor="let anmeldung of anmeldungen; let dropdownPos = index">
+                  <mat-option [value]="anmeldung" *ngIf="!anmeldungBereitsGewaehlt(eintragPos, anmeldung) && uniqueKlasse(dropdownPos)" (click)="leistungenHolen(eintragPos)">
+                    <ng-container *ngIf="!disziplin.klassenleistung">
+                      {{ anmeldung.schueler.vorname }} {{anmeldung.schueler.name}}
+                    </ng-container>
+                    <ng-container *ngIf="disziplin.klassenleistung">
+                      {{ anmeldung.schueler.klasse.bezeichnung}}
+                    </ng-container>
+                  </mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
           </td>
           <td *ngFor="let variable of disziplin.variablen; let variablePos = index">
-            <md-input-container>
-              <input mdInput id="name" name="name" placeholder="{{variable.bezeichnung}}" [(ngModel)]="leistungen[eintragPos][variablePos].wert"
+            <mat-form-field>
+              <input matInput id="name" name="name" placeholder="{{variable.bezeichnung}}" [(ngModel)]="leistungen[eintragPos][variablePos].wert"
                 [pattern]="variable.typ.format" #name="ngModel" [disabled]="!enoughPermissionsToChange(eintragPos, variablePos)">
-              <md-error>
+              <mat-error>
                 Beispiel: {{variable.typ.bsp}}
-              </md-error>
-            </md-input-container>
+              </mat-error>
+            </mat-form-field>
           </td>
           <td>
-            <button md-button (click)="teilnehmerLoeschen(eintragPos)"><md-icon>delete forever</md-icon></button>
+            <button mat-button (click)="teilnehmerLoeschen(eintragPos)"><mat-icon>delete forever</mat-icon></button>
           </td>
         </tr>
         <tr>
           <!-- Button um neuen Teilnehmer hinzuzufügen -->
           <td style="width:fit-content">
-            <button md-raised-button color="primary" (click)="teilnehmerHinzufuegen()">
-              <md-icon>add</md-icon>Hinzufügen
+            <button mat-raised-button color="primary" (click)="teilnehmerHinzufuegen()">
+              <mat-icon>add</mat-icon>Hinzufügen
             </button>
           </td>
         </tr>
       </table>
-    </md-card>
-    <md-card>
+    </mat-card>
+    <mat-card>
       <!-- Tabelle für den Speichern button -->
       <table class="full-width">
         <tr>
           <td>
-            <button md-raised-button color="primary" class="full-width" (click)="speichern()" [disabled]="!speicherBedingungenErfuellt()">Speichern</button>
+            <button mat-raised-button color="primary" class="full-width" (click)="speichern()" [disabled]="!speicherBedingungenErfuellt()">Speichern</button>
           </td>
         </tr>
       </table>
-    </md-card>
-  </md-card-content>
+    </mat-card>
+  </mat-card-content>
 
   <!-- Tabelle mit Ergebnissen -->
-  <md-card-content>
-    <md-card>
+  <mat-card-content>
+    <mat-card>
       <table class="sortieren">
         <tr>
           <th>
             Rang Sortieren
           </th>
-          <th >
+          <th>
             <ng-container *ngIf="!disziplin.klassenleistung">
               Schüler Sortieren
             </ng-container>
@@ -90,17 +92,17 @@
         </tr>
         <tr>
           <td>
-            <button md-raised-button color="primary" (click)="sortByRang()"><md-icon>keyboard_arrow_up</md-icon></button>
-            <button md-raised-button color="primary" (click)="sortByRangRev()"><md-icon>keyboard_arrow_down</md-icon></button>
+            <button mat-raised-button color="primary" (click)="sortByRang()"><mat-icon>keyboard_arrow_up</mat-icon></button>
+            <button mat-raised-button color="primary" (click)="sortByRangRev()"><mat-icon>keyboard_arrow_down</mat-icon></button>
           </td>
           <td>
             <ng-container *ngIf="!disziplin.klassenleistung">
-              <button md-raised-button color="primary" (click)="sortBySchueler()"><md-icon>keyboard_arrow_up</md-icon></button>
-              <button md-raised-button color="primary" (click)="sortBySchuelerRev()"><md-icon>keyboard_arrow_down</md-icon></button>
+              <button mat-raised-button color="primary" (click)="sortBySchueler()"><mat-icon>keyboard_arrow_up</mat-icon></button>
+              <button mat-raised-button color="primary" (click)="sortBySchuelerRev()"><mat-icon>keyboard_arrow_down</mat-icon></button>
             </ng-container>
             <ng-container *ngIf="disziplin.klassenleistung">
-              <button md-raised-button color="primary" (click)="sortByKlasse()"><md-icon>keyboard_arrow_up</md-icon></button>
-              <button md-raised-button color="primary" (click)="sortByKlasseRev()"><md-icon>keyboard_arrow_down</md-icon></button>
+              <button mat-raised-button color="primary" (click)="sortByKlasse()"><mat-icon>keyboard_arrow_up</mat-icon></button>
+              <button mat-raised-button color="primary" (click)="sortByKlasseRev()"><mat-icon>keyboard_arrow_down</mat-icon></button>
             </ng-container>
           </td>
         </tr>
@@ -151,6 +153,6 @@
           </td>
         </tr>
       </table>
-    </md-card>
-  </md-card-content>
+    </mat-card>
+  </mat-card-content>
 </ng-container>

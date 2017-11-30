@@ -28,7 +28,7 @@ export class ActivateDisciplineComponent implements OnInit {
         }
         this.disziplinen.forEach(element => {
         if(element.regel==null){
-        element.regel=[];
+        element.regel={script:""};
          }
       });
       },
