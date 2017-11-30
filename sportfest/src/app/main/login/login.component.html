@@ -3,27 +3,27 @@
   <table class="login-full-width">
     <tr>
       <td>
-        <md-input-container>
-          <input mdInput name="username" 
+        <mat-input-container>
+          <input matInput name="username" 
             type="text" 
             placeholder="Username" 
             [(ngModel)]="username">
-        </md-input-container>
+        </mat-input-container>
       </td>
     </tr>
     <tr>
       <td>
-        <md-input-container>
-          <input #loginbtn mdInput name="password" 
+        <mat-input-container>
+          <input #loginbtn matInput name="password" 
             type="password" 
             placeholder="Passwort" 
             [(ngModel)]="password"
             (keypress)="keypress($event)">
-        </md-input-container>
+        </mat-input-container>
       </td>
     </tr>
   </table>
   <span class="error-message">{{ errorMsg }}</span><br>
-  <button md-raised-button color="primary" (click)="close($event)">Abbrechen</button>
-  <button md-raised-button color="primary" (click)="submit()">Login</button>
+  <button mat-raised-button color="primary" (click)="close($event)">Abbrechen</button>
+  <button mat-raised-button color="primary" (click)="submit()">Login</button>
 </form>

@@ -1,18 +1,18 @@
-<md-toolbar color="primary">
-    <md-icon (click)="changeSidenav()">menu</md-icon>
-    <md-icon (click)="navigateToDashboard()" style="margin-left: 15px">home</md-icon>
+<mat-toolbar color="primary">
+    <mat-icon (click)="changeSidenav()">menu</mat-icon>
+    <mat-icon (click)="navigateToDashboard()" style="margin-left: 15px">home</mat-icon>
     <span class="fill-remaining-space"></span>
     <div *ngIf="username">
       <span>{{ username }}</span>
-      <md-icon [mdMenuTriggerFor]="menu">more_vert</md-icon>
-      <md-menu #menu="mdMenu">
-        <button md-menu-item (click)="openChangePassword()">Passwort ändern</button>
-        <button md-menu-item (click)="logout()">Logout</button>
-      </md-menu>
+      <mat-icon [matMenuTriggerFor]="menu">more_vert</mat-icon>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="openChangePassword()">Passwort ändern</button>
+        <button mat-menu-item (click)="logout()">Logout</button>
+      </mat-menu>
       &nbsp;
     </div>
     <div *ngIf="!username"><span>Gast</span>
       &nbsp;
-      <button md-button (click)="login()">Login</button>
+      <button mat-button (click)="login()">Login</button>
     </div>
-</md-toolbar>
+</mat-toolbar>

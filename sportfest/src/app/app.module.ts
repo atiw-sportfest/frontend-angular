@@ -5,14 +5,11 @@ import { LoginComponent } from './main/login/login.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MaterialModule } from '@angular/material';
+import { MatIconModule, MatSidenavModule, MatCardModule, MatSlideToggleModule, MatInputModule, MatRadioModule, MatSelectModule, MatOptionModule, MatSnackBarModule, MatExpansionModule, MatToolbarModule, MatDialogModule, MatButtonModule, MatMenuModule, MatListModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Http, HttpModule, RequestOptions } from '@angular/http';
 import { Location } from '@angular/common';
-import { MdCardModule } from '@angular/material';
-import { MdButtonModule } from '@angular/material';
-import { MdDialogModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { EinzelComponent } from './einzel/einzel.component';
@@ -141,13 +138,24 @@ export const BASEPATH = 'http://' + location.host + '/backend';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routConfig, { useHash: true }),
-    MaterialModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    MdCardModule,
-    MdButtonModule,
-    MdDialogModule
+    MatIconModule, 
+    MatSidenavModule, 
+    MatCardModule, 
+    MatSlideToggleModule, 
+    MatInputModule, 
+    MatRadioModule,  
+    MatSelectModule, 
+    MatOptionModule, 
+    MatSnackBarModule, 
+    MatExpansionModule, 
+    MatToolbarModule, 
+    MatDialogModule, 
+    MatButtonModule,
+    MatMenuModule,
+    MatListModule
   ],
   providers: [
     TechnischerService,

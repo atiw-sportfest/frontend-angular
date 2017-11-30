@@ -1,44 +1,44 @@
 <iframe name="noDisplay" style="display:none"></iframe>
 <!-- Anmeldebogen-Export -->
-<md-card-content>
-  <md-card>
-    <md-card-header>
+<mat-card-content>
+  <mat-card>
+    <mat-card-header>
       <h3>Anmeldebogen - Export</h3>
-    </md-card-header>
-    <md-card-content>
+    </mat-card-header>
+    <mat-card-content>
       <table>
         <tr>
           <td>
             Laden Sie hier die Excel-Datei herunter, in der sich die Schüler einer Klasse für die einzelnen Disziplinen anmelden können.
             <br><br> Bitte die <b>ausgefüllte Datei unten wieder hochladen</b>.
             <br><br>
-            <md-select placeholder="Klasse" [(ngModel)]="selectedDownloadableClass" (change)="changeDownloadPath()">
-              <md-option *ngFor="let klasse of klassen" [value]="klasse.id">
+            <mat-select placeholder="Klasse" [(ngModel)]="selectedDownloadableClass" (change)="changeDownloadPath()">
+              <mat-option *ngFor="let klasse of klassen" [value]="klasse.id">
                 {{ klasse.bezeichnung }}
-              </md-option>
-            </md-select>
+              </mat-option>
+            </mat-select>
           </td>
         </tr>
       </table>
-    </md-card-content>
-    <md-card-actions>
+    </mat-card-content>
+    <mat-card-actions>
       <form ngNoForm [action]="downloadPath" method="get" enctype="multipart/form-data">
-        <button md-raised-button type="submit" color="primary" [disabled]="!selectedDownloadableClass">Download</button>
+        <button mat-raised-button type="submit" color="primary" [disabled]="!selectedDownloadableClass">Download</button>
       </form>
 
-    </md-card-actions>
-  </md-card>
-</md-card-content>
+    </mat-card-actions>
+  </mat-card>
+</mat-card-content>
 
 <!-- Anmeldebogen-Import -->
-<md-card-content>
-  <md-card>
-    <md-card-header>
+<mat-card-content>
+  <mat-card>
+    <mat-card-header>
       <h3>Anmeldebogen - Import</h3>
-    </md-card-header>
+    </mat-card-header>
     <!-- Action anpassen (/schueler/disziplin/upload), File-Name-->
     <form ngNoForm [action]="importPath" method="POST" target="noDisplay" enctype="multipart/form-data">
-      <md-card-content>
+      <mat-card-content>
         <table>
           <tr>
             <td>
@@ -48,25 +48,25 @@
           <tr></tr>
           <tr>
             <td>
-              <input md-button type="file" name="file" size="45" accept=".xls, .xlsx" (change)="anmeldebogenChange($event)" />
+              <input mat-button type="file" name="file" size="45" accept=".xls, .xlsx" (change)="anmeldebogenChange($event)" />
             </td>
           </tr>
         </table>
-      </md-card-content>
-      <md-card-actions>
-        <button md-raised-button color="primary" type="submit" (click)="openAnmeldungHochgeladenSnackbar()" [disabled]="!isAnmeldebogenSelected()">Anmeldebogen abschicken</button>
-      </md-card-actions>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit" (click)="openAnmeldungHochgeladenSnackbar()" [disabled]="!isAnmeldebogenSelected()">Anmeldebogen abschicken</button>
+      </mat-card-actions>
     </form>
-  </md-card>
-</md-card-content>
+  </mat-card>
+</mat-card-content>
 <!-- Teilnehmerimport -->
-<md-card-content>
-  <md-card>
-    <md-card-header>
+<mat-card-content>
+  <mat-card>
+    <mat-card-header>
       <h3>Import der Teilnehmer</h3>
-    </md-card-header>
+    </mat-card-header>
     <form ngNoForm [action]="uploadPath" method="POST" target="noDisplay" enctype="multipart/form-data">
-      <md-card-content>
+      <mat-card-content>
         <table>
           <tr>
             <td>
@@ -78,15 +78,15 @@
           <tr></tr>
           <tr>
             <td>
-              <input md-raised-button type="file" name="file" size="45" accept=".csv, .xls, .xlsx" (change)="teilnehmerChange($event)"
+              <input mat-raised-button type="file" name="file" size="45" accept=".csv, .xls, .xlsx" (change)="teilnehmerChange($event)"
               />
             </td>
           </tr>
         </table>
-      </md-card-content>
-      <md-card-actions>
-        <button md-raised-button color="primary" type="submit" (click)="openSchuelerHochgeladenSnackbar()" [disabled]="!isTeilnehmerSelected()">Teilnehmerliste abschicken</button>
-      </md-card-actions>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit" (click)="openSchuelerHochgeladenSnackbar()" [disabled]="!isTeilnehmerSelected()">Teilnehmerliste abschicken</button>
+      </mat-card-actions>
     </form>
-  </md-card>
-</md-card-content>
+  </mat-card>
+</mat-card-content>

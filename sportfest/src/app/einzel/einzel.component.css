@@ -1,7 +1,7 @@
 #beschreibung {
     white-space: pre-line;
 }
-md-list {
+mat-list {
     cursor: pointer;
 }
 td {
@@ -16,6 +16,6 @@ p{
     padding: 0px;
     margin:0;
 }
-md-icon{
+mat-icon{
     vertical-align: bottom !important;
 }

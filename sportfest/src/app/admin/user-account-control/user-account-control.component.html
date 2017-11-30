@@ -1,9 +1,9 @@
-<md-card>
-  <md-card-header>
+<mat-card>
+  <mat-card-header>
     <h3>Benutzerverwaltung</h3>
-  </md-card-header>
+  </mat-card-header>
   <br>
-  <md-card-content>
+  <mat-card-content>
     <table>
       <!--Tabelle mit im System existierenden Benutzern-->
       <tr>
@@ -17,41 +17,41 @@
         <td>{{ user.name }}</td>
         <td>{{ user.role }}</td>
         <td>
-          <md-icon (click)="resetPassword(user)">restore</md-icon>
+          <mat-icon (click)="resetPassword(user)">restore</mat-icon>
         </td>
         <td>
-          <md-icon (click)="deleteUser(user)">delete forever</md-icon>
+          <mat-icon (click)="deleteUser(user)">delete forever</mat-icon>
         </td>
       </tr>
       <tr>
         <td>
           <!--neuen Benutzer einfügen-->
-          <md-input-container>
-            <input mdInput placeholder="Benutzername" [(ngModel)]="username">
-          </md-input-container>
+          <mat-input-container>
+            <input matInput placeholder="Benutzername" [(ngModel)]="username">
+          </mat-input-container>
         </td>
         <td>
-          <md-select placeholder="Rolle" [(ngModel)]="selectedRole">
-            <md-option value="admin">
+          <mat-select placeholder="Rolle" [(ngModel)]="selectedRole">
+            <mat-option value="admin">
               Admin
-            </md-option>
-            <md-option value="schiedsrichter">
+            </mat-option>
+            <mat-option value="schiedsrichter">
               Schiedsrichter
-            </md-option>
-          </md-select>
+            </mat-option>
+          </mat-select>
         </td>
         <td>
-          <md-input-container>
-            <input mdInput placeholder="Password" [(ngModel)]="password">
-          </md-input-container>
+          <mat-input-container>
+            <input matInput placeholder="Password" [(ngModel)]="password">
+          </mat-input-container>
         </td>
         <td style="padding-top: 10px;">
-          <md-icon (click)="addUser()">add_box</md-icon>
+          <mat-icon (click)="addUser()">add_box</mat-icon>
         </td>
       </tr>
     </table>
-  </md-card-content>
-  <md-card-actions>
+  </mat-card-content>
+  <mat-card-actions>
 
-  </md-card-actions>
-</md-card>
+  </mat-card-actions>
+</mat-card>

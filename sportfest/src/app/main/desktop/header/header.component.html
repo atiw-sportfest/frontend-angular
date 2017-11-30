@@ -7,52 +7,52 @@
   </h1>
 </div>
 <div class="navbar">
-  <md-toolbar color="primary" class="navbar">
-    <button md-button (click)="navigateToDashboard()">
-      <md-icon>home</md-icon>
+  <mat-toolbar color="primary" class="navbar">
+    <button mat-button (click)="navigateToDashboard()">
+      <mat-icon>home</mat-icon>
     </button>
 
     <!--Einzel-->
-    <button md-button [mdMenuTriggerFor]="menu0" (click)="loadDD()">Einzel - Sportarten</button>
-    <md-menu #menu0="mdMenu">
+    <button mat-button [matMenuTriggerFor]="menu0" (click)="loadDD()">Einzel - Sportarten</button>
+    <mat-menu #menu0="matMenu">
       <div *ngFor="let einzel of disziplinenEinzel">
-        <button *ngIf="einzel.aktiviert" md-menu-item (click)="navigateToDisziplin(einzel.id)">{{ einzel.bezeichnung }}</button>
+        <button *ngIf="einzel.aktiviert" mat-menu-item (click)="navigateToDisziplin(einzel.id)">{{ einzel.bezeichnung }}</button>
       </div>
-    </md-menu>
+    </mat-menu>
     <!--Team-->
-    <button md-button [mdMenuTriggerFor]="menu1" (click)="loadDD()">Klassen - Sportarten</button>
-    <md-menu #menu1="mdMenu">
+    <button mat-button [matMenuTriggerFor]="menu1" (click)="loadDD()">Klassen - Sportarten</button>
+    <mat-menu #menu1="matMenu">
       <div *ngFor="let team of disziplinenTeam">
-        <button *ngIf="team.aktiviert" md-menu-item (click)="navigateToDisziplin(team.id)">{{ team.bezeichnung }}</button>
+        <button *ngIf="team.aktiviert" mat-menu-item (click)="navigateToDisziplin(team.id)">{{ team.bezeichnung }}</button>
       </div>
-    </md-menu>
+    </mat-menu>
 
-    <button md-button *ngIf="username && role=='admin'" [mdMenuTriggerFor]="menu2">Admin</button>
-    <md-menu #menu2="mdMenu" style="padding-top:0px !important">
+    <button mat-button *ngIf="username && role=='admin'" [matMenuTriggerFor]="menu2">Admin</button>
+    <mat-menu #menu2="matMenu" style="padding-top:0px !important">
       <div class="wide"><b class="wide"> &nbsp;Disziplin</b></div>
-      <button md-menu-item (click)="navigateToCreateDisciplineNew()">Disziplin anlegen</button>
-      <button md-menu-item (click)="navigateToActivateDiscipline()">Disziplin verwalten</button>
+      <button mat-menu-item (click)="navigateToCreateDisciplineNew()">Disziplin anlegen</button>
+      <button mat-menu-item (click)="navigateToActivateDiscipline()">Disziplin verwalten</button>
       <div class="wide" color="primary"><b class="wide">&nbsp;Verwaltung</b></div>
-      <button md-menu-item (click)="navigateToEinheitVerwalten()">Einheiten</button>
-      <button md-menu-item (click)="navigateToUAC()">Benutzer</button>
-      <button md-menu-item (click)="navigateToImportKlasse()">Klassendaten</button>
-      <button md-menu-item (click)="navigateToCreateSportfest()"> Sportfest</button>
-    </md-menu>
+      <button mat-menu-item (click)="navigateToEinheitVerwalten()">Einheiten</button>
+      <button mat-menu-item (click)="navigateToUAC()">Benutzer</button>
+      <button mat-menu-item (click)="navigateToImportKlasse()">Klassendaten</button>
+      <button mat-menu-item (click)="navigateToCreateSportfest()"> Sportfest</button>
+    </mat-menu>
 
     <span class="fill-remaining-space"></span>
 
     <div *ngIf="username">
       <span class="user">{{ username }}</span>
-      <md-icon [mdMenuTriggerFor]="menu3" class="noselect">more_vert</md-icon>
-      <md-menu #menu3="mdMenu">
-        <button md-menu-item (click)="openChangePassword()">Passwort ändern</button>
-        <button md-menu-item (click)="logout()">Logout</button>
-      </md-menu>
+      <mat-icon [matMenuTriggerFor]="menu3" class="noselect">more_vert</mat-icon>
+      <mat-menu #menu3="matMenu">
+        <button mat-menu-item (click)="openChangePassword()">Passwort ändern</button>
+        <button mat-menu-item (click)="logout()">Logout</button>
+      </mat-menu>
       &nbsp;
     </div>
     <div class="user" *ngIf="!username"><span>Gast</span> &nbsp;
-      <button md-button (click)="login()">Login</button>
+      <button mat-button (click)="login()">Login</button>
     </div>
 
-  </md-toolbar>
+  </mat-toolbar>
 </div>

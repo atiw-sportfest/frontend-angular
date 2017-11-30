@@ -1,5 +1,5 @@
 import { AreYouSureComponent } from '../../main/are-you-sure/are-you-sure.component';
-import { MdDialog, MdDialogRef, MD_DIALOG_DATA, MdSnackBar } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { SportfestService } from '../../sportfest.service';
 import { Component, OnInit, Inject } from '@angular/core';
 
@@ -14,8 +14,8 @@ export class CreateSportfestComponent implements OnInit {
   buttonPressed: number; //0 = sportfest beenden, 1= neues Sportfest
 
 
-  constructor(public dialog: MdDialog,
-    private sfService: SportfestService, public snackBar: MdSnackBar) { }
+  constructor(public dialog: MatDialog,
+    private sfService: SportfestService, public snackBar: MatSnackBar) { }
 
   ngOnInit() {
   }

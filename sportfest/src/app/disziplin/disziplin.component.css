@@ -1,7 +1,7 @@
 #beschreibung {
     white-space: pre-line;
 }
-md-list {
+mat-list {
     cursor: pointer;
 }
 table.ergebnisse {
@@ -21,7 +21,7 @@ table.ergebnisse th {
     vertical-align: middle !important;
 }
 
-table.ergebnisse md-icon {
+table.ergebnisse mat-icon {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
      -khtml-user-select: none; /* Konqueror HTML */

@@ -2,6 +2,7 @@ import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { DisziplinNEU, TypNEU, ErgebnisNEU, AnmeldungNEU, LeistungNEU } from './interfaces';
 import { TechnischerService } from './technischer.service';
+import 'rxjs/add/observable/of';
 
 @Injectable()
 export class SportfestService {
@@ -440,11 +441,11 @@ public sporfestBeenden(): Observable<any>{
     return this.techService.getRequest('/klasse/' + classId + '/anmeldung');
   }
 
-  public schuelerPerDisziplin(classId: number, disziplinId: number) {
+  public schuelerPerDisziplin(classId: number, disziplinId: number): Observable<any> {
     return this.techService.getRequest('/schueler/' + classId + '/' + disziplinId);
   }
 
-  public schuelerMitLeistungEinerDisziplin(did: number) {
+  public schuelerMitLeistungEinerDisziplin(did: number): Observable<any> {
     return this.techService.getRequest('/schueler/leistung/disziplin/' + did);
   }
   /**
