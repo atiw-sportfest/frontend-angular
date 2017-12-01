@@ -4,19 +4,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SportfestService } from '../sportfest.service';
 import { FormGroup } from '@angular/forms/src/model';
 import _ from "lodash";
+import { MatTableDataSource } from '@angular/material';
 @Component({
   selector: 'app-disziplin',
   templateUrl: './disziplin.component.html',
   styleUrls: ['./disziplin.component.css']
 })
 export class DisziplinComponent implements OnInit {
-
+  displayedColumns = [];
   disziplin: DisziplinNEU = {};
   anmeldungen: AnmeldungNEU[];
   selectedAnmeldungen: AnmeldungNEU[];
   leistungen: LeistungNEU[][];
   ergebnisse: ErgebnisNEU[];
   beschreibung: string;
+  dataSource = new MatTableDataSource(this.ergebnisse);
   constructor(private route: ActivatedRoute, private sfService: SportfestService, private router: Router) { }
 
   ngOnInit() {
@@ -25,6 +27,15 @@ export class DisziplinComponent implements OnInit {
       this.disziplin = {};
       this.sfService.disziplinNEU(+params['id']).subscribe(data => {
         this.disziplin = data;
+        this.displayedColumns.push('rang');
+        if (this.disziplin.klassenleistung)
+          this.displayedColumns.push('klasse');
+        else
+          this.displayedColumns.push('schueler');
+        for(let variable of this.disziplin.variablen)
+          this.displayedColumns.push(variable.bezeichnung);
+        if(this.disziplin.versus)
+          this.displayedColumns.push('versus');
         this.beschreibung = this.disziplin.klassenleistung ? "Klasse" : "Schüler";
         this.ergebnisseAbfragen();
         this.initializeAdmin();
@@ -123,8 +134,8 @@ export class DisziplinComponent implements OnInit {
       for (let j = 0; j < this.leistungen[i].length; j++) {
         if (this.leistungen[i][j].id)
           alteLeistungen.push(this.leistungen[i][j]);
-        else{
-          if(!_.isEmpty(this.leistungen[i][j].wert))
+        else {
+          if (!_.isEmpty(this.leistungen[i][j].wert))
             neueLeistungen.push(this.leistungen[i][j]);
         }
       }
@@ -149,10 +160,10 @@ export class DisziplinComponent implements OnInit {
       });
   }
 
-  teilnehmerLoeschen(teilnehmerPos: number){
+  teilnehmerLoeschen(teilnehmerPos: number) {
     this.selectedAnmeldungen.splice(teilnehmerPos, 1);
-    this.leistungen.splice(teilnehmerPos,1);
-    if(this.selectedAnmeldungen.length==0){
+    this.leistungen.splice(teilnehmerPos, 1);
+    if (this.selectedAnmeldungen.length == 0) {
       this.initializeAdmin();
     }
   }
@@ -228,6 +239,7 @@ export class DisziplinComponent implements OnInit {
     if (this.disziplin) {
       this.sfService.ergebnisseVonDisziplin(this.disziplin.id).subscribe(data => {
         this.ergebnisse = data;
+        this.dataSource = new MatTableDataSource(this.ergebnisse);
         let tmp = -1;
         let counter = 0;
         if (this.disziplin.versus) { //Wenn Versus vorhanden, danach sortieren und neu Numerieren beginnend bei 1

@@ -1,6 +1,7 @@
 import { Md5 } from 'ts-md5/dist/md5';
 import { SportfestService } from '../../sportfest.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { MatDialogRef } from "@angular/material";
 
 @Component({
   selector: 'app-login',
@@ -8,15 +9,13 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  @Output() loginClose: EventEmitter<any> = new EventEmitter<any>();
-  @Output() loginSubmit: EventEmitter<any> = new EventEmitter<any>();
 
   username: string;
   password: string;
 
   errorMsg: string;
 
-  constructor(private sfService: SportfestService) { }
+  constructor(public thisDialogRef: MatDialogRef<LoginComponent>, private sfService: SportfestService) { }
 
   ngOnInit() {
   }
@@ -44,7 +43,7 @@ export class LoginComponent implements OnInit {
             if(encryptpwd == Md5.hashStr('Atiw2017')){
               sessionStorage.setItem('init','true');
             }
-            this.loginSubmit.emit(); //Overlay schließen wenn alle Request fertig sind
+            this.thisDialogRef.close("Login"); //Overlay schließen wenn alle Request fertig sind
           },
             (err) => {
               console.error('GET-Service "userPrivileges()" not reachable.');
@@ -72,7 +71,7 @@ export class LoginComponent implements OnInit {
 
   public close(event: any) {
     if (event.clientX !== 0 || event.clientY !== 0) {
-      this.loginClose.emit();
+      this.thisDialogRef.close("Cancel");
     }
   }
 }

@@ -48,7 +48,9 @@
             </mat-form-field>
           </td>
           <td>
-            <button mat-button (click)="teilnehmerLoeschen(eintragPos)"><mat-icon>delete forever</mat-icon></button>
+            <button mat-button (click)="teilnehmerLoeschen(eintragPos)">
+              <mat-icon>delete forever</mat-icon>
+            </button>
           </td>
         </tr>
         <tr>
@@ -92,17 +94,29 @@
         </tr>
         <tr>
           <td>
-            <button mat-raised-button color="primary" (click)="sortByRang()"><mat-icon>keyboard_arrow_up</mat-icon></button>
-            <button mat-raised-button color="primary" (click)="sortByRangRev()"><mat-icon>keyboard_arrow_down</mat-icon></button>
+            <button mat-raised-button color="primary" (click)="sortByRang()">
+              <mat-icon>keyboard_arrow_up</mat-icon>
+            </button>
+            <button mat-raised-button color="primary" (click)="sortByRangRev()">
+              <mat-icon>keyboard_arrow_down</mat-icon>
+            </button>
           </td>
           <td>
             <ng-container *ngIf="!disziplin.klassenleistung">
-              <button mat-raised-button color="primary" (click)="sortBySchueler()"><mat-icon>keyboard_arrow_up</mat-icon></button>
-              <button mat-raised-button color="primary" (click)="sortBySchuelerRev()"><mat-icon>keyboard_arrow_down</mat-icon></button>
+              <button mat-raised-button color="primary" (click)="sortBySchueler()">
+                <mat-icon>keyboard_arrow_up</mat-icon>
+              </button>
+              <button mat-raised-button color="primary" (click)="sortBySchuelerRev()">
+                <mat-icon>keyboard_arrow_down</mat-icon>
+              </button>
             </ng-container>
             <ng-container *ngIf="disziplin.klassenleistung">
-              <button mat-raised-button color="primary" (click)="sortByKlasse()"><mat-icon>keyboard_arrow_up</mat-icon></button>
-              <button mat-raised-button color="primary" (click)="sortByKlasseRev()"><mat-icon>keyboard_arrow_down</mat-icon></button>
+              <button mat-raised-button color="primary" (click)="sortByKlasse()">
+                <mat-icon>keyboard_arrow_up</mat-icon>
+              </button>
+              <button mat-raised-button color="primary" (click)="sortByKlasseRev()">
+                <mat-icon>keyboard_arrow_down</mat-icon>
+              </button>
             </ng-container>
           </td>
         </tr>
@@ -153,6 +167,38 @@
           </td>
         </tr>
       </table>
+    </mat-card>
+  </mat-card-content>
+  <mat-card-content>
+    <mat-card>
+      <mat-table #table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="rang">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Rang </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.rang}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="schueler" *ngIf="!disziplin.klassenleistung">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Schüler </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.schueler.vorname}} {{element.schueler.name}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="klasse" *ngIf="disziplin.klassenleistung">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Schüler </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.klasse.bezeichnung}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="{{variable.bezeichnung}}" *ngFor="let variable of disziplin.variablen; let variablePos = index;">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> {{variable.bezeichnung}} </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <ng-container *ngIf="element.leistungen[variablePos]">
+              {{element.leistungen[variablePos].wert}}
+            </ng-container>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="versus" *ngIf="disziplin.versus">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Versus </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.versus}} </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
     </mat-card>
   </mat-card-content>
 </ng-container>

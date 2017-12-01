@@ -5,7 +5,7 @@ import { LoginComponent } from './main/login/login.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MatIconModule, MatSidenavModule, MatCardModule, MatSlideToggleModule, MatInputModule, MatRadioModule, MatSelectModule, MatOptionModule, MatSnackBarModule, MatExpansionModule, MatToolbarModule, MatDialogModule, MatButtonModule, MatMenuModule, MatListModule } from '@angular/material';
+import { MatIconModule, MatSidenavModule, MatCardModule, MatSlideToggleModule, MatInputModule, MatRadioModule, MatSortModule,MatSelectModule, MatOptionModule, MatSnackBarModule, MatExpansionModule, MatToolbarModule, MatDialogModule, MatButtonModule, MatMenuModule, MatListModule, MatTableModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Http, HttpModule, RequestOptions } from '@angular/http';
@@ -155,7 +155,9 @@ export const BASEPATH = 'http://' + location.host + '/backend';
     MatDialogModule, 
     MatButtonModule,
     MatMenuModule,
-    MatListModule
+    MatListModule,
+    MatTableModule,
+    MatSortModule
   ],
   providers: [
     TechnischerService,
