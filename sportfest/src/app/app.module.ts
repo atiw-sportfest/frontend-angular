@@ -32,6 +32,7 @@ import { MobileHeaderImageComponent } from './main/mobile/mobile-header-image/mo
 import { DisziplinComponent } from './disziplin/disziplin.component';
 import { CreateDisciplineNewComponent } from './admin/create-discipline-new/create-discipline-new.component';
 import { EinheitVerwaltenComponent } from './admin/einheit-verwalten/einheit-verwalten.component';
+import { GroupByPipe } from "./disziplin/groupBy.pipe";
 
 const routConfig: Routes = [
   {
@@ -130,7 +131,8 @@ export const BASEPATH = 'http://' + location.host + '/backend';
     MobileHeaderImageComponent,
     DisziplinComponent,
     CreateDisciplineNewComponent,
-    EinheitVerwaltenComponent
+    EinheitVerwaltenComponent,
+    GroupByPipe
   ],
   imports: [
     BrowserModule,
@@ -168,7 +170,8 @@ export const BASEPATH = 'http://' + location.host + '/backend';
       useFactory: authHttpServiceFactory,
       deps: [Http, RequestOptions]
     },
-    Md5
+    Md5,
+    GroupByPipe
   ],
   entryComponents: [
     LoginComponent,

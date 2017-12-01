@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { DisziplinNEU, TypNEU, ErgebnisNEU, AnmeldungNEU, LeistungNEU } from './interfaces';
 import { TechnischerService } from './technischer.service';
 import 'rxjs/add/observable/of';
+import _ from "lodash";
 
 @Injectable()
 export class SportfestService {
@@ -462,7 +463,7 @@ public sporfestBeenden(): Observable<any>{
   }
 
   public disziplinenNEU(): Observable<any> {
-    return Observable.of(this.disziplinenVAR);
+    return Observable.of(_.cloneDeep(this.disziplinenVAR));
     //return this.techService.getRequest('/disziplin');
   }
 
@@ -475,7 +476,7 @@ public sporfestBeenden(): Observable<any>{
   public disziplinNEU(id: number): Observable<any> {
     for (let disziplin of this.disziplinenVAR) {
       if (disziplin.id == id)
-        return Observable.of(disziplin);
+        return Observable.of(_.cloneDeep(disziplin));
     }
     return Observable.of([]);
     //return this.techService.getRequest('/disziplin/' + did);
@@ -490,7 +491,7 @@ public sporfestBeenden(): Observable<any>{
     for (var i = 0; i < this.disziplinenVAR.length; i++)
       if (this.disziplinenVAR[i].id == disziplin.id)
         this.disziplinenVAR[i] = disziplin
-    return Observable.of(this.disziplinenVAR);
+    return Observable.of(_.cloneDeep(this.disziplinenVAR));
     //return this.techService.postRequest('/disziplin/' + id, disziplin);
   }
   /**
@@ -502,7 +503,7 @@ public sporfestBeenden(): Observable<any>{
   public disziplinHinzufuegenNEU(disziplin: DisziplinNEU): Observable<any> {
     this.disziplinenVAR.push(disziplin);
     //return this.techService.putRequest('/disziplin/', disziplin);
-    return Observable.of(this.disziplinenVAR);
+    return Observable.of(_.cloneDeep(this.disziplinenVAR));
   }
   /**
    * Löscht eine Disziplin
@@ -518,7 +519,7 @@ public sporfestBeenden(): Observable<any>{
     if (pos > -1) {
       this.disziplinenVAR.splice(pos, 1);
     }
-    return Observable.of(this.disziplinenVAR);
+    return Observable.of(_.cloneDeep(this.disziplinenVAR));
     //return this.techService.deleteRequest('/disziplin/' + id);
   }
 
@@ -619,14 +620,14 @@ public sporfestBeenden(): Observable<any>{
     return this.techService.getRequest('/typ');
   }
   public typenNEU(): Observable<any> {
-    return Observable.of(this.typen);
+    return Observable.of(_.cloneDeep(this.typen));
   }
 
   public typenAendernNEU(id: number, typ: TypNEU): Observable<any> {
     for (var i = 0; i < this.typen.length; i++)
       if (this.typen[i].id == id)
         this.typen[i] = typ;
-    return Observable.of(this.typen);
+    return Observable.of(_.cloneDeep(this.typen));
   }
 
   public typenLoeschenNEU(id: number): Observable<any> {
@@ -637,12 +638,12 @@ public sporfestBeenden(): Observable<any>{
     if (pos > -1) {
       this.ergebnisseVAR.splice(pos, 1);
     }
-    return Observable.of(this.typen);
+    return Observable.of(_.cloneDeep(this.typen));
   }
 
   public typenHinzufuegenNEU(typ: TypNEU): Observable<any> {
     this.typen.push(typ);
-    return Observable.of(this.typen);
+    return Observable.of(_.cloneDeep(this.typen));
   }
 
   public ergebnisHinzufuegenNEU(ergebnis: ErgebnisNEU) {
@@ -650,18 +651,18 @@ public sporfestBeenden(): Observable<any>{
   }
 
   public ergebnisseNEU(): Observable<ErgebnisNEU[]> {
-    return Observable.of(this.ergebnisseVAR);
+    return Observable.of(_.cloneDeep(this.ergebnisseVAR));
   }
   public ergebnisNEU(id: number): Observable<ErgebnisNEU> {
     for (let ergebnis of this.ergebnisseVAR)
       if (ergebnis.id == id)
-        return Observable.of(ergebnis);
+        return Observable.of(_.cloneDeep(ergebnis));
   }
   public ergebnisAendernNEU(ergebnis: ErgebnisNEU): Observable<ErgebnisNEU[]> {
     for (var i = 0; i < this.ergebnisseVAR.length; i++)
       if (this.ergebnisseVAR[i].id == ergebnis.id)
         this.ergebnisseVAR[i] = ergebnis;
-    return Observable.of(this.ergebnisseVAR);
+    return Observable.of(_.cloneDeep(this.ergebnisseVAR));
   }
 
   public ergebnisLoeschenNeu(id: number): Observable<ErgebnisNEU[]> {
@@ -672,7 +673,7 @@ public sporfestBeenden(): Observable<any>{
     if (pos > -1) {
       this.ergebnisseVAR.splice(pos, 1);
     }
-    return Observable.of(this.ergebnisseVAR);
+    return Observable.of(_.cloneDeep(this.ergebnisseVAR));
   }
 
   public ergebnissVonDisziplinUndKlasseUndOptionalerSchueler(disziplin: DisziplinNEU, kid: number, sid?: number): Observable<ErgebnisNEU> {
@@ -685,12 +686,12 @@ public sporfestBeenden(): Observable<any>{
       if (ergebnis.disziplin.id == disziplin.id
         && ergebnis.klasse.id == kid
         && (!sid || ergebnis.schueler.sid == sid))
-        return Observable.of(ergebnis);
+        return Observable.of(_.cloneDeep(ergebnis));
     return Observable.of(undefined);
   }
 
   public ergebnisseVonDisziplin(did: number): Observable<ErgebnisNEU[]> {
-    return Observable.of(this.ergebnisseVAR);
+    return Observable.of(_.cloneDeep(this.ergebnisseVAR));
   }
 
   public anmeldungenAnDisziplin(id: number): Observable<AnmeldungNEU[]> {
@@ -699,12 +700,12 @@ public sporfestBeenden(): Observable<any>{
       if (anmeldung.disziplin == id)
         tmp.push(anmeldung);
 
-    return Observable.of(tmp);
+    return Observable.of(_.cloneDeep(tmp));
   }
 
   public leistungHinzufügen(leistung: LeistungNEU, did: number, sid: number): Observable<LeistungNEU[]> {
     this.ergebnisseVAR[0].leistungen.push(leistung);
-    return Observable.of(this.ergebnisseVAR[0].leistungen);
+    return Observable.of(_.cloneDeep(this.ergebnisseVAR[0].leistungen));
   }
 
   public leistungVonDisziplinUndKlasseUndOptionalerSchueler(disziplin: DisziplinNEU, kid: number, sid?: number): Observable<LeistungNEU[]> {
@@ -713,6 +714,6 @@ public sporfestBeenden(): Observable<any>{
     }else{
 
     }
-    return Observable.of(this.ergebnisseVAR[0].leistungen);
+    return Observable.of(_.cloneDeep(this.ergebnisseVAR[0].leistungen));
   }
 }

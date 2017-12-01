@@ -1,24 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { DisziplinNEU, AnmeldungNEU, LeistungNEU, ErgebnisNEU } from '../interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SportfestService } from '../sportfest.service';
 import { FormGroup } from '@angular/forms/src/model';
 import _ from "lodash";
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MatSort } from '@angular/material';
 @Component({
   selector: 'app-disziplin',
   templateUrl: './disziplin.component.html',
   styleUrls: ['./disziplin.component.css']
 })
 export class DisziplinComponent implements OnInit {
-  displayedColumns = [];
+  //@ViewChild(MatSort) sort: MatSort; //Material Table
+
+  //displayedColumns = []; //Material Table
   disziplin: DisziplinNEU = {};
   anmeldungen: AnmeldungNEU[];
   selectedAnmeldungen: AnmeldungNEU[];
   leistungen: LeistungNEU[][];
   ergebnisse: ErgebnisNEU[];
+  ergebnisseEingetragen: ErgebnisNEU[];
   beschreibung: string;
-  dataSource = new MatTableDataSource(this.ergebnisse);
+  //dataSource = new MatTableDataSource(this.ergebnisse); //Material Table
   constructor(private route: ActivatedRoute, private sfService: SportfestService, private router: Router) { }
 
   ngOnInit() {
@@ -27,33 +30,50 @@ export class DisziplinComponent implements OnInit {
       this.disziplin = {};
       this.sfService.disziplinNEU(+params['id']).subscribe(data => {
         this.disziplin = data;
-        this.displayedColumns.push('rang');
+        /*this.displayedColumns.push('rang'); //Material Table
         if (this.disziplin.klassenleistung)
           this.displayedColumns.push('klasse');
         else
           this.displayedColumns.push('schueler');
-        for(let variable of this.disziplin.variablen)
+        for (let variable of this.disziplin.variablen)
           this.displayedColumns.push(variable.bezeichnung);
-        if(this.disziplin.versus)
-          this.displayedColumns.push('versus');
+        if (this.disziplin.versus)
+          this.displayedColumns.push('versus');*/
         this.beschreibung = this.disziplin.klassenleistung ? "Klasse" : "Schüler";
         this.ergebnisseAbfragen();
         this.initializeAdmin();
         this.sfService.anmeldungenAnDisziplin(this.disziplin.id).subscribe(data => {
           this.anmeldungen = data;
+          this.anmeldungen.sort((a1, a2) => { return a1.schueler.klasse.bezeichnung < a2.schueler.klasse.bezeichnung ? -1 : 1; });
         });
       }); // (+) converts string 'id' to a number
     });
   }
 
+  /* ngAfterViewInit() { //Material Table
+     this.dataSource.sort = this.sort;
+   }*/
+
   initializeAdmin() {
-    this.leistungen = [[]];
+    //this.leistungen = [[]];
+    this.ergebnisseEingetragen = [{
+      disziplin: "",
+      klasse: "",
+      leistungen: [],
+      schueler: ""
+    }];
     this.selectedAnmeldungen = [{}];
     for (let i = 0; i < this.disziplin.variablen.length; i++)
-      this.leistungen[0].push({
+      this.ergebnisseEingetragen[0].leistungen.push({
         wert: "",
         variable: this.disziplin.variablen[i]
       });
+
+    // for (let i = 0; i < this.disziplin.variablen.length; i++)
+    //   this.leistungen[0].push({
+    //     wert: "",
+    //     variable: this.disziplin.variablen[i]
+    //   });
   }
   enoughPermissionsToWrite() {
     let role = sessionStorage.getItem('role');
@@ -66,84 +86,37 @@ export class DisziplinComponent implements OnInit {
 
   enoughPermissionsToChange(teilnehmerPos: number, variablePos: number): boolean {
     let role = sessionStorage.getItem('role');
-    if (this.leistungen[teilnehmerPos][variablePos].id) //Leistung hat eine ID wenn Sie von der Datenbank kommt
-      if (role == 'admin') //Wenn Leistung eine ID hat (Also eine "alte Leistung ist"), kann Sie nur ein Admin ändern
+    if (this.ergebnisseEingetragen[teilnehmerPos].leistungen[variablePos].id)
+      if (role == 'admin')
         return true;
       else
         return false;
     else
       return true;
+
+    // if (this.leistungen[teilnehmerPos][variablePos].id) //Leistung hat eine ID wenn Sie von der Datenbank kommt
+    //   if (role == 'admin') //Wenn Leistung eine ID hat (Also eine "alte Leistung ist"), kann Sie nur ein Admin ändern
+    //     return true;
+    //   else
+    //     return false;
+    // else
+    //   return true;
   }
 
   speichern() {
     //fertige Ergebnisse filtern
     let fertigeErgebnisse: ErgebnisNEU[] = [];
-    if (this.disziplin.versus) { //Wenn die Disziplin eine Manschaftssportart ist...
-      //... müssen alle Leistungen eingetragen sein um ein Ergebnis zu erzeugen.
-      let allesEingetragen = true;
-      for (let teilnehmer of this.leistungen) { //Einträge überprüfen
-        for (let leistung of teilnehmer) {
-          if (_.isEmpty(leistung.wert)) {
-            allesEingetragen = false;
-            break;
-          }
-        }
-      }
-      if (allesEingetragen) {
-        for (let i = 0; i < this.leistungen.length; i++) {
-          fertigeErgebnisse.push({  //Für jeden ausgewählten Teilnehmer (Klasse oder Schüler) ein Ergebnis erzeugen
-            disziplin: this.disziplin,
-            klasse: this.selectedAnmeldungen[i].schueler.klasse,
-            leistungen: this.leistungen[i],
-            schueler: this.selectedAnmeldungen[i].schueler,
-          });
-        }
-      }
-    } else { // wenn Disziplin eine Individualsportart ist, kann jeder einzelne Teilnehmer bei erfolgreicher Prügung ein Ergebnis bekommen
-      for (let i = 0; i < this.leistungen.length; i++) { //Einträge überprüfen
-        let allesEingetragen = true;
-        for (let leistung of this.leistungen[i]) {
-          if (_.isEmpty(leistung.wert)) {
-            allesEingetragen = false;
-            break;
-          }
-        }
-        if (allesEingetragen) {
-          fertigeErgebnisse.push({
-            disziplin: this.disziplin,
-            klasse: this.selectedAnmeldungen[i].schueler.klasse,
-            leistungen: this.leistungen[i],
-            schueler: this.selectedAnmeldungen[i].schueler,
-          });
-        }
-      }
-    }
-    //Fertige Ergebnisse aus den angezeigten Daten löschen.
-    for (let ergebnis of fertigeErgebnisse) {
-      let index = this.leistungen.indexOf(ergebnis.leistungen);
-      if (index > -1) {
-        this.leistungen.splice(index, 1);
-        this.selectedAnmeldungen.splice(index, 1);
-      }
+    for (var ergebnis of this.ergebnisseEingetragen) {
+      fertigeErgebnisse.push({  //Für jeden ausgewählten Teilnehmer (Klasse oder Schüler) ein Ergebnis erzeugen
+        disziplin: ergebnis.disziplin,
+        klasse: ergebnis.klasse,
+        leistungen: ergebnis.leistungen,
+        schueler: ergebnis.schueler
+      });
     }
 
-    //Überprüfen welche Leistungen neu, und welche Alt sind.
-    for (let i = 0; i < this.leistungen.length; i++) {
-      let alteLeistungen: LeistungNEU[] = [];
-      let neueLeistungen: LeistungNEU[] = [];
-      for (let j = 0; j < this.leistungen[i].length; j++) {
-        if (this.leistungen[i][j].id)
-          alteLeistungen.push(this.leistungen[i][j]);
-        else {
-          if (!_.isEmpty(this.leistungen[i][j].wert))
-            neueLeistungen.push(this.leistungen[i][j]);
-        }
-      }
-      console.log("Sende neue Leistungen: " + this.disziplin.id + "/" + this.selectedAnmeldungen[i].schueler);
-      console.log(neueLeistungen);
-      console.log("Sende alte Leistungen: " + this.disziplin.id + "/" + this.selectedAnmeldungen[i].schueler);
-      console.log(alteLeistungen);
-    }
+    this.sfService.ergebnisHinzufuegenNEU(fertigeErgebnisse);
+
     console.log("Sende Ergebnisse");
     console.log(fertigeErgebnisse);
     this.initializeAdmin();
@@ -152,20 +125,28 @@ export class DisziplinComponent implements OnInit {
   teilnehmerHinzufuegen() {
     //Eine Leere Zeile einfügen
     this.selectedAnmeldungen.push({});
+    this.ergebnisseEingetragen.push({
+      disziplin: "",
+      klasse: "",
+      leistungen: [],
+      schueler: ""
+    });
     this.leistungen.push([]);
     for (var i = 0; i < this.disziplin.variablen.length; i++)
-      this.leistungen[this.leistungen.length - 1].push({
+      this.ergebnisseEingetragen[i].leistungen.push({
         wert: "",
         variable: this.disziplin.variablen[i]
       });
+
   }
 
   teilnehmerLoeschen(teilnehmerPos: number) {
     this.selectedAnmeldungen.splice(teilnehmerPos, 1);
-    this.leistungen.splice(teilnehmerPos, 1);
+    this.ergebnisseEingetragen.splice(teilnehmerPos, 1)
     if (this.selectedAnmeldungen.length == 0) {
       this.initializeAdmin();
     }
+
   }
 
   anmeldungBereitsGewaehlt(pos: number, anmeldung: AnmeldungNEU): boolean {
@@ -194,7 +175,8 @@ export class DisziplinComponent implements OnInit {
           wert: "",
           variable: this.disziplin.variablen[i]
         });
-      this.leistungen[anmeldungPos] = data;
+      this.ergebnisseEingetragen[anmeldungPos] = data;
+      //this.leistungen[anmeldungPos] = data;
     });
   }
 
@@ -239,7 +221,7 @@ export class DisziplinComponent implements OnInit {
     if (this.disziplin) {
       this.sfService.ergebnisseVonDisziplin(this.disziplin.id).subscribe(data => {
         this.ergebnisse = data;
-        this.dataSource = new MatTableDataSource(this.ergebnisse);
+        //this.dataSource = new MatTableDataSource(this.ergebnisse);  //Material Table
         let tmp = -1;
         let counter = 0;
         if (this.disziplin.versus) { //Wenn Versus vorhanden, danach sortieren und neu Numerieren beginnend bei 1
