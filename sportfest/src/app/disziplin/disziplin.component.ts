@@ -16,8 +16,6 @@ export class DisziplinComponent implements OnInit {
   //displayedColumns = []; //Material Table
   disziplin: DisziplinNEU = {};
   anmeldungen: AnmeldungNEU[];
-  selectedAnmeldungen: AnmeldungNEU[];
-  leistungen: LeistungNEU[][];
   ergebnisse: ErgebnisNEU[];
   ergebnisseEingetragen: ErgebnisNEU[];
   beschreibung: string;
@@ -57,12 +55,11 @@ export class DisziplinComponent implements OnInit {
   initializeAdmin() {
     //this.leistungen = [[]];
     this.ergebnisseEingetragen = [{
-      disziplin: "",
-      klasse: "",
+      disziplin: this.disziplin,
+      klasse: {},
       leistungen: [],
-      schueler: ""
+      schueler: {},
     }];
-    this.selectedAnmeldungen = [{}];
     for (let i = 0; i < this.disziplin.variablen.length; i++)
       this.ergebnisseEingetragen[0].leistungen.push({
         wert: "",
@@ -124,16 +121,14 @@ export class DisziplinComponent implements OnInit {
 
   teilnehmerHinzufuegen() {
     //Eine Leere Zeile einfügen
-    this.selectedAnmeldungen.push({});
     this.ergebnisseEingetragen.push({
-      disziplin: "",
-      klasse: "",
+      disziplin: this.disziplin,
+      klasse: {},
       leistungen: [],
-      schueler: ""
+      schueler: {},
     });
-    this.leistungen.push([]);
     for (var i = 0; i < this.disziplin.variablen.length; i++)
-      this.ergebnisseEingetragen[i].leistungen.push({
+      this.ergebnisseEingetragen[this.ergebnisseEingetragen.length - 1].leistungen.push({
         wert: "",
         variable: this.disziplin.variablen[i]
       });
@@ -141,17 +136,16 @@ export class DisziplinComponent implements OnInit {
   }
 
   teilnehmerLoeschen(teilnehmerPos: number) {
-    this.selectedAnmeldungen.splice(teilnehmerPos, 1);
     this.ergebnisseEingetragen.splice(teilnehmerPos, 1)
-    if (this.selectedAnmeldungen.length == 0) {
+    if (this.ergebnisseEingetragen.length == 0) {
       this.initializeAdmin();
     }
 
   }
 
   anmeldungBereitsGewaehlt(pos: number, anmeldung: AnmeldungNEU): boolean {
-    for (let i = 0; i < this.selectedAnmeldungen.length; i++) {
-      if (this.selectedAnmeldungen[i] == anmeldung && i != pos)
+    for (let i = 0; i < this.ergebnisseEingetragen.length; i++) {
+      if (this.ergebnisseEingetragen[i].schueler.sid == anmeldung.schueler.sid && i != pos)
         return true;
     }
     return false;
@@ -167,23 +161,24 @@ export class DisziplinComponent implements OnInit {
     return true;
   }
 
-  leistungenHolen(anmeldungPos: number) {
+  leistungenHolen(ergebnisPos: number) {
     //An dieser Stelle die Leistungen eines Teilnehmers von der Datenbank abrufen
-    this.sfService.leistungVonDisziplinUndKlasseUndOptionalerSchueler(this.disziplin, this.selectedAnmeldungen[anmeldungPos].schueler.klasse.id, this.selectedAnmeldungen[anmeldungPos].schueler.sid).subscribe(data => {
+    this.sfService.leistungVonDisziplinUndKlasseUndOptionalerSchueler(this.disziplin, this.ergebnisseEingetragen[ergebnisPos].schueler.klasse.id, this.ergebnisseEingetragen[ergebnisPos].schueler.sid).subscribe(data => {
       for (let i = data.length; i < this.disziplin.variablen.length; i++)
         data.push({
           wert: "",
           variable: this.disziplin.variablen[i]
         });
-      this.ergebnisseEingetragen[anmeldungPos] = data;
+      this.ergebnisseEingetragen[ergebnisPos].leistungen = data;
       //this.leistungen[anmeldungPos] = data;
     });
+    this.ergebnisseEingetragen[ergebnisPos].klasse = this.ergebnisseEingetragen[ergebnisPos].schueler.klasse;
   }
 
   regexPruefen(teilnehmerPos: number, variablePos: number) {
 
     var re = new RegExp(this.disziplin.variablen[variablePos].typ.format);
-    if (this.leistungen[teilnehmerPos][variablePos].wert && re.test(this.leistungen[teilnehmerPos][variablePos].wert)) {
+    if (this.ergebnisseEingetragen[teilnehmerPos].leistungen[variablePos].wert && re.test(this.ergebnisseEingetragen[teilnehmerPos].leistungen[variablePos].wert)) {
 
     }
 
@@ -191,18 +186,18 @@ export class DisziplinComponent implements OnInit {
 
   speicherBedingungenErfuellt(): boolean {
     //Überprüfen ob in jeder Zeile ein Telnehmer ausgewählt wurde
-    for (let eintrag of this.selectedAnmeldungen)
-      if (_.isEmpty(eintrag))
+    for (let eintrag of this.ergebnisseEingetragen)
+      if (_.isEmpty(eintrag.schueler))
         return false;
     //Überprüfen ob bei Versus mindestens zwei Teilnehmer eingetragen sind
     if (this.disziplin.versus)
-      if (this.selectedAnmeldungen.length < 2)
+      if (this.ergebnisseEingetragen.length < 2)
         return false;
     //Überprüfen ob für jeden Teilnehmer eine neue Leistung eingetragen wurde und diese der Regex entspricht
     let leistungspruefung: boolean[] = [];
-    for (let i = 0; i < this.leistungen.length; i++) {
+    for (let i = 0; i < this.ergebnisseEingetragen.length; i++) {
       leistungspruefung[i] = false;
-      for (let leistung of this.leistungen[i]) {
+      for (let leistung of this.ergebnisseEingetragen[i].leistungen) {
         if (!leistung.id && leistung.wert)  //Wenn es eine Leistung mit eingetragenem Wert, aber keiner id gibt, ist diese neu
           leistungspruefung[i] = true;
         let re = new RegExp(leistung.variable.typ.format); //Regex Prüfung
@@ -210,9 +205,10 @@ export class DisziplinComponent implements OnInit {
           return false;
       }
     }
-    for (let neueLeistung of leistungspruefung)
-      if (!neueLeistung)  //Wenn es eine Zeile ohne eine neue Leistung gibt, kann nicht gespeichert werden.
-        return false;
+    if (!this.enoughPermissionsToChange)
+      for (let neueLeistung of leistungspruefung)
+        if (!neueLeistung)  //Wenn es eine Zeile ohne eine neue Leistung gibt, kann nicht gespeichert werden.
+          return false;
     return true;
 
   }

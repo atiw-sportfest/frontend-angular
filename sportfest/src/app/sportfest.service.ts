@@ -646,8 +646,9 @@ public sporfestBeenden(): Observable<any>{
     return Observable.of(_.cloneDeep(this.typen));
   }
 
-  public ergebnisHinzufuegenNEU(ergebnis: ErgebnisNEU) {
-    this.ergebnisseVAR.push(ergebnis);
+  public ergebnisHinzufuegenNEU(ergebnisse: ErgebnisNEU[]) {
+    for(let ergebnis of ergebnisse)
+      this.ergebnisseVAR.push(ergebnis);
   }
 
   public ergebnisseNEU(): Observable<ErgebnisNEU[]> {
