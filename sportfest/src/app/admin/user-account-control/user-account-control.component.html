@@ -31,14 +31,16 @@
           </mat-input-container>
         </td>
         <td>
-          <mat-select placeholder="Rolle" [(ngModel)]="selectedRole">
-            <mat-option value="admin">
-              Admin
-            </mat-option>
-            <mat-option value="schiedsrichter">
-              Schiedsrichter
-            </mat-option>
-          </mat-select>
+          <mat-form-field>
+            <mat-select placeholder="Rolle" [(ngModel)]="selectedRole">
+              <mat-option value="admin">
+                Admin
+              </mat-option>
+              <mat-option value="schiedsrichter">
+                Schiedsrichter
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </td>
         <td>
           <mat-input-container>

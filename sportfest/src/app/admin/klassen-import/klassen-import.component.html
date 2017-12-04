@@ -12,11 +12,13 @@
             Laden Sie hier die Excel-Datei herunter, in der sich die Schüler einer Klasse für die einzelnen Disziplinen anmelden können.
             <br><br> Bitte die <b>ausgefüllte Datei unten wieder hochladen</b>.
             <br><br>
-            <mat-select placeholder="Klasse" [(ngModel)]="selectedDownloadableClass" (change)="changeDownloadPath()">
-              <mat-option *ngFor="let klasse of klassen" [value]="klasse.id">
-                {{ klasse.bezeichnung }}
-              </mat-option>
-            </mat-select>
+            <mat-form-field>
+              <mat-select placeholder="Klasse" [(ngModel)]="selectedDownloadableClass" (change)="changeDownloadPath()">
+                <mat-option *ngFor="let klasse of klassen" [value]="klasse.id">
+                  {{ klasse.bezeichnung }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </td>
         </tr>
       </table>
