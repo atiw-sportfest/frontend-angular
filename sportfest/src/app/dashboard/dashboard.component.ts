@@ -1,23 +1,29 @@
 import { RouterModule, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { SportfestService } from '../sportfest.service';
+import { ErgebnisApi, DisziplinApi, TeilnehmerApi } from '../api/api';
+import { Klasse } from "../model/models";
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
+
+export interface KlasseExtended extends Klasse{
+  rang: number
+}
+
 export class DashboardComponent implements OnInit {
   l: any;
-  visibleTeilnehmer: any;
+  visibleTeilnehmer: KlasseExtended[];
   sorieterteTeilehmer: any;
   btnText="Alle Anzeigen";
   extended = false;
-  constructor(private router: Router, private sfService: SportfestService) { }
+  constructor(private router: Router, private disziplinApi: DisziplinApi, private ergebnisApi: ErgebnisApi, private teilnehmerApi: TeilnehmerApi) { }
 
   ngOnInit() {
     let i = 0;
-    this.sfService.klassen().subscribe(data => {
+    this.teilnehmerApi.klasseGet().subscribe(data => {
       this.visibleTeilnehmer = data;
       this.visibleTeilnehmer.forEach(element => {
         element.rang = 1;
