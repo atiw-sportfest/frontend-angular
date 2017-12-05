@@ -141,6 +141,29 @@ export class SportfestService {
             bsp: "3:20"
           }
         }]
+      },
+      {
+        id: 5,
+        bezeichnung: "Beach - Volleyball",
+        beschreibung: "Panieren und Punkten!\n\nGegen Teams aus zwei anderen Klassen wird jeweils 12 Minuten gespielt.\nJe nach Zeit laufen die 2. Spiele bis 21 Punkte.(bei 21 : 20 ist Schluss !) \n\nAchtung :\nDer Ball darf nur geradeaus über das Netz gepritscht werden !\nSpiel mit offener Hand ( Lob ) ist  nicht erlaubt ! ",
+        aktiviert: true,
+        klassenleistung: true,
+        versus: true,
+        regel: {
+          id: 5,
+          script: "direkt {\nsort 'punkte';\npunkte 15,8;\n}"
+        },
+        variablen: [{
+          id: 8,
+          bezeichnung: "Anzahl",
+          typ: {
+            id: 2,
+        datentyp: "Integer",
+        einheit: "Anzahl",
+        format: "\\d*",
+        bsp: "5"
+          }
+        }]
       }
     ];
     this.typen = [
