@@ -16,6 +16,7 @@ import { EinzelComponent } from './einzel/einzel.component';
 import { TeamComponent } from './team/team.component';
 import { SportfestService } from './sportfest.service';
 import { TechnischerService } from './technischer.service';
+import { AnmeldungApi, DisziplinApi, ErgebnisApi, MetaApi, TeilnehmerApi } from './api/api';
 import { HeaderComponent } from './main/desktop/header/header.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CreateDisciplineComponent } from './admin/create-discipline/create-discipline.component';
@@ -164,6 +165,7 @@ export const BASEPATH = 'http://' + location.host + '/backend';
   providers: [
     TechnischerService,
     SportfestService,
+    AnmeldungApi, DisziplinApi, ErgebnisApi, MetaApi, TeilnehmerApi,
     RouteGuard,
     {
       provide: AuthHttp,
