@@ -23,6 +23,6 @@ export interface Disziplin {
 
     variablen?: Array<models.Variable>;
 
-    regeln?: Array<models.Regeln>;
+    regel?: string;
 
 }
