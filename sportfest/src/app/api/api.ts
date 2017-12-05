@@ -1,0 +1,11 @@
+export * from './AnmeldungApi';
+import { AnmeldungApi } from './AnmeldungApi';
+export * from './DisziplinApi';
+import { DisziplinApi } from './DisziplinApi';
+export * from './ErgebnisApi';
+import { ErgebnisApi } from './ErgebnisApi';
+export * from './MetaApi';
+import { MetaApi } from './MetaApi';
+export * from './TeilnehmerApi';
+import { TeilnehmerApi } from './TeilnehmerApi';
+export const APIS = [AnmeldungApi, DisziplinApi, ErgebnisApi, MetaApi, TeilnehmerApi];
