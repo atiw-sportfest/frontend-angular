@@ -391,6 +391,7 @@ public sporfestBeenden(): Observable<any>{
   return Observable.of(true);
 }
 
+//Delete me
 
   /**
    * ***********************************************
