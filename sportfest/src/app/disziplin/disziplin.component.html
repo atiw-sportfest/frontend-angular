@@ -29,7 +29,7 @@
                 <mat-optgroup *ngFor="let anmeldungGruppe of (anmeldungen | group)" [label]="anmeldungGruppe.label">
                   <mat-option *ngFor="let anmeldung of anmeldungGruppe.anmeldungen" (click)="leistungenHolen(eintragPos)" [value]="anmeldung.schueler">
                     <ng-container *ngIf="!anmeldungBereitsGewaehlt(eintragPos, anmeldung)">
-                      {{ anmeldung.schueler.vorname }} {{anmeldung.schueler.name}}
+                      {{ anmeldung.schueler.vorname }} {{anmeldung.schueler.nachname}}
                     </ng-container>
                   </mat-option>
                 </mat-optgroup>
@@ -145,12 +145,6 @@
         <th>
           Punkte
         </th>
-        <th *ngFor="let variable of disziplin.variablen">
-          {{variable.bezeichnung}}
-        </th>
-        <th *ngIf="disziplin.versus">
-          Versus
-        </th>
       </tr>
       <tr *ngFor="let ergebnis of ergebnisse">
         <td>
@@ -158,7 +152,7 @@
         </td>
         <td>
           <ng-container *ngIf="!disziplin.klassenleistung">
-            {{ergebnis.schueler.vorname}} {{ergebnis.schueler.name}}
+            {{ergebnis.schueler.vorname}} {{ergebnis.schueler.nachname}}
           </ng-container>
           <ng-container *ngIf="disziplin.klassenleistung">
             {{ergebnis.klasse.bezeichnung}}
@@ -166,12 +160,6 @@
         </td>
         <td>
           {{ergebnis.punkte}}
-        </td>
-        <td *ngFor="let leistung of ergebnis.leistungen">
-          {{leistung.wert}}
-        </td>
-        <td *ngIf="disziplin.versus">
-          {{ergebnis.visibleVersus}}
         </td>
       </tr>
     </table>
@@ -187,7 +175,7 @@
         </ng-container>
         <ng-container matColumnDef="schueler" *ngIf="!disziplin.klassenleistung">
           <mat-header-cell *matHeaderCellDef mat-sort-header> Schüler </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.schueler.vorname}} {{element.schueler.name}} </mat-cell>
+          <mat-cell *matCellDef="let element"> {{element.schueler.vorname}} {{element.schueler.nachname}} </mat-cell>
         </ng-container>
         <ng-container matColumnDef="klasse" *ngIf="disziplin.klassenleistung">
           <mat-header-cell *matHeaderCellDef mat-sort-header> Schüler </mat-header-cell>

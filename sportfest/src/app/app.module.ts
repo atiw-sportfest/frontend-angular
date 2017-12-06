@@ -12,14 +12,11 @@ import { Http, HttpModule, RequestOptions } from '@angular/http';
 import { Location } from '@angular/common';
 
 import { AppComponent } from './app.component';
-import { EinzelComponent } from './einzel/einzel.component';
-import { TeamComponent } from './team/team.component';
 import { SportfestService } from './sportfest.service';
 import { TechnischerService } from './technischer.service';
 import { AnmeldungApi, DisziplinApi, ErgebnisApi, MetaApi, TeilnehmerApi } from './api/api';
 import { HeaderComponent } from './main/desktop/header/header.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { CreateDisciplineComponent } from './admin/create-discipline/create-discipline.component';
 import { KlassenImportComponent } from './admin/klassen-import/klassen-import.component';
 import { ActivateDisciplineComponent } from './admin/activate-discipline/activate-discipline.component';
 import { UserAccountControlComponent } from './admin/user-account-control/user-account-control.component';
@@ -43,26 +40,6 @@ const routConfig: Routes = [
   {
     path: 'home',
     component: DashboardComponent
-  },
-  {
-    path: 'createDiscipline',
-    component: CreateDisciplineComponent,
-    canActivate: [RouteGuard]
-  },
-  {
-    path: 'createDiscipline/:did',
-    component: CreateDisciplineComponent,
-    canActivate: [RouteGuard]
-  },
-  {
-    path: 'einzel/:did/:name',
-    component: EinzelComponent,
-    canActivate: [RouteGuard]
-  },
-  {
-    path: 'team/:did/:name',
-    component: TeamComponent,
-    canActivate: [RouteGuard]
   },
   {
     path: 'import',
@@ -114,12 +91,9 @@ export const BASEPATH = 'http://' + location.host + '/backend';
 @NgModule({
   declarations: [
     AppComponent,
-    EinzelComponent,
-    TeamComponent,
     HeaderComponent,
     DashboardComponent,
     LoginComponent,
-    CreateDisciplineComponent,
     KlassenImportComponent,
     ActivateDisciplineComponent,
     UserAccountControlComponent,

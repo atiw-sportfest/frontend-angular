@@ -1,12 +1,11 @@
 import { Observable } from 'rxjs/Observable';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
-import { SportfestService } from './sportfest.service';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class RouteGuard implements CanActivate {
 
-  constructor(private sfService: SportfestService) { }
+  constructor() { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     // Gast:  Home, Sportarten angucken
@@ -21,14 +20,12 @@ export class RouteGuard implements CanActivate {
     switch (url) {
       // Gast darf:
       case "home":
-      case "einzel":
-      case "team":
+      case "disziplin":
         return true;
       // Schiedsrichter und Admin darf:
       case "blabla":
         return (role == "schiedsrichter" || role == "admin");
       // Admin darf:
-      case "createDiscipline":
       case "createDisciplineNew":
       case "activateDiscipline":
       case "uac":
