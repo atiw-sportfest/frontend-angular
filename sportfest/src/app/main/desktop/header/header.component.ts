@@ -1,11 +1,11 @@
 import { PasswordChangeComponent } from '../../password-change/password-change.component';
 import { LoginComponent } from '../../login/login.component';
-import { SportfestService } from '../../../sportfest.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from "@angular/material";
 import { Md5 } from 'ts-md5/dist/md5';
-import { DisziplinNEU } from '../../../interfaces';
+import { DisziplinApi } from "../../../api/api";
+import { Disziplin } from "../../../model/models";
 
 @Component({
   selector: 'app-header',
@@ -20,13 +20,12 @@ export class HeaderComponent implements OnInit {
   year = new Date().getFullYear();
   username: string;
   role: string;
-  disziplinenTeam: Array<any> = [];
-  disziplinenEinzel: Array<any> = [];
-  disziplinen: Array<DisziplinNEU> = [];
+  disziplinenTeam: Array<Disziplin> = [];
+  disziplinenEinzel: Array<Disziplin> = [];
 
   constructor(private router: Router,
     private dialog: MatDialog,
-    private sfService: SportfestService) { }
+    private disziplinApi: DisziplinApi) { }
 
   ngOnInit() {
     this.role = sessionStorage.getItem('role'); // Rolle aus dem Speicher laden (wichtig beim neuladen der Seite)
@@ -40,7 +39,7 @@ export class HeaderComponent implements OnInit {
   public loadDD() { //Lädt Disziplinen bei Klick auf Sportarten
     this.disziplinenEinzel = [];
     this.disziplinenTeam = [];
-    this.sfService.disziplinenNEU().subscribe(data => {
+    this.disziplinApi.disziplinGet().subscribe(data => {
       console.log(data);
       for (let i = 0; i < data.length; i++) {
         if (!data[i].klassenleistung) {
@@ -55,15 +54,6 @@ export class HeaderComponent implements OnInit {
       });
   }
 
-  public loadDDNEU() { //Lädt Disziplinen bei Klick auf Sportarten
-    this.disziplinen = [];
-    this.sfService.disziplinenNEU().subscribe(data => {
-      this.disziplinen = data;
-    },
-      (err) => {
-        console.error('GET-Service "disziplinen()" not reachable.');
-      });
-  }
 
   public logout() {
     sessionStorage.removeItem('token');

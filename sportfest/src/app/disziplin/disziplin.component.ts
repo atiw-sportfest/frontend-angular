@@ -1,10 +1,16 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { DisziplinNEU, AnmeldungNEU, LeistungNEU, ErgebnisNEU } from '../interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SportfestService } from '../sportfest.service';
 import { FormGroup } from '@angular/forms/src/model';
 import _ from "lodash";
 import { MatTableDataSource, MatSort } from '@angular/material';
+import { DisziplinApi, AnmeldungApi, ErgebnisApi, TeilnehmerApi } from "../api/api";
+import { Disziplin, Anmeldung, Ergebnis } from "../model/models";
+
+interface ErgebnisExtended extends Ergebnis {
+  rang?: number;
+}
+
 @Component({
   selector: 'app-disziplin',
   templateUrl: './disziplin.component.html',
@@ -14,19 +20,19 @@ export class DisziplinComponent implements OnInit {
   //@ViewChild(MatSort) sort: MatSort; //Material Table
 
   //displayedColumns = []; //Material Table
-  disziplin: DisziplinNEU = {};
-  anmeldungen: AnmeldungNEU[];
-  ergebnisse: ErgebnisNEU[];
-  ergebnisseEingetragen: ErgebnisNEU[];
+  disziplin: Disziplin = {};
+  anmeldungen: Anmeldung[];
+  ergebnisse: ErgebnisExtended[];
+  ergebnisseEingetragen: Ergebnis[];
   beschreibung: string;
   //dataSource = new MatTableDataSource(this.ergebnisse); //Material Table
-  constructor(private route: ActivatedRoute, private sfService: SportfestService, private router: Router) { }
+  constructor(private route: ActivatedRoute, private teilnehmerApi: TeilnehmerApi, private ergebnisApi: ErgebnisApi, private disziplinApi: DisziplinApi, private anmeldungApi: AnmeldungApi, private router: Router) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.anmeldungen = [];
       this.disziplin = {};
-      this.sfService.disziplinNEU(+params['id']).subscribe(data => {
+      this.disziplinApi.disziplinDidGet(+params['id']).subscribe(data => {
         this.disziplin = data;
         /*this.displayedColumns.push('rang'); //Material Table
         if (this.disziplin.klassenleistung)
@@ -40,7 +46,7 @@ export class DisziplinComponent implements OnInit {
         this.beschreibung = this.disziplin.klassenleistung ? "Klasse" : "Schüler";
         this.ergebnisseAbfragen();
         this.initializeAdmin();
-        this.sfService.anmeldungenAnDisziplin(this.disziplin.id).subscribe(data => {
+        this.anmeldungApi.disziplinDidAnmeldungenGet(this.disziplin.id).subscribe(data => {
           this.anmeldungen = data;
           this.anmeldungen.sort((a1, a2) => { return a1.schueler.klasse.bezeichnung < a2.schueler.klasse.bezeichnung ? -1 : 1; });
         });
@@ -102,7 +108,7 @@ export class DisziplinComponent implements OnInit {
 
   speichern() {
     //fertige Ergebnisse filtern
-    let fertigeErgebnisse: ErgebnisNEU[] = [];
+    let fertigeErgebnisse: Ergebnis[] = [];
     for (var ergebnis of this.ergebnisseEingetragen) {
       fertigeErgebnisse.push({  //Für jeden ausgewählten Teilnehmer (Klasse oder Schüler) ein Ergebnis erzeugen
         disziplin: ergebnis.disziplin,
@@ -112,10 +118,8 @@ export class DisziplinComponent implements OnInit {
       });
     }
 
-    this.sfService.ergebnisHinzufuegenNEU(fertigeErgebnisse);
+    this.ergebnisApi.disziplinDidErgebnissePost(this.disziplin.id, this.ergebnisse);
 
-    console.log("Sende Ergebnisse");
-    console.log(fertigeErgebnisse);
     this.initializeAdmin();
   }
 
@@ -143,9 +147,9 @@ export class DisziplinComponent implements OnInit {
 
   }
 
-  anmeldungBereitsGewaehlt(pos: number, anmeldung: AnmeldungNEU): boolean {
+  anmeldungBereitsGewaehlt(pos: number, anmeldung: Anmeldung): boolean {
     for (let i = 0; i < this.ergebnisseEingetragen.length; i++) {
-      if (this.ergebnisseEingetragen[i].schueler.sid == anmeldung.schueler.sid && i != pos)
+      if (this.ergebnisseEingetragen[i].schueler.id == anmeldung.schueler.id && i != pos)
         return true;
     }
     return false;
@@ -163,25 +167,15 @@ export class DisziplinComponent implements OnInit {
 
   leistungenHolen(ergebnisPos: number) {
     //An dieser Stelle die Leistungen eines Teilnehmers von der Datenbank abrufen
-    this.sfService.leistungVonDisziplinUndKlasseUndOptionalerSchueler(this.disziplin, this.ergebnisseEingetragen[ergebnisPos].schueler.klasse.id, this.ergebnisseEingetragen[ergebnisPos].schueler.sid).subscribe(data => {
-      for (let i = data.length; i < this.disziplin.variablen.length; i++)
-        data.push({
-          wert: "",
-          variable: this.disziplin.variablen[i]
-        });
-      this.ergebnisseEingetragen[ergebnisPos].leistungen = data;
-      //this.leistungen[anmeldungPos] = data;
-    });
-    this.ergebnisseEingetragen[ergebnisPos].klasse = this.ergebnisseEingetragen[ergebnisPos].schueler.klasse;
-  }
-
-  regexPruefen(teilnehmerPos: number, variablePos: number) {
-
-    var re = new RegExp(this.disziplin.variablen[variablePos].typ.format);
-    if (this.ergebnisseEingetragen[teilnehmerPos].leistungen[variablePos].wert && re.test(this.ergebnisseEingetragen[teilnehmerPos].leistungen[variablePos].wert)) {
-
+    if (this.disziplin.klassenleistung) {
+      this.teilnehmerApi.klasseKidErgebnisseDidGet(this.ergebnisseEingetragen[ergebnisPos].klasse.id, this.disziplin.id).subscribe(data => {
+        this.ergebnisse[ergebnisPos] = <ErgebnisExtended> data;
+      });
+    } else {
+      this.teilnehmerApi.schuelerSidErgebnisseDidGet(this.ergebnisse[ergebnisPos].schueler.id, this.disziplin.id).subscribe(data => {
+        this.ergebnisse[ergebnisPos] = <ErgebnisExtended> data;
+      })
     }
-
   }
 
   speicherBedingungenErfuellt(): boolean {
@@ -215,24 +209,9 @@ export class DisziplinComponent implements OnInit {
 
   ergebnisseAbfragen() {
     if (this.disziplin) {
-      this.sfService.ergebnisseVonDisziplin(this.disziplin.id).subscribe(data => {
-        this.ergebnisse = data;
-        //this.dataSource = new MatTableDataSource(this.ergebnisse);  //Material Table
+      this.ergebnisApi.disziplinDidErgebnisseGet(this.disziplin.id).subscribe(data => {
         let tmp = -1;
         let counter = 0;
-        if (this.disziplin.versus) { //Wenn Versus vorhanden, danach sortieren und neu Numerieren beginnend bei 1
-          this.ergebnisse.sort((e1, e2) => e2.versus - e1.versus);
-          for (let ergebnis of this.ergebnisse) {
-            if (ergebnis.versus != tmp) {
-              tmp = ergebnis.versus;
-              counter++;
-            }
-            ergebnis.visibleVersus = counter;
-          }
-        }
-
-        tmp = -1;
-        counter = 0;
         //Nach Punkten sortieren und Rang vergeben
         this.ergebnisse.sort((e1, e2) => e2.punkte - e1.punkte);
         for (let ergebnis of this.ergebnisse) {
@@ -242,10 +221,7 @@ export class DisziplinComponent implements OnInit {
           }
           ergebnis.rang = counter;
         }
-      })
-
-    } else {
-      console.error("Keine Disziplin vorhanden");
+      });
     }
   }
 
@@ -274,11 +250,11 @@ export class DisziplinComponent implements OnInit {
           }
         } else {
           if (n1.punkte == n2.punkte) {
-            if (n1.schueler.name > n2.schueler.name) {
+            if (n1.schueler.nachname > n2.schueler.nachname) {
               return 1;
             }
 
-            if (n1.schueler.name < n2.schueler.name) {
+            if (n1.schueler.nachname < n2.schueler.nachname) {
               return -1;
             }
           }
@@ -308,10 +284,10 @@ export class DisziplinComponent implements OnInit {
           }
         } else {
           if (n1.punkte == n2.punkte) {
-            if (n1.schueler.name > n2.schueler.name) {
+            if (n1.schueler.nachname > n2.schueler.nachname) {
               return -1;
             }
-            if (n1.schueler.name < n2.schueler.name) {
+            if (n1.schueler.nachname < n2.schueler.nachname) {
               return 1;
             }
           }
@@ -352,10 +328,10 @@ export class DisziplinComponent implements OnInit {
   public sortBySchueler() {
     if (this.ergebnisse) {
       this.ergebnisse = this.ergebnisse.sort((n1, n2) => {
-        if (n1.schueler.name > n2.schueler.name) {
+        if (n1.schueler.nachname > n2.schueler.nachname) {
           return -1;
         }
-        if (n1.schueler.name < n2.schueler.name) { return 1; }
+        if (n1.schueler.nachname < n2.schueler.nachname) { return 1; }
         return 0;
       });
     }
@@ -364,10 +340,10 @@ export class DisziplinComponent implements OnInit {
   public sortBySchuelerRev() {
     if (this.ergebnisse) {
       this.ergebnisse = this.ergebnisse.sort((n1, n2) => {
-        if (n1.schueler.name > n2.schueler.name)
+        if (n1.schueler.nachname > n2.schueler.nachname)
           return 1;
 
-        if (n1.schueler.name < n2.schueler.name)
+        if (n1.schueler.nachname < n2.schueler.nachname)
           return -1;
         return 0;
       });

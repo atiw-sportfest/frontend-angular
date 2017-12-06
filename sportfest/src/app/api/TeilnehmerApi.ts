@@ -153,6 +153,22 @@ export class TeilnehmerApi {
     }
 
     /**
+     * Schüler aus einer CSV-Datei importieren. Die Datei muss folgende Spalten in der angegebenen Reihenfolge enthalten: Nachname, Vorname, Klasse, Geschlecht.
+     * @summary Schüler importieren
+     * @param csv CSV-Datei
+     */
+    public schuelerPut(csv: any, extraHttpRequestParams?: any): Observable<Array<models.Schueler>> {
+        return this.schuelerPutWithHttpInfo(csv, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
      * 
      * @summary Schueler löschen
      * @param sid Schueler-ID
@@ -466,6 +482,52 @@ export class TeilnehmerApi {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * Schüler importieren
+     * Schüler aus einer CSV-Datei importieren. Die Datei muss folgende Spalten in der angegebenen Reihenfolge enthalten: Nachname, Vorname, Klasse, Geschlecht.
+     * @param csv CSV-Datei
+     */
+    public schuelerPutWithHttpInfo(csv: any, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/schueler';
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        let formParams = new URLSearchParams();
+
+        // verify required parameter 'csv' is not null or undefined
+        if (csv === null || csv === undefined) {
+            throw new Error('Required parameter csv was null or undefined when calling schuelerPut.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+        ];
+
+        headers.set('Content-Type', 'application/x-www-form-urlencoded');
+
+        if (csv !== undefined) {
+            formParams.set('csv', <any>csv);
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Put,
+            headers: headers,
+            body: formParams.toString(),
             search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });

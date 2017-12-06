@@ -1,6 +1,5 @@
 import { PasswordChangeComponent } from '../../password-change/password-change.component';
 import { MatDialog } from '@angular/material';
-import { SportfestService } from '../../../sportfest.service';
 import { LoginComponent } from '../../login/login.component';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
@@ -19,8 +18,7 @@ export class MobileHeaderComponent implements OnInit {
   @Output() roleChanged = new EventEmitter<string>();
 
   constructor(private router: Router,
-    public dialog: MatDialog,
-    private sfService: SportfestService) { }
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.role = sessionStorage.getItem('role');

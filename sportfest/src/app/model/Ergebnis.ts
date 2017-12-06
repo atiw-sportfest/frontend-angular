@@ -17,7 +17,7 @@ export interface Ergebnis {
 
     punkte?: number;
 
-    ergebnisse?: Array<models.Ergebnis>;
+    leistungen?: Array<models.Leistung>;
 
     klasse?: models.Klasse;
 

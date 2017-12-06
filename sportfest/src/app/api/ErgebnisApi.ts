@@ -58,12 +58,30 @@ export class ErgebnisApi {
     }
 
     /**
-     * 
-     * @summary Ergebnis-Leistungen auswerten
-     * @param teilnehmer 
+     * Für die anzulegenden Ergebnisse wird die Disziplin-ID mit der im Pfad angegenen ID überschrieben.
+     * @summary Ergebnisse für eine Disziplin anlegen
+     * @param did Disziplin-ID
+     * @param ergebnisse Ergebnisse
      */
-    public disziplinDidErgebnissePost(teilnehmer: models.Teilnehmer, extraHttpRequestParams?: any): Observable<Array<models.Ergebnis>> {
-        return this.disziplinDidErgebnissePostWithHttpInfo(teilnehmer, extraHttpRequestParams)
+    public disziplinDidErgebnissePost(did: number, ergebnisse?: Array<models.Ergebnis>, extraHttpRequestParams?: any): Observable<Array<models.Ergebnis>> {
+        return this.disziplinDidErgebnissePostWithHttpInfo(did, ergebnisse, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * 
+     * @summary Ergebnisse für einen Teilnehmer einer Disziplin anzeigen
+     * @param did Disziplin-ID
+     * @param tid Schueler- oder Klassen-ID
+     */
+    public disziplinDidErgebnisseTidGet(did: number, tid: number, extraHttpRequestParams?: any): Observable<Array<models.Ergebnis>> {
+        return this.disziplinDidErgebnisseTidGetWithHttpInfo(did, tid, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -91,12 +109,13 @@ export class ErgebnisApi {
 
     /**
      * 
-     * @summary Leistungen fuer eine Disziplin anzeigen
+     * @summary Leistungen fuer eine Disziplin anlegen
      * @param did Disziplin-ID
-     * @param leistung Zu erstellende Leistungen
+     * @param tid Schueler- oder Klassen-ID
+     * @param leistungen Leistungen
      */
-    public disziplinDidLeistungenPost(did: number, leistung?: Array<models.Leistung>, extraHttpRequestParams?: any): Observable<Array<models.Leistung>> {
-        return this.disziplinDidLeistungenPostWithHttpInfo(did, leistung, extraHttpRequestParams)
+    public disziplinDidLeistungenTidPost(did: number, tid: number, leistungen: Array<models.Leistung>, extraHttpRequestParams?: any): Observable<Array<models.Leistung>> {
+        return this.disziplinDidLeistungenTidPostWithHttpInfo(did, tid, leistungen, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -273,18 +292,20 @@ export class ErgebnisApi {
     }
 
     /**
-     * Ergebnis-Leistungen auswerten
-     * 
-     * @param teilnehmer 
+     * Ergebnisse für eine Disziplin anlegen
+     * Für die anzulegenden Ergebnisse wird die Disziplin-ID mit der im Pfad angegenen ID überschrieben.
+     * @param did Disziplin-ID
+     * @param ergebnisse Ergebnisse
      */
-    public disziplinDidErgebnissePostWithHttpInfo(teilnehmer: models.Teilnehmer, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/disziplin/${did}/ergebnisse';
+    public disziplinDidErgebnissePostWithHttpInfo(did: number, ergebnisse?: Array<models.Ergebnis>, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/disziplin/${did}/ergebnisse'
+                    .replace('${' + 'did' + '}', String(did));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        // verify required parameter 'teilnehmer' is not null or undefined
-        if (teilnehmer === null || teilnehmer === undefined) {
-            throw new Error('Required parameter teilnehmer was null or undefined when calling disziplinDidErgebnissePost.');
+        // verify required parameter 'did' is not null or undefined
+        if (did === null || did === undefined) {
+            throw new Error('Required parameter did was null or undefined when calling disziplinDidErgebnissePost.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [
@@ -300,7 +321,51 @@ export class ErgebnisApi {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
-            body: teilnehmer == null ? '' : JSON.stringify(teilnehmer), // https://github.com/angular/angular/issues/10612
+            body: ergebnisse == null ? '' : JSON.stringify(ergebnisse), // https://github.com/angular/angular/issues/10612
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * Ergebnisse für einen Teilnehmer einer Disziplin anzeigen
+     * 
+     * @param did Disziplin-ID
+     * @param tid Schueler- oder Klassen-ID
+     */
+    public disziplinDidErgebnisseTidGetWithHttpInfo(did: number, tid: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/disziplin/${did}/ergebnisse/${tid}'
+                    .replace('${' + 'did' + '}', String(did))
+                    .replace('${' + 'tid' + '}', String(tid));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'did' is not null or undefined
+        if (did === null || did === undefined) {
+            throw new Error('Required parameter did was null or undefined when calling disziplinDidErgebnisseTidGet.');
+        }
+        // verify required parameter 'tid' is not null or undefined
+        if (tid === null || tid === undefined) {
+            throw new Error('Required parameter tid was null or undefined when calling disziplinDidErgebnisseTidGet.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
             search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });
@@ -351,20 +416,30 @@ export class ErgebnisApi {
     }
 
     /**
-     * Leistungen fuer eine Disziplin anzeigen
+     * Leistungen fuer eine Disziplin anlegen
      * 
      * @param did Disziplin-ID
-     * @param leistung Zu erstellende Leistungen
+     * @param tid Schueler- oder Klassen-ID
+     * @param leistungen Leistungen
      */
-    public disziplinDidLeistungenPostWithHttpInfo(did: number, leistung?: Array<models.Leistung>, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/disziplin/${did}/leistungen'
-                    .replace('${' + 'did' + '}', String(did));
+    public disziplinDidLeistungenTidPostWithHttpInfo(did: number, tid: number, leistungen: Array<models.Leistung>, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/disziplin/${did}/leistungen/${tid}'
+                    .replace('${' + 'did' + '}', String(did))
+                    .replace('${' + 'tid' + '}', String(tid));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'did' is not null or undefined
         if (did === null || did === undefined) {
-            throw new Error('Required parameter did was null or undefined when calling disziplinDidLeistungenPost.');
+            throw new Error('Required parameter did was null or undefined when calling disziplinDidLeistungenTidPost.');
+        }
+        // verify required parameter 'tid' is not null or undefined
+        if (tid === null || tid === undefined) {
+            throw new Error('Required parameter tid was null or undefined when calling disziplinDidLeistungenTidPost.');
+        }
+        // verify required parameter 'leistungen' is not null or undefined
+        if (leistungen === null || leistungen === undefined) {
+            throw new Error('Required parameter leistungen was null or undefined when calling disziplinDidLeistungenTidPost.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [
@@ -380,7 +455,7 @@ export class ErgebnisApi {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
-            body: leistung == null ? '' : JSON.stringify(leistung), // https://github.com/angular/angular/issues/10612
+            body: leistungen == null ? '' : JSON.stringify(leistungen), // https://github.com/angular/angular/issues/10612
             search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });

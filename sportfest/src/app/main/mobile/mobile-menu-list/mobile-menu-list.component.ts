@@ -1,7 +1,8 @@
 import { LoginComponent } from '../../login/login.component';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { SportfestService } from '../../../sportfest.service';
+import { Disziplin } from "../../../model/models";
+import { DisziplinApi } from "../../../api/api";
 
 @Component({
   selector: 'app-mobile-menu-list',
@@ -18,15 +19,17 @@ export class MobileMenuListComponent implements OnInit {
   selectedTeam = false;
   selectedAdmin = false;
 
-  disziplinenTeam: Array<any> = [];
-  disziplinenEinzel: Array<any> = [];
+  disziplinenTeam: Array<Disziplin> = [];
+  disziplinenEinzel: Array<Disziplin> = [];
 
   constructor(private router: Router,
-    private sfService: SportfestService) { }
+    private disziplinApi: DisziplinApi) { }
 
   ngOnInit() {
     this.role = sessionStorage.getItem('role');
-    this.sfService.disziplinenNEU().subscribe(data => {
+    this.disziplinenEinzel = [];
+    this.disziplinenTeam = [];
+    this.disziplinApi.disziplinGet().subscribe(data => {
       console.log(data);
       for (let i = 0; i < data.length; i++) {
         if (!data[i].klassenleistung) {
@@ -81,7 +84,6 @@ export class MobileMenuListComponent implements OnInit {
   }
 
   public expandSportarten() {
-    this.loadDD();
 
     if (this.selectedSportarten) {
       this.selectedSportarten = false;
@@ -117,20 +119,5 @@ export class MobileMenuListComponent implements OnInit {
     }
   }
 
-  public loadDD() {
-    this.disziplinenEinzel = [];
-    this.disziplinenTeam = [];
-    this.sfService.disziplinenNEU().subscribe(data => {
-      for (let i = 0; i < data.length; i++) {
-        if (!data[i].klassenleistung) {
-          this.disziplinenEinzel.push(data[i]);
-        } else {
-          this.disziplinenTeam.push(data[i]);
-        }
-      }
-    },
-      (err) => {
-        console.error('GET-Service "disziplinen()" not reachable.');
-      });
-  }
+
 }

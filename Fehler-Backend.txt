@@ -1,0 +1,13 @@
+Fehlende Schnittstellen:
+Ergebnisse aller Klassen
+Typen abfragen + erstellen
+Schnittstelle zum Script prüfen
+Sportfest beenden
+Sportfest neu starten
+Userverwaltung
+Anmeldeformular download (Klassenspezifisch)
+
+
+Fehlende Attribute:
+Disziplin: 
+	-team -> klassenleistung

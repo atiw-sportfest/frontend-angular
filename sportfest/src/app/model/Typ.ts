@@ -15,4 +15,27 @@ import * as models from './models';
 export interface Typ {
     id?: number;
 
+    datentyp?: Typ.DatentypEnum;
+
+    einheit?: string;
+
+    /**
+     * RegEx
+     */
+    format?: string;
+
+    /**
+     * Beispiel
+     */
+    bsp?: string;
+
+}
+export namespace Typ {
+    export enum DatentypEnum {
+        String = <any> 'string',
+        Int = <any> 'int',
+        Float = <any> 'float',
+        Long = <any> 'long',
+        Double = <any> 'double'
+    }
 }
