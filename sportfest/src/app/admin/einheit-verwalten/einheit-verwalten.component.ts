@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { TypNEU } from '../../interfaces';
+//import { TypNEU } from '../../interfaces';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SportfestService } from '../../sportfest.service';
 import { forEach } from '@angular/router/src/utils/collection';
+import { Typ } from '../../model/Typ';
 
 @Component({
   selector: 'app-einheit-verwalten',
@@ -10,9 +11,9 @@ import { forEach } from '@angular/router/src/utils/collection';
   styleUrls: ['./einheit-verwalten.component.css']
 })
 export class EinheitVerwaltenComponent implements OnInit {
-  einheitPool: TypNEUExtended[];
+  einheitPool: TypExtended[];
 
-
+//TODO sfService löschen wenn Typen schnittestelle existiert
   constructor(private sfService: SportfestService, private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -72,6 +73,6 @@ export class EinheitVerwaltenComponent implements OnInit {
 
 }
 
-export interface TypNEUExtended extends TypNEU {
+export interface TypExtended extends Typ {
   shouldDelete?: boolean;
 }

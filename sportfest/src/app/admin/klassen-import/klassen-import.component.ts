@@ -1,5 +1,7 @@
-import { Klasse } from '../../interfaces';
-import { SportfestService } from '../../sportfest.service';
+//import { Klasse } from '../../interfaces';
+import { Klasse } from '../../model/Klasse';
+//import { SportfestService } from '../../sportfest.service';
+import { AnmeldungApi, TeilnehmerApi } from '../../api/api';
 import { Component, OnInit } from '@angular/core';
 import { RequestOptions, Http } from '@angular/http';
 import { MatSnackBar } from '@angular/material';
@@ -16,44 +18,45 @@ export class KlassenImportComponent implements OnInit {
   teilnehmerFile: File;
   klassen: Array<Klasse> = [];
   selectedDownloadableClass: number;
-  downloadPath:string;
+  downloadPath: string;
   showDownloadButton: boolean = false;
-  
+
   importPath = BASEPATH + '/klasse/anmeldung';
   uploadPath = BASEPATH + '/schueler/upload';
-  
+
   constructor(private http: Http,
-              private sfService: SportfestService,
-              public snackBar: MatSnackBar) { }
+    private anmeldungApi: AnmeldungApi, private teilnehmerApi: TeilnehmerApi,
+    public snackBar: MatSnackBar) { }
 
   ngOnInit() {
-     this.sfService.klassen().subscribe((data: Klasse[]) => {
-        this.klassen = data;
-      },
+
+    this.teilnehmerApi.klasseGet().subscribe((data: Klasse[]) => {
+      this.klassen = data;
+    },
       (err) => {
         console.error('GET-Service "klassen()" not reachable.');
       })
   }
-  
+
   // Button Download wurde geklickt
   public download() {
-    this.sfService.schuelerAnmeldebogen(this.selectedDownloadableClass).subscribe();    
-   }
-  
+    //this.teilnehmerApi.
+  }
+
   // Dateiauswahl für Anmeldebogen geändert
   public anmeldebogenChange(event: any) {
     let fileList: FileList = event.target.files;
     if (fileList.length > 0) {
-        this.anmeldebogenFile = fileList[0];
-        // const formData: FormData = new FormData();
-        // formData.append('uploadFile', this.file, this.file.name);
+      this.anmeldebogenFile = fileList[0];
+      // const formData: FormData = new FormData();
+      // formData.append('uploadFile', this.file, this.file.name);
     }
   }
-  
+
   // Ausgewählten Anmeldebogen abschicken
   public sendAnmeldebogen() {
     if (this.anmeldebogenFile) {
-      this.sfService.klasseSchreiben(this.anmeldebogenFile).subscribe(
+      this.anmeldungApi.anmeldungUploadPost(this.anmeldebogenFile).subscribe(
         (data) => {
           console.log(data);
         },
@@ -63,62 +66,66 @@ export class KlassenImportComponent implements OnInit {
       );
     }
   }
-  
-  public changeDownloadPath(){
-    this.downloadPath = BASEPATH+ "/klasse/" + this.selectedDownloadableClass + "/anmeldung";
+
+  public changeDownloadPath() {
+    this.downloadPath = BASEPATH + "/klasse/" + this.selectedDownloadableClass + "/anmeldung";
   }
-  
+
   // Gibt zurück, ob der "Anmeldebogen abschicken"-Button geklickt werden kann (sonst disabled)
   public isAnmeldebogenSelected() {
     if (this.anmeldebogenFile) {
       return true;
-    }else {
+    } else {
       return false;
     }
   }
-  
+
   // Dateiauswahl für Teilnehmerliste geändert
   public teilnehmerChange(event: any) {
     let fileList: FileList = event.target.files;
     if (fileList.length > 0) {
-        this.teilnehmerFile = fileList[0];
-        // const formData: FormData = new FormData();
-        // formData.append('uploadFile', this.file, this.file.name);
+      this.teilnehmerFile = fileList[0];
+      // const formData: FormData = new FormData();
+      // formData.append('uploadFile', this.file, this.file.name);
     }
   }
 
   // Ausgewählte Teilnehmerliste abschicken
-  public sendTeilnehmer() {
-    if (this.teilnehmerFile) {
-      this.sfService.klasseSchreiben(this.teilnehmerFile).subscribe(
-        (data) => {
-          console.log(data);
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
-    }
-  }
+  // public sendTeilnehmer() {
+  //   if (this.teilnehmerFile) {
+  //     this.sfService.klasseSchreiben(this.teilnehmerFile).subscribe(
+  //       (data) => {
+  //         console.log(data);
+  //       },
+  //       (err) => {
+  //         console.log(err);
+  //       }
+  //     );
+  //   }
+  // }
 
   // Gibt zurück, ob der "Teilnehmerliste abschicken"-Button geklickt werden kann (sonst disabled)
   public isTeilnehmerSelected() {
     if (this.teilnehmerFile) {
       return true;
-    }else {
+    } else {
       return false;
     }
   }
-  
-  public openSchuelerHochgeladenSnackbar(){
-    this.snackBar.open("Schülerliste wurde hochgeladen", "OK",{
+
+  public openSchuelerHochgeladenSnackbar() {
+    this.snackBar.open("Schülerliste wurde hochgeladen", "OK", {
       duration: 2000,
     });
   }
 
-  public openAnmeldungHochgeladenSnackbar(){
-    this.snackBar.open("Anmeldebogen wurde hochgeladen", "OK",{
+  public openAnmeldungHochgeladenSnackbar() {
+    this.snackBar.open("Anmeldebogen wurde hochgeladen", "OK", {
       duration: 2000,
     });
+  }
+
+  schuelerHochladen() {
+    this.teilnehmerApi.schuelerPut(this.teilnehmerFile).subscribe();
   }
 }

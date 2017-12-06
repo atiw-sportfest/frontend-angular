@@ -19,10 +19,14 @@ export interface Disziplin {
 
     beschreibung?: string;
 
-    team?: boolean;
+    klassenleistung?: boolean;
+
+    versus?: boolean;
 
     variablen?: Array<models.Variable>;
 
-    regel?: string;
+    regeln?: string;
+
+    aktiviert?: boolean;
 
 }

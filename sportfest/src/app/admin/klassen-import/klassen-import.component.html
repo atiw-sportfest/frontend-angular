@@ -39,8 +39,7 @@
       <h3>Anmeldebogen - Import</h3>
     </mat-card-header>
     <!-- Action anpassen (/schueler/disziplin/upload), File-Name-->
-    <form ngNoForm [action]="importPath" method="POST" target="noDisplay" enctype="multipart/form-data">
-      <mat-card-content>
+     <mat-card-content>
         <table>
           <tr>
             <td>
@@ -56,9 +55,8 @@
         </table>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button color="primary" type="submit" (click)="openAnmeldungHochgeladenSnackbar()" [disabled]="!isAnmeldebogenSelected()">Anmeldebogen abschicken</button>
+        <button mat-raised-button color="primary"  (click)="openAnmeldungHochgeladenSnackbar();sendAnmeldebogen()" [disabled]="!isAnmeldebogenSelected()">Anmeldebogen abschicken</button>
       </mat-card-actions>
-    </form>
   </mat-card>
 </mat-card-content>
 <!-- Teilnehmerimport -->
@@ -67,28 +65,26 @@
     <mat-card-header>
       <h3>Import der Teilnehmer</h3>
     </mat-card-header>
-    <form ngNoForm [action]="uploadPath" method="POST" target="noDisplay" enctype="multipart/form-data">
-      <mat-card-content>
-        <table>
-          <tr>
-            <td>
-              Bitte laden Sie die CSV-Datei, die alle Schüler und Lehrer des ATIWs enthält (Name; Vorname; Klasse; Geschlecht), aus, um
-              die Daten für das Tunier bereitzustellen.
-              <br><br> Mögliche Dateiformate sind .csv, .xls und .xlsx.
-            </td>
-          </tr>
-          <tr></tr>
-          <tr>
-            <td>
-              <input mat-raised-button type="file" name="file" size="45" accept=".csv, .xls, .xlsx" (change)="teilnehmerChange($event)"
-              />
-            </td>
-          </tr>
-        </table>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button color="primary" type="submit" (click)="openSchuelerHochgeladenSnackbar()" [disabled]="!isTeilnehmerSelected()">Teilnehmerliste abschicken</button>
-      </mat-card-actions>
-    </form>
+    <mat-card-content>
+      <table>
+        <tr>
+          <td>
+            Bitte laden Sie die CSV-Datei, die alle Schüler und Lehrer des ATIWs enthält (Name; Vorname; Klasse; Geschlecht), aus, um
+            die Daten für das Tunier bereitzustellen.
+            <br><br> Mögliche Dateiformate sind .csv, .xls und .xlsx.
+          </td>
+        </tr>
+        <tr></tr>
+        <tr>
+          <td>
+            <input mat-raised-button type="file" name="file" size="45" accept=".csv, .xls, .xlsx" (change)="teilnehmerChange($event)"
+            />
+          </td>
+        </tr>
+      </table>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="openSchuelerHochgeladenSnackbar();schuelerHochladen()" [disabled]="!isTeilnehmerSelected()">Teilnehmerliste abschicken</button>
+    </mat-card-actions>
   </mat-card>
 </mat-card-content>

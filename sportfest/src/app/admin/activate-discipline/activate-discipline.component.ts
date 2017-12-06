@@ -28,8 +28,8 @@ export class ActivateDisciplineComponent implements OnInit {
         this.disziplinen = [];
       }
       this.disziplinen.forEach(element => {
-        if (element.regel == null) {
-          element.regel = "";
+        if (element.regeln == null) {
+          element.regeln = "";
         }
       });
     },

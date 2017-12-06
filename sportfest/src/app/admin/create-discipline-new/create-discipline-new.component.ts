@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { DisziplinNEU, VariableNEU, TypNEU, RegelNEU } from '../../interfaces';
+//import { DisziplinNEU, VariableNEU, TypNEU, RegelNEU } from '../../interfaces';
 import { SportfestService } from '../../sportfest.service';
+import { Disziplin } from '../../model/Disziplin';
+import { Variable } from '../../model/Variable';
+import { Typ } from '../../model/Typ';
+import { DisziplinApi } from '../../api/api';
 
 @Component({
   selector: 'app-create-discipline-new',
@@ -16,33 +20,36 @@ export class CreateDisciplineNewComponent implements OnInit {
   anzahlDerVersuchen: number;
   versus: boolean;
 
-  arrayOfVars: VariableNEU[];
+  arrayOfVars: Variable[];
 
   regelString: string;
-  regel: RegelNEU;
+  regel: string;
 
-  einheitPool: TypNEU[];
-  selectedEinheit: TypNEU;
+  einheitPool: Typ[];
+  selectedEinheit: Typ;
   statusCodeText: string;
   statusCodeIcon: string;
 
   syntaxCorrect: boolean;
+  //TODO sfService entfernen
 
-  constructor(private sfService: SportfestService, private route: ActivatedRoute, private router: Router) {
+  constructor(private sfService: SportfestService, private disziplinApi: DisziplinApi, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
+
     this.sfService.typenNEU().subscribe(data => {
       this.einheitPool = data;
 
       this.route.params.forEach((params: Params) => {
         this.idDerDisziplin = +params['id'];
         if (this.idDerDisziplin) {
-          this.sfService.disziplinNEU(this.idDerDisziplin).subscribe((data: DisziplinNEU) => {
+
+          this.disziplinApi.disziplinDidGet(this.idDerDisziplin).subscribe((data: Disziplin) => {
             this.nameDerDisziplin = data.bezeichnung;
             this.beschreibungDerDisziplin = data.beschreibung;
             this.klassenleistung = data.klassenleistung;
-            this.regel = data.regel;
+            this.regel = data.regeln;
             this.assignVars(data.variablen);
             this.versus = data.versus;
 
@@ -51,7 +58,7 @@ export class CreateDisciplineNewComponent implements OnInit {
             this.syntaxCorrect = true;
           });
         } else {
-          this.regel = { id: null, script: "" };
+          this.regel = "";
           this.idDerDisziplin = null;
           this.nameDerDisziplin = "";
           this.beschreibungDerDisziplin = "";
@@ -82,7 +89,7 @@ export class CreateDisciplineNewComponent implements OnInit {
     console.log("Mit Compiler verbinden!");
 
     this.statusCodeText = "Code wird überprüft";
-    this.sfService.scriptPruefen(this.regelString).subscribe(data => {
+    this.sfService.scriptPruefen(this.regel).subscribe(data => {
       this.syntaxCorrect = data;
 
     });
@@ -103,7 +110,7 @@ export class CreateDisciplineNewComponent implements OnInit {
     this.syntaxCorrect = false;
   }
 
-  assignVars(vars: VariableNEU[]) {
+  assignVars(vars: Variable[]) {
     for (let outer = 0; outer < vars.length; outer++) {
       for (let inner = 0; inner < this.einheitPool.length; inner++) {
         if (vars[outer].typ.id == this.einheitPool[inner].id) {
@@ -116,20 +123,20 @@ export class CreateDisciplineNewComponent implements OnInit {
   }
 
   sendToBackend() {
-    let disziplinDTO: DisziplinNEU;
+    let disziplinDTO: Disziplin;
     disziplinDTO = {
       id: this.idDerDisziplin,
       bezeichnung: this.nameDerDisziplin,
       beschreibung: this.beschreibungDerDisziplin,
       aktiviert: true,
-      regel: this.regel,
+      regeln: this.regel,
       klassenleistung: this.klassenleistung,
       variablen: this.arrayOfVars,
       versus: this.versus
     }
 
     if (disziplinDTO.id) { //Disziplin existiert schon
-      this.sfService.disziplinAendernNEU(disziplinDTO).subscribe(
+      this.disziplinApi.disziplinDidPost(disziplinDTO.id, disziplinDTO).subscribe(
         (data) => {
           console.log(data);
         },
@@ -137,7 +144,7 @@ export class CreateDisciplineNewComponent implements OnInit {
           console.log(err);
         });
     } else { //Neue Disziplin
-      this.sfService.disziplinHinzufuegenNEU(disziplinDTO).subscribe(
+      this.disziplinApi.disziplinPost(disziplinDTO).subscribe(
         (data) => {
           console.log(data);
           this.router.navigate(["/disziplin/" + disziplinDTO.id]);

@@ -15,7 +15,7 @@ import * as models from './models';
 export interface Variable {
     id?: number;
 
-    name?: string;
+    bezeichnung?: string;
 
     typ?: models.Typ;
 
