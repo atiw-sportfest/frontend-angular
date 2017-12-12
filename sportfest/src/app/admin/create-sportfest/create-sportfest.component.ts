@@ -2,6 +2,7 @@ import { AreYouSureComponent } from '../../main/are-you-sure/are-you-sure.compon
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { SportfestService } from '../../sportfest.service';
 import { Component, OnInit, Inject } from '@angular/core';
+import { MetaApi } from '../../api/api';
 
 @Component({
   selector: 'app-create-sportfest',
@@ -13,8 +14,8 @@ export class CreateSportfestComponent implements OnInit {
   selectedOption: any;
   buttonPressed: number; //0 = sportfest beenden, 1= neues Sportfest
 
-//TODO Umstellen sobald Schnittstellen vorhanden sind
-  constructor(public dialog: MatDialog,
+  //TODO Umstellen sobald Schnittstellen vorhanden sind
+  constructor(public dialog: MatDialog, private metaApi: MetaApi,
     private sfService: SportfestService, public snackBar: MatSnackBar) { }
 
   ngOnInit() {
@@ -22,12 +23,12 @@ export class CreateSportfestComponent implements OnInit {
 
   private beenden() {
     this.sfService.sporfestBeenden();
-    this.openSnackBar("Das aktuelle Sporfest wurde beendet und die Punkte verteilt","Bestätigen");
+    this.openSnackBar("Das aktuelle Sporfest wurde beendet und die Punkte verteilt", "Bestätigen");
   }
 
   private neuesSportfest() {
     console.log("Funktion existiert noch nicht");
-    this.openSnackBar("Ein neues Sporfest wurde angelegt","Bestätigen");
+    this.openSnackBar("Ein neues Sporfest wurde angelegt", "Bestätigen");
   }
 
 

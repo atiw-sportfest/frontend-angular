@@ -1,5 +1,7 @@
 export * from './AnmeldungApi';
 import { AnmeldungApi } from './AnmeldungApi';
+export * from './DefaultApi';
+import { DefaultApi } from './DefaultApi';
 export * from './DisziplinApi';
 import { DisziplinApi } from './DisziplinApi';
 export * from './ErgebnisApi';
@@ -10,4 +12,4 @@ export * from './NutzerApi';
 import { NutzerApi } from './NutzerApi';
 export * from './TeilnehmerApi';
 import { TeilnehmerApi } from './TeilnehmerApi';
-export const APIS = [AnmeldungApi, DisziplinApi, ErgebnisApi, MetaApi, NutzerApi, TeilnehmerApi];
+export const APIS = [AnmeldungApi, DefaultApi, DisziplinApi, ErgebnisApi, MetaApi, NutzerApi, TeilnehmerApi];

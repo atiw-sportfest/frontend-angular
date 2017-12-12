@@ -28,7 +28,7 @@ import { Configuration }                                     from '../configurat
 @Injectable()
 export class MetaApi {
 
-    protected basePath = 'https://sportfest.atiw.de/backend';
+    protected basePath = 'http://localhost:8080/backend';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
 
@@ -100,6 +100,66 @@ export class MetaApi {
             });
     }
 
+    /**
+     * Typen auflisten
+     */
+    public typGet(extraHttpRequestParams?: any): Observable<Array<models.Typ>> {
+        return this.typGetWithHttpInfo(extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * Typ anlegen
+     * @param typ Typ
+     */
+    public typPost(typ?: models.Typ, extraHttpRequestParams?: any): Observable<models.Typ> {
+        return this.typPostWithHttpInfo(typ, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * Typ abrufen
+     * @param typid Typ-ID
+     */
+    public typTypidGet(typid: number, extraHttpRequestParams?: any): Observable<models.Typ> {
+        return this.typTypidGetWithHttpInfo(typid, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * Typ ändern
+     * @param typid Typ-ID
+     * @param typ Typ
+     */
+    public typTypidPost(typid: number, typ?: models.Typ, extraHttpRequestParams?: any): Observable<models.Typ> {
+        return this.typTypidPostWithHttpInfo(typid, typ, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
 
     /**
      * JWT Login
@@ -158,7 +218,7 @@ export class MetaApi {
             'application/json'
         ];
 
-        headers.set('Content-Type', 'application/json');
+        headers.set('Content-Type', 'text/plain');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
@@ -226,6 +286,156 @@ export class MetaApi {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * Typen auflisten
+     */
+    public typGetWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/typ';
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * Typ anlegen
+     * @param typ Typ
+     */
+    public typPostWithHttpInfo(typ?: models.Typ, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/typ';
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        headers.set('Content-Type', 'application/json');
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: typ == null ? '' : JSON.stringify(typ), // https://github.com/angular/angular/issues/10612
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * Typ abrufen
+     * @param typid Typ-ID
+     */
+    public typTypidGetWithHttpInfo(typid: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/typ/${typid}'
+                    .replace('${' + 'typid' + '}', String(typid));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'typid' is not null or undefined
+        if (typid === null || typid === undefined) {
+            throw new Error('Required parameter typid was null or undefined when calling typTypidGet.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * Typ ändern
+     * @param typid Typ-ID
+     * @param typ Typ
+     */
+    public typTypidPostWithHttpInfo(typid: number, typ?: models.Typ, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/typ/${typid}'
+                    .replace('${' + 'typid' + '}', String(typid));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'typid' is not null or undefined
+        if (typid === null || typid === undefined) {
+            throw new Error('Required parameter typid was null or undefined when calling typTypidPost.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        headers.set('Content-Type', 'application/json');
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: typ == null ? '' : JSON.stringify(typ), // https://github.com/angular/angular/issues/10612
             search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });

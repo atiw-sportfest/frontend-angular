@@ -40,7 +40,12 @@ export class KlassenImportComponent implements OnInit {
 
   // Button Download wurde geklickt
   public download() {
-    //this.teilnehmerApi.
+    this.anmeldungApi.anmeldebogenKidGet(this.selectedDownloadableClass).subscribe((data) => {
+      console.log(data);
+    },
+      (err) => {
+        console.log(err);
+      });
   }
 
   // Dateiauswahl für Anmeldebogen geändert
@@ -56,7 +61,7 @@ export class KlassenImportComponent implements OnInit {
   // Ausgewählten Anmeldebogen abschicken
   public sendAnmeldebogen() {
     if (this.anmeldebogenFile) {
-      this.anmeldungApi.anmeldungUploadPost(this.anmeldebogenFile).subscribe(
+      this.anmeldungApi.anmeldebogenPost(this.anmeldebogenFile).subscribe(
         (data) => {
           console.log(data);
         },

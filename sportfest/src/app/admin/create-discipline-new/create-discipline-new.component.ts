@@ -5,7 +5,7 @@ import { SportfestService } from '../../sportfest.service';
 import { Disziplin } from '../../model/Disziplin';
 import { Variable } from '../../model/Variable';
 import { Typ } from '../../model/Typ';
-import { DisziplinApi } from '../../api/api';
+import { DisziplinApi, MetaApi } from '../../api/api';
 
 @Component({
   selector: 'app-create-discipline-new',
@@ -19,6 +19,7 @@ export class CreateDisciplineNewComponent implements OnInit {
   team: boolean;
   anzahlDerVersuchen: number;
   versus: boolean;
+  fehlermeldung: string
 
   arrayOfVars: Variable[];
 
@@ -33,12 +34,12 @@ export class CreateDisciplineNewComponent implements OnInit {
   syntaxCorrect: boolean;
   //TODO sfService entfernen
 
-  constructor(private sfService: SportfestService, private disziplinApi: DisziplinApi, private route: ActivatedRoute, private router: Router) {
+  constructor(private metaApi: MetaApi, private disziplinApi: DisziplinApi, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
-
-    this.sfService.typenNEU().subscribe(data => {
+    this.fehlermeldung = "";
+    this.metaApi.typGet().subscribe(data => {
       this.einheitPool = data;
 
       this.route.params.forEach((params: Params) => {
@@ -86,19 +87,28 @@ export class CreateDisciplineNewComponent implements OnInit {
   }
 
   checkCode() {
-    console.log("Mit Compiler verbinden!");
 
     this.statusCodeText = "Code wird überprüft";
-    this.sfService.scriptPruefen(this.regel).subscribe(data => {
-      this.syntaxCorrect = data;
+    this.metaApi.dslCheckRegelPost(this.regel).subscribe(data => {
+      this.syntaxCorrect = data.pass;
+      this.fehlermeldung = data.messages;
 
+
+      if (this.syntaxCorrect) {
+        this.statusCodeText = "Der Code ist Syntaktisch richtig";
+        this.statusCodeIcon = "done";
+      } else {
+        this.statusCodeText = this.fehlermeldung;
+        this.statusCodeIcon = "error";
+      }
     });
+
 
     if (this.syntaxCorrect) {
       this.statusCodeText = "Der Code ist Syntaktisch richtig";
       this.statusCodeIcon = "done";
     } else {
-      this.statusCodeText = "Syntaktischer Fehler im Code";
+      this.statusCodeText = this.fehlermeldung;
       this.statusCodeIcon = "error";
     }
 

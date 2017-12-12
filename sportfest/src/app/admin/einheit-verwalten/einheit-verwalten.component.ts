@@ -4,6 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SportfestService } from '../../sportfest.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { Typ } from '../../model/Typ';
+import { MetaApi } from '../../api/api';
 
 @Component({
   selector: 'app-einheit-verwalten',
@@ -15,17 +16,22 @@ export class EinheitVerwaltenComponent implements OnInit {
   keys: any[];
 
   //TODO sfService löschen wenn Typen schnittestelle existiert
-  constructor(private sfService: SportfestService, private route: ActivatedRoute) { }
+  constructor(private metaApi: MetaApi, private sfService: SportfestService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.einheitPool = [];
     this.keys = [];
 
-    for (let item in Typ.DatentypEnum) {
-      if (item.toString().charAt(0) == item.toString().charAt(0).toLowerCase()) {
-        this.keys.push(item);
+    this.metaApi.typGet().subscribe(data => {
+      this.einheitPool = data;
+      for (let item in Typ.DatentypEnum) {
+        //if (item.toString().charAt(item.toString().length-1) == item.toString().charAt(item.toString().length-1).toUpperCase()) {
+        if (item.toString().charAt(0) == item.toString().charAt(0).toLowerCase()) {
+          this.keys.push(item);
+        }
       }
-    }
+    });
+
 
     // this.sfService.typenNEU().subscribe(data => {
     //   this.einheitPool = data;
@@ -34,7 +40,6 @@ export class EinheitVerwaltenComponent implements OnInit {
     // this.einheitPool.forEach(einheit => {
     //   einheit.shouldDelete = false;
     // });
-
   }
 
   deleteEinheit(index: number) {
@@ -69,7 +74,7 @@ export class EinheitVerwaltenComponent implements OnInit {
           bsp: einheit.bsp
         };
         console.log(sendeEinheit);
-        //this.sfService.typenAendernNEU(sendeEinheit.id, sendeEinheit);
+        this.metaApi.typTypidPost(sendeEinheit.id, sendeEinheit).subscribe();
       } else {
         let sendeEinheit = {
           id: null,
@@ -79,7 +84,7 @@ export class EinheitVerwaltenComponent implements OnInit {
           bsp: einheit.bsp
         };
         console.log(sendeEinheit);
-        //this.sfService.typenHinzufuegenNEU(sendeEinheit);
+        this.metaApi.typPost(sendeEinheit).subscribe();
       }
     });
   }

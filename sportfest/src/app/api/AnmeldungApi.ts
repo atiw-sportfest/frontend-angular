@@ -28,7 +28,7 @@ import { Configuration }                                     from '../configurat
 @Injectable()
 export class AnmeldungApi {
 
-    protected basePath = 'https://sportfest.atiw.de/backend';
+    protected basePath = 'http://localhost:8080/backend';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
 
@@ -39,6 +39,38 @@ export class AnmeldungApi {
         if (configuration) {
             this.configuration = configuration;
         }
+    }
+
+    /**
+     * 
+     * @summary Anmeldebogen für eine Klasse herunterladen
+     * @param kid Klassen-ID
+     */
+    public anmeldebogenKidGet(kid: number, extraHttpRequestParams?: any): Observable<{}> {
+        return this.anmeldebogenKidGetWithHttpInfo(kid, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * 
+     * @summary Anmeldebogen für eine Klasse hochladen
+     * @param file Anmeldung als Excel-Datei
+     */
+    public anmeldebogenPost(file: any, extraHttpRequestParams?: any): Observable<{}> {
+        return this.anmeldebogenPostWithHttpInfo(file, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
     }
 
     /**
@@ -106,39 +138,6 @@ export class AnmeldungApi {
 
     /**
      * 
-     * @summary Anmeldebogen für eine Klasse herunterladen
-     * @param kid Klassen-ID
-     */
-    public klasseKidAnmeldebogenGet(kid: number, extraHttpRequestParams?: any): Observable<string> {
-        return this.klasseKidAnmeldebogenGetWithHttpInfo(kid, extraHttpRequestParams)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json() || {};
-                }
-            });
-    }
-
-    /**
-     * 
-     * @summary Anmeldebogen für eine Klasse hochladen
-     * @param kid Klassen-ID
-     * @param file Anmeldung als Excel-Datei
-     */
-    public klasseKidAnmeldebogenPost(kid: number, file: any, extraHttpRequestParams?: any): Observable<{}> {
-        return this.klasseKidAnmeldebogenPostWithHttpInfo(kid, file, extraHttpRequestParams)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json() || {};
-                }
-            });
-    }
-
-    /**
-     * 
      * @summary Anmeldungen einer Klasse anzuzeigen
      * @param kid Klassen-ID
      */
@@ -169,6 +168,90 @@ export class AnmeldungApi {
             });
     }
 
+
+    /**
+     * Anmeldebogen für eine Klasse herunterladen
+     * 
+     * @param kid Klassen-ID
+     */
+    public anmeldebogenKidGetWithHttpInfo(kid: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/anmeldebogen/${kid}'
+                    .replace('${' + 'kid' + '}', String(kid));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'kid' is not null or undefined
+        if (kid === null || kid === undefined) {
+            throw new Error('Required parameter kid was null or undefined when calling anmeldebogenKidGet.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/vnd.ms-excel'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * Anmeldebogen für eine Klasse hochladen
+     * 
+     * @param file Anmeldung als Excel-Datei
+     */
+    public anmeldebogenPostWithHttpInfo(file: any, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/anmeldebogen';
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        let formParams = new URLSearchParams();
+
+        // verify required parameter 'file' is not null or undefined
+        if (file === null || file === undefined) {
+            throw new Error('Required parameter file was null or undefined when calling anmeldebogenPost.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+        ];
+
+        headers.set('Content-Type', 'application/x-www-form-urlencoded');
+
+        if (file !== undefined) {
+            formParams.set('file', <any>file);
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: formParams.toString(),
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
 
     /**
      * Anmeldung löschen
@@ -304,96 +387,6 @@ export class AnmeldungApi {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
-            search: queryParameters,
-            withCredentials:this.configuration.withCredentials
-        });
-        // https://github.com/swagger-api/swagger-codegen/issues/4037
-        if (extraHttpRequestParams) {
-            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
-        }
-
-        return this.http.request(path, requestOptions);
-    }
-
-    /**
-     * Anmeldebogen für eine Klasse herunterladen
-     * 
-     * @param kid Klassen-ID
-     */
-    public klasseKidAnmeldebogenGetWithHttpInfo(kid: number, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/klasse/${kid}/anmeldebogen'
-                    .replace('${' + 'kid' + '}', String(kid));
-
-        let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        // verify required parameter 'kid' is not null or undefined
-        if (kid === null || kid === undefined) {
-            throw new Error('Required parameter kid was null or undefined when calling klasseKidAnmeldebogenGet.');
-        }
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
-
-        // to determine the Accept header
-        let produces: string[] = [
-            'application/vnd.ms-excel'
-        ];
-
-        let requestOptions: RequestOptionsArgs = new RequestOptions({
-            method: RequestMethod.Get,
-            headers: headers,
-            search: queryParameters,
-            withCredentials:this.configuration.withCredentials
-        });
-        // https://github.com/swagger-api/swagger-codegen/issues/4037
-        if (extraHttpRequestParams) {
-            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
-        }
-
-        return this.http.request(path, requestOptions);
-    }
-
-    /**
-     * Anmeldebogen für eine Klasse hochladen
-     * 
-     * @param kid Klassen-ID
-     * @param file Anmeldung als Excel-Datei
-     */
-    public klasseKidAnmeldebogenPostWithHttpInfo(kid: number, file: any, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/klasse/${kid}/anmeldebogen'
-                    .replace('${' + 'kid' + '}', String(kid));
-
-        let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        let formParams = new URLSearchParams();
-
-        // verify required parameter 'kid' is not null or undefined
-        if (kid === null || kid === undefined) {
-            throw new Error('Required parameter kid was null or undefined when calling klasseKidAnmeldebogenPost.');
-        }
-        // verify required parameter 'file' is not null or undefined
-        if (file === null || file === undefined) {
-            throw new Error('Required parameter file was null or undefined when calling klasseKidAnmeldebogenPost.');
-        }
-        // to determine the Content-Type header
-        let consumes: string[] = [
-            'multipart/form-data'
-        ];
-
-        // to determine the Accept header
-        let produces: string[] = [
-        ];
-
-        headers.set('Content-Type', 'application/x-www-form-urlencoded');
-
-        if (file !== undefined) {
-            formParams.set('file', <any>file);
-        }
-
-        let requestOptions: RequestOptionsArgs = new RequestOptions({
-            method: RequestMethod.Post,
-            headers: headers,
-            body: formParams.toString(),
             search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });
