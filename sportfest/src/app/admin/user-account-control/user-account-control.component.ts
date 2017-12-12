@@ -1,6 +1,8 @@
 import { SportfestService } from '../../sportfest.service';
 import { Component, OnInit } from '@angular/core';
 import { Md5 } from 'ts-md5/dist/md5';
+import { NutzerApi } from "../../api/api";
+import { User, Role } from "../../model/models";
 
 @Component({
   selector: 'app-user-account-control',
@@ -9,83 +11,47 @@ import { Md5 } from 'ts-md5/dist/md5';
 })
 export class UserAccountControlComponent implements OnInit {
 
-  users: any;
-  selectedRole: string;
+  users: User[];
+  selectedRole: Role;
   username: string = '';
   password: string = 'Atiw2017';
 
-  constructor(private sfService: SportfestService) { }
+  constructor(private nutzerApi: NutzerApi) { }
 
   ngOnInit() {//Laden der Seite
     this.rollenLaden();
   }
 
   private rollenLaden() { //Lädt alle im System existierende Benutzer
-    this.sfService.user().subscribe(data => {
-      this.users = data;
-      this.users.forEach(element => {
-        if (element.berid == '1') {
-          element.role = 'admin';
-        } else {
-          element.role = 'schiedsrichter';
-        }
-      });
-    },
-      (err) => {
-        console.error(err);
-      })
+    this.nutzerApi.userGet().subscribe(data => {
+      this.users=data;
+    });
   }
-  public deleteUser(user: any) {
+  public deleteUser(user: User) {
     // alert('User ' + user.name + ' wird gelöscht!');
-    this.sfService.userLoeschen(user.name).subscribe(//Löscht Benutzer aus der Datenbank
-      (data) => {
-        console.log(data);
-        this.rollenLaden(); //Existierende Benutzer neu laden
-      },
-      (err) => {
-        console.error(err);
-      }
-    );
+    this.nutzerApi.userUidGet(user.id).subscribe(data=>{
+      this.rollenLaden();
+    });
   }
 
   public addUser() {
     if (this.selectedRole && this.username && this.password) {//Benutzername und Rolle wurde gesetzt
-      let encryptpwd = Md5.hashStr(this.password);
-      //console.log(encryptpwd.toString());
-      this.sfService.userHinzufuegen(this.username, encryptpwd.toString(), this.selectedRole).subscribe(//Benutz in Datenbank einfügen
-        (data) => {
-          console.log(data);
-          this.rollenLaden();//Existierende Benutzer neu laden
-          this.username = '';
-          this.selectedRole = null;
-        },
-        (err) => {
-          console.error(err);
-        }
-      )
-    } else {
-      alert('Fehler bei der Eingabe');
-    }
-
+      let newUser: User = {
+        password : Md5.hashStr(this.password).toString(),
+        username: this.username,
+        role: this.selectedRole
+      };
+      this.nutzerApi.userPost(newUser).subscribe(data=>{
+          this.rollenLaden();
+      });
+  }
   }
 
 
-  public resetPassword(user: any) {//Ausgewählten Benutzer löschen und mit initialpassword erstellen
-    this.sfService.userLoeschen(user.name).subscribe(//Löscht Benutzer aus der Datenbank
-      (data) => {
-        let encryptpwd = Md5.hashStr('Atiw2017');
-        this.sfService.userHinzufuegen(user.name, encryptpwd.toString(), user.role).subscribe(//Benutz in Datenbank einfügen
-          (data) => {
-            this.rollenLaden();//Existierende Benutzer neu laden
-          },
-          (err) => {
-            console.error(err);
-          }
-        )
-      },
-      (err) => {
-        console.error(err);
-      }
-    );
+  public resetPassword(user: User) {//Ausgewählten Benutzer löschen und mit initialpassword erstellen
+    user.password = "";
+    this.nutzerApi.userUidPost(user.id, user).subscribe(data=>{
+      this.rollenLaden();
+    });
   }
 }

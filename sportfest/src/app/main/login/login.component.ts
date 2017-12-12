@@ -2,6 +2,8 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { SportfestService } from '../../sportfest.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialogRef } from "@angular/material";
+import { AnmeldungApi, MetaApi } from "../../api/api";
+import { User } from "../../model/models";
 
 @Component({
   selector: 'app-login',
@@ -15,7 +17,7 @@ export class LoginComponent implements OnInit {
 
   errorMsg: string;
 
-  constructor(public thisDialogRef: MatDialogRef<LoginComponent>, private sfService: SportfestService) { }
+  constructor(public thisDialogRef: MatDialogRef<LoginComponent>, private sfService: SportfestService, private metaApi: MetaApi) { }
 
   ngOnInit() {
   }
@@ -26,6 +28,16 @@ export class LoginComponent implements OnInit {
       let encryptpwd = Md5.hashStr(this.password); // TODO: wenn mehr Zeit -> Umstellung auf sichere Hash-Funktion
 
       // Logindaten übermitteln
+      let user: User = {
+        username: this.username,
+        password: this.password
+      }
+      this.metaApi.authenticatePost(user).subscribe(success => {
+        sessionStorage.setItem('init', '' + success.intial);
+        sessionStorage.setItem('token', success.token);
+      }, data => {
+        this.error();
+      })/*
       this.sfService.userLogin(this.username, encryptpwd.toString()).subscribe(
         data => {
           let token = data.text(); //token = bearer-Token in der Antwort des Servers
@@ -53,7 +65,7 @@ export class LoginComponent implements OnInit {
           console.error(err);
           this.error();
         }
-      );
+      );*/
     } else {
       this.error();
     }

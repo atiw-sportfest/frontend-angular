@@ -2,6 +2,8 @@ import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { SportfestService } from '../../sportfest.service';
 import { Md5 } from 'ts-md5/dist/md5';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MetaApi } from "../../api/api";
+import { User } from "../../model/models";
 
 @Component({
   selector: 'app-password-change',
@@ -20,7 +22,7 @@ export class PasswordChangeComponent implements OnInit {
   newNotEqual = false;
   msgNewNotEqual = 'Passwörter sind nicht identisch!';
 
-  constructor(private sfService: SportfestService, public thisDialogRef: MatDialogRef<PasswordChangeComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(private metApi: MetaApi, public thisDialogRef: MatDialogRef<PasswordChangeComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
     this.initPw = this.data.initPw;
@@ -30,38 +32,30 @@ export class PasswordChangeComponent implements OnInit {
     this.thisDialogRef.close("Cancel");
   }
   public save() {
-    if (!this.recent)
-      this.recent = 'Atiw2017';
-    let oldEncrypt = Md5.hashStr(this.recent);
-    let newEncrypt = Md5.hashStr(this.new);
-    if (this.inputsValid()) {
-      this.sfService.changePassword(oldEncrypt, newEncrypt).subscribe((data) => {
-        console.log(data);
-      },
-        (err) => {
-          console.error('GET-Service "changePassword()" not reachable.');
-        });
-      sessionStorage.setItem('init', 'false');
-      this.thisDialogRef.close("Save");
+    let newEncrypt = Md5.hashStr(this.new).toString();
+    if (this.inputIsValid()) {
+      let user: User = {
+        username: sessionStorage.getItem('username'),
+        password: newEncrypt
+      }
+      this.metApi.authenticatePostWithHttpInfo(user).subscribe(success => {
+        sessionStorage.setItem('init', 'false');
+        this.thisDialogRef.close("Save");
+      }, error => {
+        this.msgNewNotEqual = 'Altes Passwort ist falsch!';
+      });
     }
   }
-  private inputsValid() {
+  private inputIsValid(): boolean {
     // Verschlüsseln
     let recentEncrypt = Md5.hashStr(this.recent);
     let newEncrypt = Md5.hashStr(this.new);
     let newSubmitEncrypt = Md5.hashStr(this.newSubmit);
 
     let valid = true;
-    if (newEncrypt && newSubmitEncrypt && (newEncrypt === newSubmitEncrypt) && newEncrypt != Md5.hashStr('Atiw2017')) {
-      this.newNotEqual = false;
-    } else {
+    if (!(newEncrypt && newSubmitEncrypt && (newEncrypt === newSubmitEncrypt))) {
       valid = false;
-      this.newNotEqual = true;
-      if (newEncrypt == Md5.hashStr('Atiw2017')) {
-        this.msgNewNotEqual = 'Passwort ist initial Passwort!';
-      } else {
-        this.msgNewNotEqual = 'Passwörter sind nicht identisch!';
-      }
+      this.msgNewNotEqual = 'Passwörter sind nicht identisch!';
     }
     return valid;
   }
