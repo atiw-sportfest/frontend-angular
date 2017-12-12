@@ -12,25 +12,9 @@
 
 import * as models from './models';
 
-export interface Disziplin {
-    id?: number;
+export interface ValidationResult {
+    pass?: boolean;
 
-    bezeichnung?: string;
-
-    beschreibung?: string;
-
-    team?: boolean;
-
-    versus?: boolean;
-
-    variablen?: Array<models.Variable>;
-
-    regeln?: string;
-
-    aktiviert?: boolean;
-
-    anmeldungenMin?: number;
-
-    anmeldungenMax?: number;
+    messages?: string;
 
 }

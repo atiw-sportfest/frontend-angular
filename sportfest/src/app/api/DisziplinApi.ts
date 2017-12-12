@@ -28,7 +28,7 @@ import { Configuration }                                     from '../configurat
 @Injectable()
 export class DisziplinApi {
 
-    protected basePath = 'http://localhost:8080/backend';
+    protected basePath = 'https://sportfest.atiw.de/backend';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
 

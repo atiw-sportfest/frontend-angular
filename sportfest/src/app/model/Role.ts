@@ -12,25 +12,8 @@
 
 import * as models from './models';
 
-export interface Disziplin {
-    id?: number;
-
-    bezeichnung?: string;
-
-    beschreibung?: string;
-
-    team?: boolean;
-
-    versus?: boolean;
-
-    variablen?: Array<models.Variable>;
-
-    regeln?: string;
-
-    aktiviert?: boolean;
-
-    anmeldungenMin?: number;
-
-    anmeldungenMax?: number;
-
+export enum Role {
+    GAST = <any> 'GAST',
+    SCHIEDSRICHTER = <any> 'SCHIEDSRICHTER',
+    ADMIN = <any> 'ADMIN'
 }

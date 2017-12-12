@@ -26,7 +26,7 @@ import { Configuration }                                     from '../configurat
 
 
 @Injectable()
-export class MetaApi {
+export class NutzerApi {
 
     protected basePath = 'https://sportfest.atiw.de/backend';
     public defaultHeaders: Headers = new Headers();
@@ -43,11 +43,26 @@ export class MetaApi {
 
     /**
      * 
-     * @summary JWT Login
+     * @summary Nutzer auflisten
+     */
+    public userGet(extraHttpRequestParams?: any): Observable<Array<models.User>> {
+        return this.userGetWithHttpInfo(extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * 
+     * @summary Nutzer anlegen
      * @param user User
      */
-    public authenticatePost(user?: models.User, extraHttpRequestParams?: any): Observable<models.Authentication> {
-        return this.authenticatePostWithHttpInfo(user, extraHttpRequestParams)
+    public userPost(user?: models.User, extraHttpRequestParams?: any): Observable<models.User> {
+        return this.userPostWithHttpInfo(user, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -58,11 +73,12 @@ export class MetaApi {
     }
 
     /**
-     * Syntax-Prüfung der Regel-DSL
-     * @param script DSL-Skript
+     * 
+     * @summary Nutzer löschen
+     * @param uid User-ID
      */
-    public dslCheckRegelPost(script?: string, extraHttpRequestParams?: any): Observable<models.ValidationResult> {
-        return this.dslCheckRegelPostWithHttpInfo(script, extraHttpRequestParams)
+    public userUidDelete(uid: number, extraHttpRequestParams?: any): Observable<{}> {
+        return this.userUidDeleteWithHttpInfo(uid, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -73,10 +89,12 @@ export class MetaApi {
     }
 
     /**
-     * Sportfest zurücksetzen
+     * 
+     * @summary Nutzer anzeigen
+     * @param uid User-ID
      */
-    public sportfestDelete(extraHttpRequestParams?: any): Observable<{}> {
-        return this.sportfestDeleteWithHttpInfo(extraHttpRequestParams)
+    public userUidGet(uid: number, extraHttpRequestParams?: any): Observable<models.User> {
+        return this.userUidGetWithHttpInfo(uid, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -87,10 +105,13 @@ export class MetaApi {
     }
 
     /**
-     * Sportfest beenden
+     * 
+     * @summary Nutzer ändern
+     * @param uid User-ID
+     * @param user User
      */
-    public sportfestPost(extraHttpRequestParams?: any): Observable<{}> {
-        return this.sportfestPostWithHttpInfo(extraHttpRequestParams)
+    public userUidPost(uid: number, user?: models.User, extraHttpRequestParams?: any): Observable<models.User> {
+        return this.userUidPostWithHttpInfo(uid, user, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -102,12 +123,44 @@ export class MetaApi {
 
 
     /**
-     * JWT Login
+     * Nutzer auflisten
+     * 
+     */
+    public userGetWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/user';
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * Nutzer anlegen
      * 
      * @param user User
      */
-    public authenticatePostWithHttpInfo(user?: models.User, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/authenticate';
+    public userPostWithHttpInfo(user?: models.User, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/user';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -139,57 +192,27 @@ export class MetaApi {
     }
 
     /**
+     * Nutzer löschen
      * 
-     * Syntax-Prüfung der Regel-DSL
-     * @param script DSL-Skript
+     * @param uid User-ID
      */
-    public dslCheckRegelPostWithHttpInfo(script?: string, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/dsl/check/regel';
+    public userUidDeleteWithHttpInfo(uid: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/user/${uid}'
+                    .replace('${' + 'uid' + '}', String(uid));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'uid' is not null or undefined
+        if (uid === null || uid === undefined) {
+            throw new Error('Required parameter uid was null or undefined when calling userUidDelete.');
+        }
         // to determine the Content-Type header
         let consumes: string[] = [
-            'text/plain'
         ];
 
         // to determine the Accept header
         let produces: string[] = [
             'application/json'
-        ];
-
-        headers.set('Content-Type', 'application/json');
-
-        let requestOptions: RequestOptionsArgs = new RequestOptions({
-            method: RequestMethod.Post,
-            headers: headers,
-            body: script == null ? '' : JSON.stringify(script), // https://github.com/angular/angular/issues/10612
-            search: queryParameters,
-            withCredentials:this.configuration.withCredentials
-        });
-        // https://github.com/swagger-api/swagger-codegen/issues/4037
-        if (extraHttpRequestParams) {
-            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
-        }
-
-        return this.http.request(path, requestOptions);
-    }
-
-    /**
-     * 
-     * Sportfest zurücksetzen
-     */
-    public sportfestDeleteWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/sportfest';
-
-        let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
-
-        // to determine the Accept header
-        let produces: string[] = [
         ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -207,25 +230,75 @@ export class MetaApi {
     }
 
     /**
+     * Nutzer anzeigen
      * 
-     * Sportfest beenden
+     * @param uid User-ID
      */
-    public sportfestPostWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/sportfest';
+    public userUidGetWithHttpInfo(uid: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/user/${uid}'
+                    .replace('${' + 'uid' + '}', String(uid));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'uid' is not null or undefined
+        if (uid === null || uid === undefined) {
+            throw new Error('Required parameter uid was null or undefined when calling userUidGet.');
+        }
         // to determine the Content-Type header
         let consumes: string[] = [
         ];
 
         // to determine the Accept header
         let produces: string[] = [
+            'application/json'
         ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * Nutzer ändern
+     * 
+     * @param uid User-ID
+     * @param user User
+     */
+    public userUidPostWithHttpInfo(uid: number, user?: models.User, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/user/${uid}'
+                    .replace('${' + 'uid' + '}', String(uid));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'uid' is not null or undefined
+        if (uid === null || uid === undefined) {
+            throw new Error('Required parameter uid was null or undefined when calling userUidPost.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
+            body: user == null ? '' : JSON.stringify(user), // https://github.com/angular/angular/issues/10612
             search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });

@@ -12,25 +12,13 @@
 
 import * as models from './models';
 
-export interface Disziplin {
+export interface User {
     id?: number;
 
-    bezeichnung?: string;
+    username?: string;
 
-    beschreibung?: string;
+    password?: string;
 
-    team?: boolean;
-
-    versus?: boolean;
-
-    variablen?: Array<models.Variable>;
-
-    regeln?: string;
-
-    aktiviert?: boolean;
-
-    anmeldungenMin?: number;
-
-    anmeldungenMax?: number;
+    role?: models.Role;
 
 }

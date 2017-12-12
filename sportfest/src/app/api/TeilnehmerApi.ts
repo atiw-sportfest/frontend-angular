@@ -28,7 +28,7 @@ import { Configuration }                                     from '../configurat
 @Injectable()
 export class TeilnehmerApi {
 
-    protected basePath = 'http://localhost:8080/backend';
+    protected basePath = 'https://sportfest.atiw.de/backend';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
 
@@ -128,6 +128,21 @@ export class TeilnehmerApi {
      */
     public klasseKidSchuelerGet(kid: number, extraHttpRequestParams?: any): Observable<Array<models.Schueler>> {
         return this.klasseKidSchuelerGetWithHttpInfo(kid, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * 
+     * @summary Alle Klassen mit Punkten auflisten
+     */
+    public klasseSummaryGet(extraHttpRequestParams?: any): Observable<Array<models.KlasseMitPunkten>> {
+        return this.klasseSummaryGetWithHttpInfo(extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -438,6 +453,38 @@ export class TeilnehmerApi {
         if (kid === null || kid === undefined) {
             throw new Error('Required parameter kid was null or undefined when calling klasseKidSchuelerGet.');
         }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * Alle Klassen mit Punkten auflisten
+     * 
+     */
+    public klasseSummaryGetWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/klasse/summary';
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // to determine the Content-Type header
         let consumes: string[] = [
         ];
