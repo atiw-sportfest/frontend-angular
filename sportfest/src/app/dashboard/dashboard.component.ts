@@ -26,14 +26,14 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     let i = 0;
-    this.teilnehmerApi.klasseKidErgebnisseGet(1).subscribe(data => {    //Falsche Schnittstelle
-      this.visibleTeilnehmer = <ErgebnisExtended[]> data;
-      this.sortByRang();
-      for (var i =0; i<this.visibleTeilnehmer.length; i++) {
-        this.visibleTeilnehmer[i].rang = i + 1;
-      }
-      this.sorieterteTeilehmer = this.visibleTeilnehmer;
-    });
+    // this.teilnehmerApi.klasseKidErgebnisseGet(1).subscribe(data => {    //Falsche Schnittstelle
+    //   this.visibleTeilnehmer = <ErgebnisExtended[]> data;
+    //   this.sortByRang();
+    //   for (var i =0; i<this.visibleTeilnehmer.length; i++) {
+    //     this.visibleTeilnehmer[i].rang = i + 1;
+    //   }
+    //   this.sorieterteTeilehmer = this.visibleTeilnehmer;
+    // });
   }
 
   public sortByRang() {

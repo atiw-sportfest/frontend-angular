@@ -1,9 +1,10 @@
 import { PipeTransform, Pipe } from "@angular/core";
-import { AnmeldungNEU } from "../interfaces";
+import { Anmeldung } from "app/model/models";
+
 
 @Pipe({ name: 'group' })
 export class GroupPipe implements PipeTransform {
-  transform(value: Array<any>, params: any): Array<any> {
+  transform(value: Array<Anmeldung>, params: any): Array<any> {
     let groups: any[] = [];
     for (var anmeldung of value) {
       var add: boolean = true;

@@ -12,18 +12,28 @@ import { Typ } from '../../model/Typ';
 })
 export class EinheitVerwaltenComponent implements OnInit {
   einheitPool: TypExtended[];
+  keys: any[];
 
-//TODO sfService löschen wenn Typen schnittestelle existiert
+  //TODO sfService löschen wenn Typen schnittestelle existiert
   constructor(private sfService: SportfestService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.sfService.typenNEU().subscribe(data => {
-      this.einheitPool = data;
-    });
+    this.einheitPool = [];
+    this.keys = [];
 
-    this.einheitPool.forEach(einheit => {
-      einheit.shouldDelete = false;
-    });
+    for (let item in Typ.DatentypEnum) {
+      if (item.toString().charAt(0) == item.toString().charAt(0).toLowerCase()) {
+        this.keys.push(item);
+      }
+    }
+
+    // this.sfService.typenNEU().subscribe(data => {
+    //   this.einheitPool = data;
+    // });
+
+    // this.einheitPool.forEach(einheit => {
+    //   einheit.shouldDelete = false;
+    // });
 
   }
 
@@ -33,9 +43,10 @@ export class EinheitVerwaltenComponent implements OnInit {
   }
 
   addEinheit() {
+
     let neueEinheit = {
       id: null,
-      datentyp: "",
+      datentyp: Typ.DatentypEnum.String,
       einheit: "Neue Einheit",
       format: "",
       bsp: "",
@@ -57,7 +68,8 @@ export class EinheitVerwaltenComponent implements OnInit {
           format: einheit.format,
           bsp: einheit.bsp
         };
-        this.sfService.typenAendernNEU(sendeEinheit.id, sendeEinheit);
+        console.log(sendeEinheit);
+        //this.sfService.typenAendernNEU(sendeEinheit.id, sendeEinheit);
       } else {
         let sendeEinheit = {
           id: null,
@@ -66,7 +78,8 @@ export class EinheitVerwaltenComponent implements OnInit {
           format: einheit.format,
           bsp: einheit.bsp
         };
-        this.sfService.typenHinzufuegenNEU(sendeEinheit);
+        console.log(sendeEinheit);
+        //this.sfService.typenHinzufuegenNEU(sendeEinheit);
       }
     });
   }

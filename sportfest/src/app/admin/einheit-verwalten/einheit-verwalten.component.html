@@ -17,9 +17,13 @@
         <mat-input-container>
           <input matInput placeholder="Name" [(ngModel)]="e.einheit">
         </mat-input-container>
-
+        
         <mat-input-container>
-          <input matInput placeholder="Datentyp" [(ngModel)]="e.datentyp">
+          <mat-select placeholder="Datentyp" [(ngModel)]="e.datentyp">
+            <mat-option *ngFor="let key of keys" [value]="key">
+              {{ key }}
+            </mat-option>
+          </mat-select>
         </mat-input-container>
 
         <mat-input-container>
@@ -42,7 +46,8 @@
     </button>
     <br>
     <br>
-    <table style="width:100%"><!--  speichern Button-->
+    <table style="width:100%">
+      <!--  speichern Button-->
       <tr style="width:100%">
         <td style="width:100%">
           <button mat-raised-button (click)="sendToBackend()" color="accent" style="width:100%">

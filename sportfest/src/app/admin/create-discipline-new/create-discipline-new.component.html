@@ -70,7 +70,7 @@
       </td>
       <td style="width:26%">
         <mat-form-field>
-          <mat-select placeholder="Variable" [(ngModel)]="aov.typ">
+          <mat-select placeholder="Einheit" [(ngModel)]="aov.typ">
             <mat-option *ngFor="let e of einheitPool" [value]="e">
               {{ e.einheit }}
             </mat-option>
