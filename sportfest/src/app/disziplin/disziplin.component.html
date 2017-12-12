@@ -25,7 +25,7 @@
           <mat-form-field>
             <mat-select [placeholder]="beschreibung" [(ngModel)]="ergebnisseEingetragen[eintragPos].schueler" required>
               <!-- Dropdown für Einzelleistungen -->
-              <ng-container *ngIf="!disziplin.klassenleistung">
+              <ng-container *ngIf="!disziplin.team">
                 <mat-optgroup *ngFor="let anmeldungGruppe of (anmeldungen | group)" [label]="anmeldungGruppe.label">
                   <mat-option *ngFor="let anmeldung of anmeldungGruppe.anmeldungen" (click)="leistungenHolen(eintragPos)" [value]="anmeldung.schueler">
                     <ng-container *ngIf="!anmeldungBereitsGewaehlt(eintragPos, anmeldung)">
@@ -34,8 +34,8 @@
                   </mat-option>
                 </mat-optgroup>
               </ng-container>
-              <!-- Dropdown für Klassenleistungen -->
-              <ng-container *ngIf="disziplin.klassenleistung">
+              <!-- Dropdown für teamleistungen -->
+              <ng-container *ngIf="disziplin.team">
                 <ng-container *ngFor="let anmeldung of anmeldungen; let dropdownPos = index;">
                   <mat-option *ngIf="!anmeldungBereitsGewaehlt(eintragPos, anmeldung) && uniqueKlasse(dropdownPos)" (click)="leistungenHolen(eintragPos)"
                     [value]="anmeldung.schueler">
@@ -92,10 +92,10 @@
           Rang Sortieren
         </th>
         <th>
-          <ng-container *ngIf="!disziplin.klassenleistung">
+          <ng-container *ngIf="!disziplin.team">
             Schüler Sortieren
           </ng-container>
-          <ng-container *ngIf="disziplin.klassenleistung">
+          <ng-container *ngIf="disziplin.team">
             Klasse Sortieren
           </ng-container>
         </th>
@@ -110,7 +110,7 @@
           </button>
         </td>
         <td>
-          <ng-container *ngIf="!disziplin.klassenleistung">
+          <ng-container *ngIf="!disziplin.team">
             <button mat-raised-button color="primary" (click)="sortBySchueler()">
               <mat-icon>keyboard_arrow_up</mat-icon>
             </button>
@@ -118,7 +118,7 @@
               <mat-icon>keyboard_arrow_down</mat-icon>
             </button>
           </ng-container>
-          <ng-container *ngIf="disziplin.klassenleistung">
+          <ng-container *ngIf="disziplin.team">
             <button mat-raised-button color="primary" (click)="sortByKlasse()">
               <mat-icon>keyboard_arrow_up</mat-icon>
             </button>
@@ -135,10 +135,10 @@
           Rang
         </th>
         <th>
-          <ng-container *ngIf="!disziplin.klassenleistung">
+          <ng-container *ngIf="!disziplin.team">
             Schüler
           </ng-container>
-          <ng-container *ngIf="disziplin.klassenleistung">
+          <ng-container *ngIf="disziplin.team">
             Klasse
           </ng-container>
         </th>
@@ -151,10 +151,10 @@
           {{ergebnis.rang}}
         </td>
         <td>
-          <ng-container *ngIf="!disziplin.klassenleistung">
+          <ng-container *ngIf="!disziplin.team">
             {{ergebnis.schueler.vorname}} {{ergebnis.schueler.nachname}}
           </ng-container>
-          <ng-container *ngIf="disziplin.klassenleistung">
+          <ng-container *ngIf="disziplin.team">
             {{ergebnis.klasse.bezeichnung}}
           </ng-container>
         </td>
@@ -173,11 +173,11 @@
           <mat-header-cell *matHeaderCellDef mat-sort-header> Rang </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.rang}} </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="schueler" *ngIf="!disziplin.klassenleistung">
+        <ng-container matColumnDef="schueler" *ngIf="!disziplin.team">
           <mat-header-cell *matHeaderCellDef mat-sort-header> Schüler </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.schueler.vorname}} {{element.schueler.nachname}} </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="klasse" *ngIf="disziplin.klassenleistung">
+        <ng-container matColumnDef="klasse" *ngIf="disziplin.team">
           <mat-header-cell *matHeaderCellDef mat-sort-header> Schüler </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.klasse.bezeichnung}} </mat-cell>
         </ng-container>

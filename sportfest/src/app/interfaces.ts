@@ -44,7 +44,7 @@ export interface DisziplinNEU {
     bezeichnung?: string,
     beschreibung?: string,
     aktiviert?: boolean,
-    klassenleistung?: boolean,
+    team?: boolean,
     regel?: RegelNEU,
     variablen?: VariableNEU[],
     versus?: boolean

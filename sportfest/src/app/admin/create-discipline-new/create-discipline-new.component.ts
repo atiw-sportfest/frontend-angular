@@ -16,7 +16,7 @@ export class CreateDisciplineNewComponent implements OnInit {
   idDerDisziplin: number;
   nameDerDisziplin: string;
   beschreibungDerDisziplin: string;
-  klassenleistung: boolean;
+  team: boolean;
   anzahlDerVersuchen: number;
   versus: boolean;
 
@@ -48,7 +48,7 @@ export class CreateDisciplineNewComponent implements OnInit {
           this.disziplinApi.disziplinDidGet(this.idDerDisziplin).subscribe((data: Disziplin) => {
             this.nameDerDisziplin = data.bezeichnung;
             this.beschreibungDerDisziplin = data.beschreibung;
-            this.klassenleistung = data.klassenleistung;
+            this.team = data.team;
             this.regel = data.regeln;
             this.assignVars(data.variablen);
             this.versus = data.versus;
@@ -62,7 +62,7 @@ export class CreateDisciplineNewComponent implements OnInit {
           this.idDerDisziplin = null;
           this.nameDerDisziplin = "";
           this.beschreibungDerDisziplin = "";
-          this.klassenleistung = false;
+          this.team = false;
           this.arrayOfVars = [];
           this.versus = false;
 
@@ -130,7 +130,7 @@ export class CreateDisciplineNewComponent implements OnInit {
       beschreibung: this.beschreibungDerDisziplin,
       aktiviert: true,
       regeln: this.regel,
-      klassenleistung: this.klassenleistung,
+      team: this.team,
       variablen: this.arrayOfVars,
       versus: this.versus
     }

@@ -35,7 +35,7 @@ export class DisziplinComponent implements OnInit {
       this.disziplinApi.disziplinDidGet(+params['id']).subscribe(data => {
         this.disziplin = data;
         /*this.displayedColumns.push('rang'); //Material Table
-        if (this.disziplin.klassenleistung)
+        if (this.disziplin.klasseteamnleistung)
           this.displayedColumns.push('klasse');
         else
           this.displayedColumns.push('schueler');
@@ -43,7 +43,7 @@ export class DisziplinComponent implements OnInit {
           this.displayedColumns.push(variable.bezeichnung);
         if (this.disziplin.versus)
           this.displayedColumns.push('versus');*/
-        this.beschreibung = this.disziplin.klassenleistung ? "Klasse" : "Schüler";
+        this.beschreibung = this.disziplin.team ? "Klasse" : "Schüler";
         this.ergebnisseAbfragen();
         this.initializeAdmin();
         this.anmeldungApi.disziplinDidAnmeldungenGet(this.disziplin.id).subscribe(data => {
@@ -157,7 +157,7 @@ export class DisziplinComponent implements OnInit {
 
   uniqueKlasse(pos: number) {
     for (let i = 0; i < pos; i++) {
-      if (this.disziplin.klassenleistung) {
+      if (this.disziplin.team) {
         if (this.anmeldungen[i].schueler.klasse.id == this.anmeldungen[pos].schueler.klasse.id)
           return false;
       }
@@ -167,7 +167,7 @@ export class DisziplinComponent implements OnInit {
 
   leistungenHolen(ergebnisPos: number) {
     //An dieser Stelle die Leistungen eines Teilnehmers von der Datenbank abrufen
-    if (this.disziplin.klassenleistung) {
+    if (this.disziplin.team) {
       this.teilnehmerApi.klasseKidErgebnisseDidGet(this.ergebnisseEingetragen[ergebnisPos].klasse.id, this.disziplin.id).subscribe(data => {
         this.ergebnisse[ergebnisPos] = <ErgebnisExtended> data;
       });
@@ -238,7 +238,7 @@ export class DisziplinComponent implements OnInit {
         if (n1.punkte < n2.punkte) {
           return 1;
         }
-        if (this.disziplin.klassenleistung) {
+        if (this.disziplin.team) {
           if (n1.punkte == n2.punkte) {
             if (n1.klasse.bezeichnung > n2.klasse.bezeichnung) {
               return 1;
@@ -272,7 +272,7 @@ export class DisziplinComponent implements OnInit {
         if (n1.punkte < n2.punkte) {
           return -1;
         }
-        if (this.disziplin.klassenleistung) {
+        if (this.disziplin.team) {
           if (n1.punkte == n2.punkte) {
             if (n1.klasse.bezeichnung > n2.klasse.bezeichnung) {
               return -1;

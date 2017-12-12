@@ -32,7 +32,7 @@ export class MobileMenuListComponent implements OnInit {
     this.disziplinApi.disziplinGet().subscribe(data => {
       console.log(data);
       for (let i = 0; i < data.length; i++) {
-        if (!data[i].klassenleistung) {
+        if (!data[i].team) {
           this.disziplinenEinzel.push(data[i]);
         } else {
           this.disziplinenTeam.push(data[i]);

@@ -20,8 +20,8 @@ export class SportfestService {
       {
         id: 1,
         bezeichnung: "Staffel",
-        beschreibung: "4 Leute einer Klasse laufen um die Wette (Klassenleistung, Gruppen)",
-        klassenleistung: true,
+        beschreibung: "4 Leute einer Klasse laufen um die Wette (Teamleistung, Gruppen)",
+        team: true,
         versus: true,
         aktiviert: true,
         regel: {
@@ -43,8 +43,8 @@ export class SportfestService {
       {
         id: 2,
         bezeichnung: "Kistenstapeln",
-        beschreibung: "Wer kommt höher? Die FS151 oder die anderen Luschen? (Klassenleistung, Jeder gegen Jeden)",
-        klassenleistung: true,
+        beschreibung: "Wer kommt höher? Die FS151 oder die anderen Luschen? (teamleistung, Jeder gegen Jeden)",
+        team: true,
         versus: false,
         aktiviert: true,
         regel: {
@@ -80,7 +80,7 @@ export class SportfestService {
         beschreibung: "Spring los Kartoffelbrei! (Einzelleistung, Jeder gegen Jeden)",
         aktiviert: true,
         versus: false,
-        klassenleistung: false,
+        team: false,
         regel: {
           id: 3,
           script: "Hier wird etwas weites passieren"
@@ -124,7 +124,7 @@ export class SportfestService {
         bezeichnung: "2000M Lauf",
         beschreibung: "Lauf Forrest Laaaaaaaaaauf (Einzelleistung, Gruppen)",
         aktiviert: true,
-        klassenleistung: false,
+        team: false,
         versus: true,
         regel: {
           id: 4,
@@ -147,7 +147,7 @@ export class SportfestService {
         bezeichnung: "Beach - Volleyball",
         beschreibung: "Panieren und Punkten!\n\nGegen Teams aus zwei anderen Klassen wird jeweils 12 Minuten gespielt.\nJe nach Zeit laufen die 2. Spiele bis 21 Punkte.(bei 21 : 20 ist Schluss !) \n\nAchtung :\nDer Ball darf nur geradeaus über das Netz gepritscht werden !\nSpiel mit offener Hand ( Lob ) ist  nicht erlaubt ! ",
         aktiviert: true,
-        klassenleistung: true,
+        team: true,
         versus: true,
         regel: {
           id: 5,
@@ -227,7 +227,7 @@ export class SportfestService {
         disziplin: {
           id: 1,
           bezeichnung: "Staffel",
-          beschreibung: "4 Leute einer Klasse laufen um die Wette (Klassenleistung, Gruppen)",
+          beschreibung: "4 Leute einer Klasse laufen um die Wette (teamleistung, Gruppen)",
           versus: true,
           aktiviert: true,
           regel: {
@@ -285,7 +285,7 @@ export class SportfestService {
         disziplin: {
           id: 1,
           bezeichnung: "Staffel",
-          beschreibung: "4 Leute einer Klasse laufen um die Wette (Klassenleistung, Gruppen)",
+          beschreibung: "4 Leute einer Klasse laufen um die Wette (teamleistung, Gruppen)",
           versus: true,
           aktiviert: true,
           regel: {
@@ -702,7 +702,7 @@ public sporfestBeenden(): Observable<any>{
   }
 
   public ergebnissVonDisziplinUndKlasseUndOptionalerSchueler(disziplin: DisziplinNEU, kid: number, sid?: number): Observable<ErgebnisNEU> {
-    if(disziplin.klassenleistung){
+    if(disziplin.team){
       
     }else{
       
@@ -734,7 +734,7 @@ public sporfestBeenden(): Observable<any>{
   }
 
   public leistungVonDisziplinUndKlasseUndOptionalerSchueler(disziplin: DisziplinNEU, kid: number, sid?: number): Observable<LeistungNEU[]> {
-    if(disziplin.klassenleistung){
+    if(disziplin.team){
 
     }else{
 
