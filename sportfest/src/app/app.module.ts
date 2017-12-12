@@ -14,7 +14,7 @@ import { Location } from '@angular/common';
 import { AppComponent } from './app.component';
 import { SportfestService } from './sportfest.service';
 import { TechnischerService } from './technischer.service';
-import { AnmeldungApi, DisziplinApi, ErgebnisApi, MetaApi, TeilnehmerApi } from './api/api';
+import { AnmeldungApi, DisziplinApi, ErgebnisApi, MetaApi, TeilnehmerApi, NutzerApi } from './api/api';
 import { HeaderComponent } from './main/desktop/header/header.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { KlassenImportComponent } from './admin/klassen-import/klassen-import.component';
@@ -139,7 +139,7 @@ export const BASEPATH = 'http://' + location.host + '/backend';
   providers: [
     TechnischerService,
     SportfestService,
-    AnmeldungApi, DisziplinApi, ErgebnisApi, MetaApi, TeilnehmerApi,
+    AnmeldungApi, DisziplinApi, ErgebnisApi, MetaApi, TeilnehmerApi, NutzerApi,
     RouteGuard,
     {
       provide: AuthHttp,
