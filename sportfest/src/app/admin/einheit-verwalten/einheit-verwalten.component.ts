@@ -24,9 +24,12 @@ export class EinheitVerwaltenComponent implements OnInit {
 
     this.metaApi.typGet().subscribe(data => {
       this.einheitPool = data;
+
+      this.einheitPool.forEach(einheit => {
+        einheit.shouldDelete = false;
+      });
       for (let item in Typ.DatentypEnum) {
-        if (item.toString().charAt(item.toString().length-1) == item.toString().charAt(item.toString().length-1).toUpperCase()) {
-        //if (item.toString().charAt(0) == item.toString().charAt(0).toLowerCase()) {
+        if (item.toString().charAt(item.toString().length - 1) == item.toString().charAt(item.toString().length - 1).toUpperCase()) {
           this.keys.push(item);
         }
       }
@@ -37,9 +40,6 @@ export class EinheitVerwaltenComponent implements OnInit {
     //   this.einheitPool = data;
     // });
 
-    // this.einheitPool.forEach(einheit => {
-    //   einheit.shouldDelete = false;
-    // });
   }
 
   deleteEinheit(index: number) {

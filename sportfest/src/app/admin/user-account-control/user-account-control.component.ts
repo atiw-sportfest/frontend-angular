@@ -19,6 +19,7 @@ export class UserAccountControlComponent implements OnInit {
   constructor(private nutzerApi: NutzerApi) { }
 
   ngOnInit() {//Laden der Seite
+    this.users=[];
     this.rollenLaden();
   }
 
@@ -29,7 +30,7 @@ export class UserAccountControlComponent implements OnInit {
   }
   public deleteUser(user: User) {
     // alert('User ' + user.name + ' wird gelöscht!');
-    this.nutzerApi.userUidGet(user.id).subscribe(data=>{
+    this.nutzerApi.userUidDelete(user.id).subscribe(data=>{
       this.rollenLaden();
     });
   }
