@@ -58,10 +58,11 @@ export class MetaApi {
     }
 
     /**
-     * Syntax-Prüfung der Regel-DSL
+     * Muss aufgrund eines Bugs im TypeScript-Generator als Objekt versendet werden.
+     * @summary Syntax-Prüfung der Regel-DSL
      * @param script DSL-Skript
      */
-    public dslCheckRegelPost(script?: string, extraHttpRequestParams?: any): Observable<models.ValidationResult> {
+    public dslCheckRegelPost(script?: models.Script, extraHttpRequestParams?: any): Observable<models.ValidationResult> {
         return this.dslCheckRegelPostWithHttpInfo(script, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -73,7 +74,8 @@ export class MetaApi {
     }
 
     /**
-     * Sportfest zurücksetzen
+     * 
+     * @summary Sportfest zurücksetzen
      */
     public sportfestDelete(extraHttpRequestParams?: any): Observable<{}> {
         return this.sportfestDeleteWithHttpInfo(extraHttpRequestParams)
@@ -87,7 +89,8 @@ export class MetaApi {
     }
 
     /**
-     * Sportfest beenden
+     * 
+     * @summary Sportfest beenden
      */
     public sportfestPost(extraHttpRequestParams?: any): Observable<{}> {
         return this.sportfestPostWithHttpInfo(extraHttpRequestParams)
@@ -101,7 +104,8 @@ export class MetaApi {
     }
 
     /**
-     * Typen auflisten
+     * 
+     * @summary Typen auflisten
      */
     public typGet(extraHttpRequestParams?: any): Observable<Array<models.Typ>> {
         return this.typGetWithHttpInfo(extraHttpRequestParams)
@@ -115,7 +119,8 @@ export class MetaApi {
     }
 
     /**
-     * Typ anlegen
+     * 
+     * @summary Typ anlegen
      * @param typ Typ
      */
     public typPost(typ?: models.Typ, extraHttpRequestParams?: any): Observable<models.Typ> {
@@ -130,7 +135,24 @@ export class MetaApi {
     }
 
     /**
-     * Typ abrufen
+     * 
+     * @summary Typ löschen
+     * @param typid Typ-ID
+     */
+    public typTypidDelete(typid: number, extraHttpRequestParams?: any): Observable<{}> {
+        return this.typTypidDeleteWithHttpInfo(typid, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * 
+     * @summary Typ abrufen
      * @param typid Typ-ID
      */
     public typTypidGet(typid: number, extraHttpRequestParams?: any): Observable<models.Typ> {
@@ -145,7 +167,8 @@ export class MetaApi {
     }
 
     /**
-     * Typ ändern
+     * 
+     * @summary Typ ändern
      * @param typid Typ-ID
      * @param typ Typ
      */
@@ -199,18 +222,18 @@ export class MetaApi {
     }
 
     /**
-     * 
      * Syntax-Prüfung der Regel-DSL
+     * Muss aufgrund eines Bugs im TypeScript-Generator als Objekt versendet werden.
      * @param script DSL-Skript
      */
-    public dslCheckRegelPostWithHttpInfo(script?: string, extraHttpRequestParams?: any): Observable<Response> {
+    public dslCheckRegelPostWithHttpInfo(script?: models.Script, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/dsl/check/regel';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // to determine the Content-Type header
         let consumes: string[] = [
-            'text/plain'
+            'application/json'
         ];
 
         // to determine the Accept header
@@ -218,7 +241,7 @@ export class MetaApi {
             'application/json'
         ];
 
-        headers.set('Content-Type', 'text/plain');
+        headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
@@ -236,8 +259,8 @@ export class MetaApi {
     }
 
     /**
-     * 
      * Sportfest zurücksetzen
+     * 
      */
     public sportfestDeleteWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/sportfest';
@@ -267,8 +290,8 @@ export class MetaApi {
     }
 
     /**
-     * 
      * Sportfest beenden
+     * 
      */
     public sportfestPostWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/sportfest';
@@ -298,8 +321,8 @@ export class MetaApi {
     }
 
     /**
-     * 
      * Typen auflisten
+     * 
      */
     public typGetWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/typ';
@@ -330,8 +353,8 @@ export class MetaApi {
     }
 
     /**
-     * 
      * Typ anlegen
+     * 
      * @param typ Typ
      */
     public typPostWithHttpInfo(typ?: models.Typ, extraHttpRequestParams?: any): Observable<Response> {
@@ -367,8 +390,45 @@ export class MetaApi {
     }
 
     /**
+     * Typ löschen
      * 
+     * @param typid Typ-ID
+     */
+    public typTypidDeleteWithHttpInfo(typid: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/typ/${typid}'
+                    .replace('${' + 'typid' + '}', String(typid));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'typid' is not null or undefined
+        if (typid === null || typid === undefined) {
+            throw new Error('Required parameter typid was null or undefined when calling typTypidDelete.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Delete,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
      * Typ abrufen
+     * 
      * @param typid Typ-ID
      */
     public typTypidGetWithHttpInfo(typid: number, extraHttpRequestParams?: any): Observable<Response> {
@@ -405,8 +465,8 @@ export class MetaApi {
     }
 
     /**
-     * 
      * Typ ändern
+     * 
      * @param typid Typ-ID
      * @param typ Typ
      */

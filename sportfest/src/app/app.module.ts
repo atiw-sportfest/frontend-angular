@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Http, HttpModule, RequestOptions } from '@angular/http';
 import { Location } from '@angular/common';
+import {} from 'angular-jwt';
 
 import { AppComponent } from './app.component';
 import { SportfestService } from './sportfest.service';

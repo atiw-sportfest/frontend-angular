@@ -27,7 +27,7 @@
       </div>
     </mat-menu>
 
-    <button mat-button *ngIf="username && role=='admin'" [matMenuTriggerFor]="menu2">Admin</button>
+    <button mat-button *ngIf="username && role=='ADMIN'" [matMenuTriggerFor]="menu2">Admin</button>
     <mat-menu #menu2="matMenu" style="padding-top:0px !important">
       <div class="wide"><b class="wide"> &nbsp;Disziplin</b></div>
       <button mat-menu-item (click)="navigateToCreateDisciplineNew()">Disziplin anlegen</button>

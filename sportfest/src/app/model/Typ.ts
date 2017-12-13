@@ -32,10 +32,10 @@ export interface Typ {
 }
 export namespace Typ {
     export enum DatentypEnum {
-        String = <any> 'string',
-        Int = <any> 'int',
-        Float = <any> 'float',
-        Long = <any> 'long',
-        Double = <any> 'double'
+        STRING = <any> 'STRING',
+        INT = <any> 'INT',
+        FLOAT = <any> 'FLOAT',
+        LONG = <any> 'LONG',
+        DOUBLE = <any> 'DOUBLE'
     }
 }

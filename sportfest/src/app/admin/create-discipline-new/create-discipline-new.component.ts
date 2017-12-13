@@ -4,6 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SportfestService } from '../../sportfest.service';
 import { Disziplin } from '../../model/Disziplin';
 import { Variable } from '../../model/Variable';
+import { Script } from '../../model/Script';
 import { Typ } from '../../model/Typ';
 import { DisziplinApi, MetaApi } from '../../api/api';
 
@@ -89,7 +90,8 @@ export class CreateDisciplineNewComponent implements OnInit {
   checkCode() {
 
     this.statusCodeText = "Code wird überprüft";
-    this.metaApi.dslCheckRegelPost(this.regel).subscribe(data => {
+    var script: Script = {script: this.regel};
+    this.metaApi.dslCheckRegelPost(script).subscribe(data => {
       this.syntaxCorrect = data.pass;
       this.fehlermeldung = data.messages;
 

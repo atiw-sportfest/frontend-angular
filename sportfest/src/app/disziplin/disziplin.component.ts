@@ -80,7 +80,7 @@ export class DisziplinComponent implements OnInit {
   }
   enoughPermissionsToWrite() {
     let role = sessionStorage.getItem('role');
-    if (role == 'admin' || role == 'schiedsrichter') {
+    if (role == 'ADMIN' || role == 'SCHIEDSRICHTER') {
       return true;
     } else {
       return false;
@@ -90,7 +90,7 @@ export class DisziplinComponent implements OnInit {
   enoughPermissionsToChange(teilnehmerPos: number, variablePos: number): boolean {
     let role = sessionStorage.getItem('role');
     if (this.ergebnisseEingetragen[teilnehmerPos].leistungen[variablePos].id)
-      if (role == 'admin')
+      if (role == 'ADMIN')
         return true;
       else
         return false;
@@ -98,7 +98,7 @@ export class DisziplinComponent implements OnInit {
       return true;
 
     // if (this.leistungen[teilnehmerPos][variablePos].id) //Leistung hat eine ID wenn Sie von der Datenbank kommt
-    //   if (role == 'admin') //Wenn Leistung eine ID hat (Also eine "alte Leistung ist"), kann Sie nur ein Admin ändern
+    //   if (role == 'ADMIN') //Wenn Leistung eine ID hat (Also eine "alte Leistung ist"), kann Sie nur ein Admin ändern
     //     return true;
     //   else
     //     return false;

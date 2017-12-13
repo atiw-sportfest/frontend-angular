@@ -127,6 +127,22 @@ export class ErgebnisApi {
 
     /**
      * 
+     * @summary Versus einer Disziplin anzeigen
+     * @param did Disziplin-ID
+     */
+    public disziplinDidVersusGet(did: number, extraHttpRequestParams?: any): Observable<Array<models.Versus>> {
+        return this.disziplinDidVersusGetWithHttpInfo(did, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * 
      * @summary Ergebnis löschen
      * @param eid Ergebnis-ID
      */
@@ -189,60 +205,12 @@ export class ErgebnisApi {
     }
 
     /**
-     * 
-     * @summary Leistungen anzeigen
+     * Löscht den Versus, inklusive seiner Ergebnisse.
+     * @summary Versus löschen
+     * @param vid Versus-ID
      */
-    public leistungGet(extraHttpRequestParams?: any): Observable<Array<models.Leistung>> {
-        return this.leistungGetWithHttpInfo(extraHttpRequestParams)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json() || {};
-                }
-            });
-    }
-
-    /**
-     * 
-     * @summary Leistung löschen
-     * @param lid Leistungs-ID
-     */
-    public leistungLidDelete(lid: number, extraHttpRequestParams?: any): Observable<{}> {
-        return this.leistungLidDeleteWithHttpInfo(lid, extraHttpRequestParams)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json() || {};
-                }
-            });
-    }
-
-    /**
-     * 
-     * @summary Leistung anzeigen
-     * @param lid Leistungs-ID
-     */
-    public leistungLidGet(lid: number, extraHttpRequestParams?: any): Observable<models.Leistung> {
-        return this.leistungLidGetWithHttpInfo(lid, extraHttpRequestParams)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json() || {};
-                }
-            });
-    }
-
-    /**
-     * 
-     * @summary Leistung bearbeiten
-     * @param lid Leistungs-ID
-     * @param leistung 
-     */
-    public leistungLidPost(lid: number, leistung?: models.Leistung, extraHttpRequestParams?: any): Observable<models.Leistung> {
-        return this.leistungLidPostWithHttpInfo(lid, leistung, extraHttpRequestParams)
+    public versusVidDelete(vid: number, extraHttpRequestParams?: any): Observable<{}> {
+        return this.versusVidDeleteWithHttpInfo(vid, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -468,6 +436,44 @@ export class ErgebnisApi {
     }
 
     /**
+     * Versus einer Disziplin anzeigen
+     * 
+     * @param did Disziplin-ID
+     */
+    public disziplinDidVersusGetWithHttpInfo(did: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/disziplin/${did}/versus'
+                    .replace('${' + 'did' + '}', String(did));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'did' is not null or undefined
+        if (did === null || did === undefined) {
+            throw new Error('Required parameter did was null or undefined when calling disziplinDidVersusGet.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
      * Ergebnis löschen
      * 
      * @param eid Ergebnis-ID
@@ -613,51 +619,19 @@ export class ErgebnisApi {
     }
 
     /**
-     * Leistungen anzeigen
-     * 
+     * Versus löschen
+     * Löscht den Versus, inklusive seiner Ergebnisse.
+     * @param vid Versus-ID
      */
-    public leistungGetWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/leistung';
+    public versusVidDeleteWithHttpInfo(vid: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/versus/${vid}'
+                    .replace('${' + 'vid' + '}', String(vid));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
-
-        // to determine the Accept header
-        let produces: string[] = [
-            'application/json'
-        ];
-
-        let requestOptions: RequestOptionsArgs = new RequestOptions({
-            method: RequestMethod.Get,
-            headers: headers,
-            search: queryParameters,
-            withCredentials:this.configuration.withCredentials
-        });
-        // https://github.com/swagger-api/swagger-codegen/issues/4037
-        if (extraHttpRequestParams) {
-            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
-        }
-
-        return this.http.request(path, requestOptions);
-    }
-
-    /**
-     * Leistung löschen
-     * 
-     * @param lid Leistungs-ID
-     */
-    public leistungLidDeleteWithHttpInfo(lid: number, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/leistung/${lid}'
-                    .replace('${' + 'lid' + '}', String(lid));
-
-        let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        // verify required parameter 'lid' is not null or undefined
-        if (lid === null || lid === undefined) {
-            throw new Error('Required parameter lid was null or undefined when calling leistungLidDelete.');
+        // verify required parameter 'vid' is not null or undefined
+        if (vid === null || vid === undefined) {
+            throw new Error('Required parameter vid was null or undefined when calling versusVidDelete.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [
@@ -670,87 +644,6 @@ export class ErgebnisApi {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
             headers: headers,
-            search: queryParameters,
-            withCredentials:this.configuration.withCredentials
-        });
-        // https://github.com/swagger-api/swagger-codegen/issues/4037
-        if (extraHttpRequestParams) {
-            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
-        }
-
-        return this.http.request(path, requestOptions);
-    }
-
-    /**
-     * Leistung anzeigen
-     * 
-     * @param lid Leistungs-ID
-     */
-    public leistungLidGetWithHttpInfo(lid: number, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/leistung/${lid}'
-                    .replace('${' + 'lid' + '}', String(lid));
-
-        let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        // verify required parameter 'lid' is not null or undefined
-        if (lid === null || lid === undefined) {
-            throw new Error('Required parameter lid was null or undefined when calling leistungLidGet.');
-        }
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
-
-        // to determine the Accept header
-        let produces: string[] = [
-            'application/json'
-        ];
-
-        let requestOptions: RequestOptionsArgs = new RequestOptions({
-            method: RequestMethod.Get,
-            headers: headers,
-            search: queryParameters,
-            withCredentials:this.configuration.withCredentials
-        });
-        // https://github.com/swagger-api/swagger-codegen/issues/4037
-        if (extraHttpRequestParams) {
-            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
-        }
-
-        return this.http.request(path, requestOptions);
-    }
-
-    /**
-     * Leistung bearbeiten
-     * 
-     * @param lid Leistungs-ID
-     * @param leistung 
-     */
-    public leistungLidPostWithHttpInfo(lid: number, leistung?: models.Leistung, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/leistung/${lid}'
-                    .replace('${' + 'lid' + '}', String(lid));
-
-        let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        // verify required parameter 'lid' is not null or undefined
-        if (lid === null || lid === undefined) {
-            throw new Error('Required parameter lid was null or undefined when calling leistungLidPost.');
-        }
-        // to determine the Content-Type header
-        let consumes: string[] = [
-            'application/json'
-        ];
-
-        // to determine the Accept header
-        let produces: string[] = [
-            'application/json'
-        ];
-
-        headers.set('Content-Type', 'application/json');
-
-        let requestOptions: RequestOptionsArgs = new RequestOptions({
-            method: RequestMethod.Post,
-            headers: headers,
-            body: leistung == null ? '' : JSON.stringify(leistung), // https://github.com/angular/angular/issues/10612
             search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });

@@ -24,7 +24,7 @@
       </div>
   </div>
     
-  <mat-list-item *ngIf="role=='admin'" class="main" (click)="expandAdmin()">Admin</mat-list-item>
+  <mat-list-item *ngIf="role=='ADMIN'" class="main" (click)="expandAdmin()">Admin</mat-list-item>
     <div *ngIf="selectedAdmin">
       <mat-list-item class="sub" (click)="navigateToCreateDiscipline()">Disziplin anlegen</mat-list-item>
       <mat-list-item class="sub" (click)="navigateToActivateDiscipline()">Disziplin verwalten</mat-list-item>
@@ -33,5 +33,5 @@
       <mat-list-item class="sub" (click)="navigateToCreateSportfest()">Neues Sportfest</mat-list-item>
     </div>
     
-  <mat-list-item *ngIf="role=='admin'" class="main" (click)="navigateToImportKlasse()">Klassendaten verwalten</mat-list-item>
+  <mat-list-item *ngIf="role=='ADMIN'" class="main" (click)="navigateToImportKlasse()">Klassendaten verwalten</mat-list-item>
 </mat-list>

@@ -192,6 +192,22 @@ export class DisziplinApi {
 
     /**
      * 
+     * @summary Versus einer Disziplin anzeigen
+     * @param did Disziplin-ID
+     */
+    public disziplinDidVersusGet(did: number, extraHttpRequestParams?: any): Observable<Array<models.Versus>> {
+        return this.disziplinDidVersusGetWithHttpInfo(did, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * 
      * @summary Disziplinen auflisten
      */
     public disziplinGet(extraHttpRequestParams?: any): Observable<Array<models.Disziplin>> {
@@ -584,6 +600,44 @@ export class DisziplinApi {
             method: RequestMethod.Post,
             headers: headers,
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * Versus einer Disziplin anzeigen
+     * 
+     * @param did Disziplin-ID
+     */
+    public disziplinDidVersusGetWithHttpInfo(did: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/disziplin/${did}/versus'
+                    .replace('${' + 'did' + '}', String(did));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'did' is not null or undefined
+        if (did === null || did === undefined) {
+            throw new Error('Required parameter did was null or undefined when calling disziplinDidVersusGet.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
             search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });

@@ -4,6 +4,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialogRef } from "@angular/material";
 import { AnmeldungApi, MetaApi } from "../../api/api";
 import { User } from "../../model/models";
+import { JwtHelper } from "angular2-jwt/angular2-jwt";
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ export class LoginComponent implements OnInit {
 
   username: string;
   password: string;
-
+  jwtHelper: JwtHelper = new JwtHelper();
   errorMsg: string;
 
   constructor(public thisDialogRef: MatDialogRef<LoginComponent>, private sfService: SportfestService, private metaApi: MetaApi) { }
@@ -30,11 +31,14 @@ export class LoginComponent implements OnInit {
       // Logindaten übermitteln
       let user: User = {
         username: this.username,
-        password: this.password
+        password: encryptpwd.toString()
       }
       this.metaApi.authenticatePost(user).subscribe(success => {
         sessionStorage.setItem('init', '' + success.intial);
         sessionStorage.setItem('token', success.token);
+        sessionStorage.setItem('role', this.jwtHelper.decodeToken(success.token).role);
+        sessionStorage.setItem('username', this.jwtHelper.decodeToken(success.token).username);
+        this.thisDialogRef.close("Login");
       }, data => {
         this.error();
       })/*

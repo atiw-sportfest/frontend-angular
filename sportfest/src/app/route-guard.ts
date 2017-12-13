@@ -24,7 +24,7 @@ export class RouteGuard implements CanActivate {
         return true;
       // Schiedsrichter und Admin darf:
       case "blabla":
-        return (role == "schiedsrichter" || role == "admin");
+        return (role == "schiedsrichter" || role == "ADMIN");
       // Admin darf:
       case "createDisciplineNew":
       case "activateDiscipline":
@@ -32,7 +32,7 @@ export class RouteGuard implements CanActivate {
       case "einheitVerwalten":
       case "createSportfest":           
       case "import":
-        return (role == "admin");
+        return (role == "ADMIN");
       default: 
         return false;
     }

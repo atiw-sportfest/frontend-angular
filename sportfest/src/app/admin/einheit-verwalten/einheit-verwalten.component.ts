@@ -25,8 +25,8 @@ export class EinheitVerwaltenComponent implements OnInit {
     this.metaApi.typGet().subscribe(data => {
       this.einheitPool = data;
       for (let item in Typ.DatentypEnum) {
-        //if (item.toString().charAt(item.toString().length-1) == item.toString().charAt(item.toString().length-1).toUpperCase()) {
-        if (item.toString().charAt(0) == item.toString().charAt(0).toLowerCase()) {
+        if (item.toString().charAt(item.toString().length-1) == item.toString().charAt(item.toString().length-1).toUpperCase()) {
+        //if (item.toString().charAt(0) == item.toString().charAt(0).toLowerCase()) {
           this.keys.push(item);
         }
       }
@@ -51,7 +51,7 @@ export class EinheitVerwaltenComponent implements OnInit {
 
     let neueEinheit = {
       id: null,
-      datentyp: Typ.DatentypEnum.String,
+      datentyp: Typ.DatentypEnum.STRING,
       einheit: "Neue Einheit",
       format: "",
       bsp: "",
