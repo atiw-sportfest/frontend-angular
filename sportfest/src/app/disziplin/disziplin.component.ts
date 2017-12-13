@@ -4,8 +4,7 @@ import { SportfestService } from '../sportfest.service';
 import { FormGroup } from '@angular/forms/src/model';
 import _ from "lodash";
 import { MatTableDataSource, MatSort } from '@angular/material';
-import { DisziplinApi, AnmeldungApi, ErgebnisApi, TeilnehmerApi } from "../api/api";
-import { Disziplin, Anmeldung, Ergebnis } from "../model/models";
+import { DisziplinService as DisziplinApi, AnmeldungService as AnmeldungApi, ErgebnisService as ErgebnisApi, TeilnehmerService as TeilnehmerApi, Disziplin, Anmeldung, Ergebnis } from 'sportfest-api';
 
 interface ErgebnisExtended extends Ergebnis {
   rang?: number;

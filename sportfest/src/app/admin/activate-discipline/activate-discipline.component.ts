@@ -1,8 +1,7 @@
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { Disziplin } from '../../model/Disziplin';
 import { SportfestService } from '../../sportfest.service';
-import { DisziplinApi } from '../../api/api';
+import { Disziplin, DisziplinService as DisziplinApi } from 'sportfest-api';
 
 @Component({
   selector: 'app-activate-discipline',

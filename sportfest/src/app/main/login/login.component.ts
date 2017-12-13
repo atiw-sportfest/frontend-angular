@@ -2,8 +2,7 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { SportfestService } from '../../sportfest.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialogRef } from "@angular/material";
-import { AnmeldungApi, MetaApi } from "../../api/api";
-import { User } from "../../model/models";
+import { AnmeldungService as AnmeldungApi, MetaService as MetaApi, User } from 'sportfest-api';
 import { JwtHelper } from "angular2-jwt/angular2-jwt";
 
 @Component({
@@ -33,6 +32,7 @@ export class LoginComponent implements OnInit {
         username: this.username,
         password: encryptpwd.toString()
       }
+
       this.metaApi.authenticatePost(user).subscribe(success => {
         sessionStorage.setItem('init', '' + success.intial);
         sessionStorage.setItem('token', success.token);

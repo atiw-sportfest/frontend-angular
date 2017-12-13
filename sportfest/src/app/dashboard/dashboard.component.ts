@@ -1,7 +1,6 @@
 import { RouterModule, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { ErgebnisApi, DisziplinApi, TeilnehmerApi } from '../api/api';
-import { Klasse, Ergebnis } from "../model/models";
+import { ErgebnisService as ErgebnisApi, DisziplinService as DisziplinApi, TeilnehmerService as TeilnehmerApi, Klasse, Ergebnis } from 'sportfest-api';
 
 
 //Lokale Klasse

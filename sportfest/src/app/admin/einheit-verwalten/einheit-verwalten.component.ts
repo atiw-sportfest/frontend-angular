@@ -3,8 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SportfestService } from '../../sportfest.service';
 import { forEach } from '@angular/router/src/utils/collection';
-import { Typ } from '../../model/Typ';
-import { MetaApi } from '../../api/api';
+import { Typ, MetaService as MetaApi } from 'sportfest-api';
 
 @Component({
   selector: 'app-einheit-verwalten',

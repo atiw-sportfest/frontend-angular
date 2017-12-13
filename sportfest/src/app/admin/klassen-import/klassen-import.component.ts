@@ -1,7 +1,6 @@
 //import { Klasse } from '../../interfaces';
-import { Klasse } from '../../model/Klasse';
 //import { SportfestService } from '../../sportfest.service';
-import { AnmeldungApi, TeilnehmerApi } from '../../api/api';
+import { Klasse, AnmeldungService as AnmeldungApi, TeilnehmerService as TeilnehmerApi } from 'sportfest-api';
 import { Component, OnInit } from '@angular/core';
 import { RequestOptions, Http } from '@angular/http';
 import { MatSnackBar } from '@angular/material';
