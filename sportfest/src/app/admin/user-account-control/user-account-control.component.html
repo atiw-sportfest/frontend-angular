@@ -14,7 +14,7 @@
       </tr>
 
       <tr *ngFor="let user of users">
-        <td>{{ user.name }}</td>
+        <td>{{ user.username }}</td>
         <td>{{ user.role }}</td>
         <td>
           <mat-icon (click)="resetPassword(user)">restore</mat-icon>

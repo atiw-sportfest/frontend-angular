@@ -159,7 +159,7 @@ export class CreateDisciplineNewComponent implements OnInit {
       this.disziplinApi.disziplinPost(disziplinDTO).subscribe(
         (data) => {
           console.log(data);
-          this.router.navigate(["/disziplin/" + disziplinDTO.id]);
+          this.router.navigate(["/activateDiscipline"]);
         },
         (err) => {
           console.log(err);

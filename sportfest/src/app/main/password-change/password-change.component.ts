@@ -25,7 +25,9 @@ export class PasswordChangeComponent implements OnInit {
   constructor(private metApi: MetaApi, public thisDialogRef: MatDialogRef<PasswordChangeComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
-    this.initPw = this.data.initPw;
+    console.log(this.data);
+    this.initPw=false;
+    //this.initPw = this.data.initPw;
   }
 
   public cancel() {
