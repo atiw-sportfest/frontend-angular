@@ -1,8 +1,7 @@
 import { SportfestService } from '../../sportfest.service';
 import { Component, OnInit } from '@angular/core';
 import { Md5 } from 'ts-md5/dist/md5';
-import { NutzerApi } from "../../api/api";
-import { User, Role } from "../../model/models";
+import { NutzerService as NutzerApi, User, Role } from 'sportfest-api';
 
 @Component({
   selector: 'app-user-account-control',

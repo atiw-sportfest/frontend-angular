@@ -2,8 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { SportfestService } from '../../sportfest.service';
 import { Md5 } from 'ts-md5/dist/md5';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { MetaApi } from "../../api/api";
-import { User } from "../../model/models";
+import { MetaService as MetaApi, User } from 'sportfest-api';
 
 @Component({
   selector: 'app-password-change',
@@ -40,7 +39,7 @@ export class PasswordChangeComponent implements OnInit {
         username: sessionStorage.getItem('username'),
         password: newEncrypt
       }
-      this.metApi.authenticatePostWithHttpInfo(user).subscribe(success => {
+      this.metApi.authenticatePost(user).subscribe(success => {
         sessionStorage.setItem('init', 'false');
         this.thisDialogRef.close("Save");
       }, error => {

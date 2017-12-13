@@ -69,7 +69,7 @@ export interface TypNEU {
 export interface ErgebnisNEU {
     id?: number,
     leistungen?: LeistungNEU[],
-    klasse?: Klasse,
+    klasse?: KlasseNEU,
     schueler?: SchuelerNEU,
     disziplin?: DisziplinNEU,
     punkte?: number,
@@ -92,13 +92,18 @@ export interface SchuelerNEU {
     sid?: number,
     vorname?: string,
     name?: string,
-    klasse?: Klasse,
+    klasse?: KlasseNEU,
     gid?: number
 }
 
-export interface Klasse {
+export interface KlasseNEU {
     id?: number,
     bezeichnung?: string
+}
+
+export interface Klasse {
+    kid?: number,
+    name?: string
 }
 export interface Schueler {
     sid?: number,

@@ -1,8 +1,7 @@
 import { LoginComponent } from '../../login/login.component';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { Disziplin } from "../../../model/models";
-import { DisziplinApi } from "../../../api/api";
+import { Disziplin, DisziplinService as DisziplinApi } from 'sportfest-api';
 
 @Component({
   selector: 'app-mobile-menu-list',

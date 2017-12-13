@@ -2,7 +2,7 @@ import { AreYouSureComponent } from '../../main/are-you-sure/are-you-sure.compon
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { SportfestService } from '../../sportfest.service';
 import { Component, OnInit, Inject } from '@angular/core';
-import { MetaApi } from '../../api/api';
+import { MetaService as MetaApi } from 'sportfest-api';
 
 @Component({
   selector: 'app-create-sportfest',

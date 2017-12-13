@@ -4,8 +4,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from "@angular/material";
 import { Md5 } from 'ts-md5/dist/md5';
-import { DisziplinApi } from "../../../api/api";
-import { Disziplin } from "../../../model/models";
+import { DisziplinService as DisziplinApi, Disziplin } from 'sportfest-api';
 
 @Component({
   selector: 'app-header',

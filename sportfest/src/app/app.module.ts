@@ -10,12 +10,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Http, HttpModule, RequestOptions } from '@angular/http';
 import { Location } from '@angular/common';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {} from 'angular-jwt';
 
 import { AppComponent } from './app.component';
 import { SportfestService } from './sportfest.service';
 import { TechnischerService } from './technischer.service';
-import { AnmeldungApi, DisziplinApi, ErgebnisApi, MetaApi, TeilnehmerApi, NutzerApi } from './api/api';
+import { AnmeldungService as AnmeldungApi, DisziplinService as DisziplinApi, ErgebnisService as ErgebnisApi, MetaService as MetaApi, TeilnehmerService as TeilnehmerApi, NutzerService as NutzerApi, BASE_PATH } from 'sportfest-api';
 import { HeaderComponent } from './main/desktop/header/header.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { KlassenImportComponent } from './admin/klassen-import/klassen-import.component';
@@ -32,6 +33,7 @@ import { DisziplinComponent } from './disziplin/disziplin.component';
 import { CreateDisciplineNewComponent } from './admin/create-discipline-new/create-discipline-new.component';
 import { EinheitVerwaltenComponent } from './admin/einheit-verwalten/einheit-verwalten.component';
 import { GroupPipe } from "./disziplin/group.pipe";
+import { environment } from "../environments/environment";
 
 const routConfig: Routes = [
   {
@@ -119,6 +121,7 @@ export const BASEPATH = 'http://' + location.host + '/backend';
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
+    HttpClientModule,
     MatIconModule, 
     MatSidenavModule, 
     MatCardModule, 
@@ -148,7 +151,11 @@ export const BASEPATH = 'http://' + location.host + '/backend';
       deps: [Http, RequestOptions]
     },
     Md5,
-    GroupPipe
+    GroupPipe,
+    {
+      provide: BASE_PATH,
+      useValue: environment.API_BASE_PATH
+    }
   ],
   entryComponents: [
     LoginComponent,

@@ -1,5 +1,5 @@
 import { PipeTransform, Pipe } from "@angular/core";
-import { Anmeldung } from "app/model/models";
+import { Anmeldung } from "sportfest-api";
 
 
 @Pipe({ name: 'group' })

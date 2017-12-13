@@ -2,11 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 //import { DisziplinNEU, VariableNEU, TypNEU, RegelNEU } from '../../interfaces';
 import { SportfestService } from '../../sportfest.service';
-import { Disziplin } from '../../model/Disziplin';
-import { Variable } from '../../model/Variable';
-import { Script } from '../../model/Script';
-import { Typ } from '../../model/Typ';
-import { DisziplinApi, MetaApi } from '../../api/api';
+import { Disziplin, Variable, Script, Typ, DisziplinService as DisziplinApi, MetaService as MetaApi} from 'sportfest-api';
 
 @Component({
   selector: 'app-create-discipline-new',
