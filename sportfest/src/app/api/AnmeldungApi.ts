@@ -12,17 +12,17 @@
 
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Inject, Injectable, Optional }                      from '@angular/core';
-import { Http, Headers, URLSearchParams }                    from '@angular/http';
+import { Inject, Injectable, Optional } from '@angular/core';
+import { Http, Headers, URLSearchParams } from '@angular/http';
 import { RequestMethod, RequestOptions, RequestOptionsArgs } from '@angular/http';
-import { Response, ResponseContentType }                     from '@angular/http';
+import { Response, ResponseContentType } from '@angular/http';
 
-import { Observable }                                        from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import * as models                                           from '../model/models';
-import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
-import { Configuration }                                     from '../configuration';
+import * as models from '../model/models';
+import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
+import { Configuration } from '../configuration';
 
 
 @Injectable()
@@ -32,7 +32,7 @@ export class AnmeldungApi {
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
 
-    constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+    constructor(protected http: Http, @Optional() @Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
         if (basePath) {
             this.basePath = basePath;
         }
@@ -176,7 +176,7 @@ export class AnmeldungApi {
      */
     public anmeldebogenKidGetWithHttpInfo(kid: number, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/anmeldebogen/${kid}'
-                    .replace('${' + 'kid' + '}', String(kid));
+            .replace('${' + 'kid' + '}', String(kid));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -197,7 +197,7 @@ export class AnmeldungApi {
             method: RequestMethod.Get,
             headers: headers,
             search: queryParameters,
-            withCredentials:this.configuration.withCredentials
+            withCredentials: this.configuration.withCredentials
         });
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
@@ -232,7 +232,11 @@ export class AnmeldungApi {
         let produces: string[] = [
         ];
 
-        headers.set('Content-Type', 'application/x-www-form-urlencoded');
+        const formData: FormData = new FormData();
+        formData.append('file', file, file.name);
+
+
+        headers.set('Content-Type', 'multipart/form-data');
 
         if (file !== undefined) {
             formParams.set('file', <any>file);
@@ -241,16 +245,15 @@ export class AnmeldungApi {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
-            body: formParams.toString(),
             search: queryParameters,
-            withCredentials:this.configuration.withCredentials
+            withCredentials: this.configuration.withCredentials
         });
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
-
-        return this.http.request(path, requestOptions);
+    
+        return this.http.post(path, formData, requestOptions);
     }
 
     /**
@@ -260,7 +263,7 @@ export class AnmeldungApi {
      */
     public anmeldungAidDeleteWithHttpInfo(aid: number, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/anmeldung/${aid}'
-                    .replace('${' + 'aid' + '}', String(aid));
+            .replace('${' + 'aid' + '}', String(aid));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -280,7 +283,7 @@ export class AnmeldungApi {
             method: RequestMethod.Delete,
             headers: headers,
             search: queryParameters,
-            withCredentials:this.configuration.withCredentials
+            withCredentials: this.configuration.withCredentials
         });
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
@@ -297,7 +300,7 @@ export class AnmeldungApi {
      */
     public anmeldungAidGetWithHttpInfo(aid: number, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/anmeldung/${aid}'
-                    .replace('${' + 'aid' + '}', String(aid));
+            .replace('${' + 'aid' + '}', String(aid));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -318,7 +321,7 @@ export class AnmeldungApi {
             method: RequestMethod.Get,
             headers: headers,
             search: queryParameters,
-            withCredentials:this.configuration.withCredentials
+            withCredentials: this.configuration.withCredentials
         });
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
@@ -350,7 +353,7 @@ export class AnmeldungApi {
             method: RequestMethod.Get,
             headers: headers,
             search: queryParameters,
-            withCredentials:this.configuration.withCredentials
+            withCredentials: this.configuration.withCredentials
         });
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
@@ -367,7 +370,7 @@ export class AnmeldungApi {
      */
     public disziplinDidAnmeldungenGetWithHttpInfo(did: number, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/disziplin/${did}/anmeldungen'
-                    .replace('${' + 'did' + '}', String(did));
+            .replace('${' + 'did' + '}', String(did));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -388,7 +391,7 @@ export class AnmeldungApi {
             method: RequestMethod.Get,
             headers: headers,
             search: queryParameters,
-            withCredentials:this.configuration.withCredentials
+            withCredentials: this.configuration.withCredentials
         });
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
@@ -405,7 +408,7 @@ export class AnmeldungApi {
      */
     public klasseKidAnmeldungenGetWithHttpInfo(kid: number, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/klasse/${kid}/anmeldungen'
-                    .replace('${' + 'kid' + '}', String(kid));
+            .replace('${' + 'kid' + '}', String(kid));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -426,7 +429,7 @@ export class AnmeldungApi {
             method: RequestMethod.Get,
             headers: headers,
             search: queryParameters,
-            withCredentials:this.configuration.withCredentials
+            withCredentials: this.configuration.withCredentials
         });
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
@@ -443,7 +446,7 @@ export class AnmeldungApi {
      */
     public schuelerSidAnmeldungenGetWithHttpInfo(sid: number, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/schueler/${sid}/anmeldungen'
-                    .replace('${' + 'sid' + '}', String(sid));
+            .replace('${' + 'sid' + '}', String(sid));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -464,7 +467,7 @@ export class AnmeldungApi {
             method: RequestMethod.Get,
             headers: headers,
             search: queryParameters,
-            withCredentials:this.configuration.withCredentials
+            withCredentials: this.configuration.withCredentials
         });
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {

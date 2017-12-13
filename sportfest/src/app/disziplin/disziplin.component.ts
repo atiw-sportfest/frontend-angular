@@ -32,6 +32,8 @@ export class DisziplinComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.anmeldungen = [];
       this.disziplin = {};
+      this.ergebnisseEingetragen = [];
+      this.ergebnisse = [];
       this.disziplinApi.disziplinDidGet(+params['id']).subscribe(data => {
         this.disziplin = data;
         /*this.displayedColumns.push('rang'); //Material Table
