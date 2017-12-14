@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { SportfestService } from '../../sportfest.service';
 import { Md5 } from 'ts-md5/dist/md5';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { MetaService as MetaApi, User } from 'sportfest-api';
+import { NutzerService, User, NewPassword } from 'sportfest-api';
 
 @Component({
   selector: 'app-password-change',
@@ -21,12 +21,17 @@ export class PasswordChangeComponent implements OnInit {
   newNotEqual = false;
   msgNewNotEqual = 'Passwörter sind nicht identisch!';
 
-  constructor(private metApi: MetaApi, public thisDialogRef: MatDialogRef<PasswordChangeComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(private nutzerService: NutzerService, public thisDialogRef: MatDialogRef<PasswordChangeComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
     console.log(this.data);
-    this.initPw=false;
-    //this.initPw = this.data.initPw;
+    if (this.data) {
+      this.initPw = this.data.initPw;
+    } else {
+      this.initPw = false;
+    }
+
+
   }
 
   public cancel() {
@@ -39,7 +44,12 @@ export class PasswordChangeComponent implements OnInit {
         username: sessionStorage.getItem('username'),
         password: newEncrypt
       }
-      this.metApi.authenticatePost(user).subscribe(success => {
+      let pwChange: NewPassword = {
+        oldPassword: Md5.hashStr(this.recent).toString(),
+        newPassword: newEncrypt
+      }
+      this.nutzerService.userPasswordPost(pwChange).subscribe(success => {
+        console.log("Ändern");
         sessionStorage.setItem('init', 'false');
         this.thisDialogRef.close("Save");
       }, error => {
@@ -49,7 +59,6 @@ export class PasswordChangeComponent implements OnInit {
   }
   private inputIsValid(): boolean {
     // Verschlüsseln
-    let recentEncrypt = Md5.hashStr(this.recent);
     let newEncrypt = Md5.hashStr(this.new);
     let newSubmitEncrypt = Md5.hashStr(this.newSubmit);
 

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-//import { DisziplinNEU, VariableNEU, TypNEU, RegelNEU } from '../../interfaces';
 import { SportfestService } from '../../sportfest.service';
 import { Disziplin, Variable, Script, Typ, DisziplinService as DisziplinApi, MetaService as MetaApi} from 'sportfest-api';
 
@@ -29,7 +28,6 @@ export class CreateDisciplineNewComponent implements OnInit {
   statusCodeIcon: string;
 
   syntaxCorrect: boolean;
-  //TODO sfService entfernen
 
   constructor(private metaApi: MetaApi, private disziplinApi: DisziplinApi, private route: ActivatedRoute, private router: Router) {
   }
@@ -40,7 +38,7 @@ export class CreateDisciplineNewComponent implements OnInit {
       this.einheitPool = data;
 
       this.route.params.forEach((params: Params) => {
-        this.idDerDisziplin = +params['id'];
+        this.idDerDisziplin = params['id'];
         if (this.idDerDisziplin) {
 
           this.disziplinApi.disziplinDidGet(this.idDerDisziplin).subscribe((data: Disziplin) => {
@@ -142,6 +140,8 @@ export class CreateDisciplineNewComponent implements OnInit {
       variablen: this.arrayOfVars,
       versus: this.versus
     }
+
+    console.log(disziplinDTO);
 
     if (disziplinDTO.id) { //Disziplin existiert schon
       this.disziplinApi.disziplinDidPost(disziplinDTO.id, disziplinDTO).subscribe(
