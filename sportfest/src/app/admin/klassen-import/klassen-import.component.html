@@ -24,9 +24,9 @@
       </table>
     </mat-card-content>
     <mat-card-actions>
-      <form ngNoForm [action]="downloadPath" method="get" enctype="multipart/form-data">
-        <button mat-raised-button type="submit" color="primary" [disabled]="!selectedDownloadableClass">Download</button>
-      </form>
+      <!--<form ngNoForm [action]="downloadPath" method="get" enctype="multipart/form-data">-->
+        <button mat-raised-button (click)="download()" color="primary" [disabled]="!selectedDownloadableClass">Download</button>
+      <!--</form>-->
 
     </mat-card-actions>
   </mat-card>
