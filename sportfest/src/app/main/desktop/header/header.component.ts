@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.role = sessionStorage.getItem('role'); // Rolle aus dem Speicher laden (wichtig beim neuladen der Seite)
     this.username = sessionStorage.getItem('username'); // Benutzernamen aus dem speicher laden (wichtig beim neuladen der Seite)
-    if (sessionStorage.getItem('init') == 'true') {
+    if (sessionStorage.getItem('init') == 'True') {
       let dlg = this.dialog.open(PasswordChangeComponent, { disableClose: true, data: { initPw: true } } );
       dlg.afterClosed().subscribe(data => dlg.close());
     }

@@ -16,18 +16,18 @@ export class CreateSportfestComponent implements OnInit {
 
   //TODO Umstellen sobald Schnittstellen vorhanden sind
   constructor(public dialog: MatDialog, private metaApi: MetaApi,
-    private sfService: SportfestService, public snackBar: MatSnackBar) { }
+    public snackBar: MatSnackBar) { }
 
   ngOnInit() {
   }
 
   private beenden() {
-    this.sfService.sporfestBeenden();
+    this.metaApi.sportfestPost().subscribe();
     this.openSnackBar("Das aktuelle Sporfest wurde beendet und die Punkte verteilt", "Bestätigen");
   }
 
   private neuesSportfest() {
-    console.log("Funktion existiert noch nicht");
+    this.metaApi.sportfestDelete().subscribe();
     this.openSnackBar("Ein neues Sporfest wurde angelegt", "Bestätigen");
   }
 

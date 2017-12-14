@@ -49,23 +49,27 @@ export class PasswordChangeComponent implements OnInit {
         newPassword: newEncrypt
       }
       this.nutzerService.userPasswordPost(pwChange).subscribe(success => {
-        console.log("Ändern");
+        console.log(success);
         sessionStorage.setItem('init', 'false');
         this.thisDialogRef.close("Save");
+        this.recentInvalid = false;
       }, error => {
-        this.msgNewNotEqual = 'Altes Passwort ist falsch!';
+        console.log(error);
+        this.recentInvalid = true;
+
       });
     }
   }
   private inputIsValid(): boolean {
+    this.newNotEqual = false;
     // Verschlüsseln
     let newEncrypt = Md5.hashStr(this.new);
     let newSubmitEncrypt = Md5.hashStr(this.newSubmit);
 
     let valid = true;
-    if (!(newEncrypt && newSubmitEncrypt && (newEncrypt === newSubmitEncrypt))) {
+    if (!(newEncrypt && newSubmitEncrypt && (newEncrypt.toString() == newSubmitEncrypt.toString()))) {
       valid = false;
-      this.msgNewNotEqual = 'Passwörter sind nicht identisch!';
+      this.newNotEqual = true;
     }
     return valid;
   }
