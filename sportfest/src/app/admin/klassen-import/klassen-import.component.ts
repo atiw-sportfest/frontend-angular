@@ -1,6 +1,4 @@
-//import { Klasse } from '../../interfaces';
-//import { SportfestService } from '../../sportfest.service';
-import { Klasse, AnmeldungService as AnmeldungApi, TeilnehmerService as TeilnehmerApi } from 'sportfest-api';
+import { Klasse, AnmeldungService, TeilnehmerService } from 'sportfest-api';
 import { Component, OnInit } from '@angular/core';
 import { RequestOptions, Http } from '@angular/http';
 import { MatSnackBar } from '@angular/material';
@@ -24,12 +22,12 @@ export class KlassenImportComponent implements OnInit {
   uploadPath = BASEPATH + '/schueler/upload';
 
   constructor(private http: Http,
-    private anmeldungApi: AnmeldungApi, private teilnehmerApi: TeilnehmerApi,
+    private anmeldungService: AnmeldungService, private teilnehmerService: TeilnehmerService,
     public snackBar: MatSnackBar) { }
 
   ngOnInit() {
 
-    this.teilnehmerApi.klasseGet().subscribe((data: Klasse[]) => {
+    this.teilnehmerService.klasseGet().subscribe((data: Klasse[]) => {
       this.klassen = data;
     },
       (err) => {
@@ -39,13 +37,7 @@ export class KlassenImportComponent implements OnInit {
 
   // Button Download wurde geklickt
   public download() {
-    this.anmeldungApi.anmeldebogenKidGet(this.selectedDownloadableClass).subscribe((data) => {
-      console.log(data);
-    },
-      (err) => {
-        console.log(err);
-      });
-  }
+    this.anmeldungService.anmeldebogenKidGet(this.selectedDownloadableClass).subscribe((data) => console.log(data));
 
   // Dateiauswahl für Anmeldebogen geändert
   public anmeldebogenChange(event: any) {
@@ -60,7 +52,7 @@ export class KlassenImportComponent implements OnInit {
   // Ausgewählten Anmeldebogen abschicken
   public sendAnmeldebogen() {
     if (this.anmeldebogenFile) {
-      this.anmeldungApi.anmeldebogenPost(this.anmeldebogenFile).subscribe(
+      this.anmeldungService.anmeldebogenPost(this.anmeldebogenFile).subscribe(
         (data) => {
           console.log(data);
         },
@@ -130,6 +122,6 @@ export class KlassenImportComponent implements OnInit {
   }
 
   schuelerHochladen() {
-    this.teilnehmerApi.schuelerPut(this.teilnehmerFile).subscribe();
+    this.teilnehmerService.schuelerPut(this.teilnehmerFile).subscribe();
   }
 }
