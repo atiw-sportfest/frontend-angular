@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 //import { TypNEU } from '../../interfaces';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import {  MatSnackBar } from '@angular/material';
 import { SportfestService } from '../../sportfest.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { Typ, MetaService as MetaApi } from 'sportfest-api';
@@ -15,7 +16,7 @@ export class EinheitVerwaltenComponent implements OnInit {
   keys: any[];
 
   //TODO sfService löschen wenn Typen schnittestelle existiert
-  constructor(private metaApi: MetaApi, private sfService: SportfestService, private route: ActivatedRoute) { }
+  constructor(private metaApi: MetaApi, private sfService: SportfestService, private route: ActivatedRoute, private router: Router,public snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.einheitPool = [];
@@ -33,11 +34,6 @@ export class EinheitVerwaltenComponent implements OnInit {
         }
       }
     });
-
-
-    // this.sfService.typenNEU().subscribe(data => {
-    //   this.einheitPool = data;
-    // });
 
   }
 
@@ -63,7 +59,8 @@ export class EinheitVerwaltenComponent implements OnInit {
   sendToBackend() {
     this.einheitPool.forEach(einheit => {
       if (einheit.shouldDelete) {
-        this.sfService.typenLoeschenNEU(einheit.id);
+        console.log("Ich will löschen: " + einheit.einheit);
+        this.metaApi.typTypidDelete(einheit.id).subscribe();
       } else if (einheit.id) {
         let sendeEinheit = {
           id: einheit.id,
@@ -85,7 +82,16 @@ export class EinheitVerwaltenComponent implements OnInit {
         console.log(sendeEinheit);
         this.metaApi.typPost(sendeEinheit).subscribe();
       }
+      this.openSnackbar();
+      this.router.navigate(["/einheitVerwalten"]);
     });
+  }
+
+  openSnackbar() {
+    this.snackBar.open("Die Änderungen wurden gespeichert", "OK", {
+      duration: 5000,
+    });
+  
   }
 
 }

@@ -73,6 +73,11 @@ export class HeaderComponent implements OnInit {
       this.role = sessionStorage.getItem('role'); //Rolle aus dem Local Storage auslesen
     });
   }
+
+  public openChangePassword() {
+    let dlg = this.dialog.open(PasswordChangeComponent, { disableClose: true });
+    dlg.afterClosed().subscribe(data => dlg.close());
+  }
   //Routing bei Klick auf Button im Menü
   public navigateToEinzel(did: number, name: string) {
     this.router.navigate(['/einzel/' + did + '/' + name]);
@@ -104,11 +109,6 @@ export class HeaderComponent implements OnInit {
 
   public navigateToEinheitVerwalten() {
     this.router.navigate(['/einheitVerwalten/']);
-  }
-
-  public openChangePassword() {
-    let dlg = this.dialog.open(PasswordChangeComponent, { disableClose: true });
-    dlg.afterClosed().subscribe(data => dlg.close());
   }
 
   public navigateToCreateSportfest() {

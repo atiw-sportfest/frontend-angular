@@ -65,8 +65,11 @@
     <tr *ngFor="let aov of arrayOfVars, let i = index">
       <td style="width:66%">
         <mat-form-field>
-          <input matInput type="text" placeholder="Name der Variable" [value]="aov.bezeichnung">
+          <input matInput type="text" placeholder="Name der Variable" [(ngModel)]="aov.bezeichnung">
         </mat-form-field>
+      </td>
+      <td>
+        <p>{{aov.bezeichnung}}</p>
       </td>
       <td style="width:26%">
         <mat-form-field>
@@ -106,8 +109,8 @@
     <tr>
       <td colspan="2">
         <mat-input-container>
-          <textarea matInput type="text" matInput rows="5" cols="40" wrap="hard" placeholder="Regel Script" [(ngModel)]="regel"
-            (keyup)="textChanged()" style="background-color: #f2f2f2	"></textarea>
+          <textarea matInput type="text" matInput rows="5" cols="40" wrap="hard" placeholder="Regel Script" [(ngModel)]="regel" (keyup)="textChanged()"
+            style="background-color: #f2f2f2	"></textarea>
         </mat-input-container>
       </td>
     </tr>
