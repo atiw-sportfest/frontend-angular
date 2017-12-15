@@ -34,6 +34,7 @@ import { CreateDisciplineNewComponent } from './admin/create-discipline-new/crea
 import { EinheitVerwaltenComponent } from './admin/einheit-verwalten/einheit-verwalten.component';
 import { GroupPipe } from "./disziplin/group.pipe";
 import { environment } from "../environments/environment";
+import { DisziplinDetailComponent } from './disziplin-detail/disziplin-detail.component';
 
 const routConfig: Routes = [
   {
@@ -110,7 +111,8 @@ export const BASEPATH = 'http://' + location.host + '/backend';
     DisziplinComponent,
     CreateDisciplineNewComponent,
     EinheitVerwaltenComponent,
-    GroupPipe
+    GroupPipe,
+    DisziplinDetailComponent
   ],
   imports: [
     BrowserModule,
