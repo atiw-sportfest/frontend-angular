@@ -88,8 +88,12 @@ export class DisziplinComponent implements OnInit {
     }
   }
 
-  enoughPermissionsToChange(teilnehmerPos: number, variablePos: number): boolean {
+  enoughPermissionsToChange(teilnehmerPos?: number, variablePos?: number): boolean {
     let role = sessionStorage.getItem('role');
+    if(teilnehmerPos == undefined && variablePos == undefined){
+      return role == 'ADMIN';
+    }
+
     if (this.ergebnisseEingetragen[teilnehmerPos].leistungen[variablePos].id)
       if (role == 'ADMIN')
         return true;
@@ -174,7 +178,7 @@ export class DisziplinComponent implements OnInit {
   speicherBedingungenErfuellt(): boolean {
     //Überprüfen ob in jeder Zeile ein Telnehmer ausgewählt wurde
     for (let eintrag of this.ergebnisseEingetragen)
-      if (_.isEmpty(eintrag.schueler))
+      if (_.isEmpty(eintrag.klasse))
         return false;
     //Überprüfen ob bei Versus mindestens zwei Teilnehmer eingetragen sind
     if (this.disziplin.versus)
@@ -183,7 +187,7 @@ export class DisziplinComponent implements OnInit {
     //Überprüfen ob für jeden Teilnehmer eine neue Leistung eingetragen wurde und diese der Regex entspricht
     let leistungspruefung: boolean[] = [];
     for (let i = 0; i < this.ergebnisseEingetragen.length; i++) {
-      leistungspruefung[i] = false;
+      leistungspruefung.push(false);
       for (let leistung of this.ergebnisseEingetragen[i].leistungen) {
         if (!leistung.id && leistung.wert)  //Wenn es eine Leistung mit eingetragenem Wert, aber keiner id gibt, ist diese neu
           leistungspruefung[i] = true;
@@ -192,7 +196,7 @@ export class DisziplinComponent implements OnInit {
           return false;
       }
     }
-    if (!this.enoughPermissionsToChange)
+    if (!this.enoughPermissionsToChange())
       for (let neueLeistung of leistungspruefung)
         if (!neueLeistung)  //Wenn es eine Zeile ohne eine neue Leistung gibt, kann nicht gespeichert werden.
           return false;
