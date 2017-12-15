@@ -38,7 +38,7 @@ export class KlassenImportComponent implements OnInit {
   // Button Download wurde geklickt
   public download() {
     this.anmeldungService.anmeldebogenKidGet(this.selectedDownloadableClass).subscribe((data) => console.log(data));
-
+  }
   // Dateiauswahl für Anmeldebogen geändert
   public anmeldebogenChange(event: any) {
     let fileList: FileList = event.target.files;

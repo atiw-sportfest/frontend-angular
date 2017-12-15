@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SportfestService } from '../../sportfest.service';
-import { Disziplin, Variable, Script, Typ, DisziplinService as DisziplinApi, MetaService as MetaApi} from 'sportfest-api';
+import { Disziplin, Variable, Script, Typ, DisziplinService as DisziplinApi, MetaService as MetaApi } from 'sportfest-api';
 
 @Component({
   selector: 'app-create-discipline-new',
@@ -27,12 +27,17 @@ export class CreateDisciplineNewComponent implements OnInit {
   statusCodeText: string;
   statusCodeIcon: string;
 
+  enableButton: boolean;
+  reasonButtonDisabled: string;
+
   syntaxCorrect: boolean;
 
   constructor(private metaApi: MetaApi, private disziplinApi: DisziplinApi, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
+    this.reasonButtonDisabled = "";
+    this.enableButton = false;
     this.fehlermeldung = "";
     this.metaApi.typGet().subscribe(data => {
       this.einheitPool = data;
@@ -74,17 +79,19 @@ export class CreateDisciplineNewComponent implements OnInit {
 
   deleteVar(i: number) {
     this.arrayOfVars.splice(i, 1);
+    this.updateEnableButton();
   }
 
   addVar() {
     let dummyVar = { bezeichnung: "", typNEU: {} }
     this.arrayOfVars.push(dummyVar);
+    this.updateEnableButton();
   }
 
   checkCode() {
 
     this.statusCodeText = "Code wird überprüft";
-    var script: Script = {script: this.regel};
+    var script: Script = { script: this.regel };
     this.metaApi.dslCheckRegelPost(script).subscribe(data => {
       this.syntaxCorrect = data.pass;
       this.fehlermeldung = data.messages;
@@ -97,16 +104,8 @@ export class CreateDisciplineNewComponent implements OnInit {
         this.statusCodeText = this.fehlermeldung;
         this.statusCodeIcon = "error";
       }
+      this.updateEnableButton();
     });
-
-
-    if (this.syntaxCorrect) {
-      this.statusCodeText = "Der Code ist Syntaktisch richtig";
-      this.statusCodeIcon = "done";
-    } else {
-      this.statusCodeText = this.fehlermeldung;
-      this.statusCodeIcon = "error";
-    }
 
   }
 
@@ -114,6 +113,7 @@ export class CreateDisciplineNewComponent implements OnInit {
     this.statusCodeText = "Code nicht Überprüft";
     this.statusCodeIcon = "error";
     this.syntaxCorrect = false;
+    this.updateEnableButton();
   }
 
   assignVars(vars: Variable[]) {
@@ -126,6 +126,43 @@ export class CreateDisciplineNewComponent implements OnInit {
       }
     }
     this.arrayOfVars = vars;
+  }
+
+  updateEnableButton() {
+    this.enableButton = false;
+    if (this.nameDerDisziplin == "") {
+      this.reasonButtonDisabled = "Name der Disziplin fehlt";
+      return false;
+    }
+    if (this.beschreibungDerDisziplin == "") {
+      this.reasonButtonDisabled = "Beschreibung der Disziplin fehlt";
+      return false;
+    }
+    if (this.arrayOfVars.length == 0) {
+      this.reasonButtonDisabled = "Es muss mindestens eine Variable geben";
+      return false;
+    }
+
+    for (let i = 0; i < this.arrayOfVars.length; i++) {
+      if (this.arrayOfVars[i].bezeichnung == "") {
+        this.reasonButtonDisabled = "Die Variable an der Stelle " + (i + 1) + " hat keine Bezeichung";
+        return false;
+      }
+    }
+
+    for (let i = 0; i < this.arrayOfVars.length; i++) {
+      if (!this.arrayOfVars[i].typ) {
+        this.reasonButtonDisabled = "Die Variable an der Stelle " + (i + 1) + " hat keine Einheit";
+        return false;
+      }
+    }
+
+    if (!this.syntaxCorrect) {
+      this.reasonButtonDisabled = "Synax der Regel ist nicht korrekt";
+      return false;
+    }
+    this.enableButton = true;
+
   }
 
   sendToBackend() {

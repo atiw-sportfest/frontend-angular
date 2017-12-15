@@ -14,7 +14,6 @@ export class CreateSportfestComponent implements OnInit {
   selectedOption: any;
   buttonPressed: number; //0 = sportfest beenden, 1= neues Sportfest
 
-  //TODO Umstellen sobald Schnittstellen vorhanden sind
   constructor(public dialog: MatDialog, private metaApi: MetaApi,
     public snackBar: MatSnackBar) { }
 
