@@ -1,4 +1,32 @@
 <iframe name="noDisplay" style="display:none"></iframe>
+<mat-card-content>
+  <mat-card>
+    <mat-card-header>
+      <h3>Import der Teilnehmer</h3>
+    </mat-card-header>
+    <mat-card-content>
+      <table>
+        <tr>
+          <td>
+            Bitte laden Sie die CSV-Datei, die alle Schüler und Lehrer des ATIWs enthält (Name; Vorname; Klasse; Geschlecht), aus, um
+            die Daten für das Tunier bereitzustellen.
+            <br><br> Mögliche Dateiformate sind .csv, .xls und .xlsx.
+          </td>
+        </tr>
+        <tr></tr>
+        <tr>
+          <td>
+            <input mat-raised-button type="file" name="file" size="45" accept=".csv, .xls, .xlsx" (change)="teilnehmerChange($event)"
+            />
+          </td>
+        </tr>
+      </table>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="openSchuelerHochgeladenSnackbar();schuelerHochladen()" [disabled]="!isTeilnehmerSelected()">Teilnehmerliste abschicken</button>
+    </mat-card-actions>
+  </mat-card>
+</mat-card-content>
 <!-- Anmeldebogen-Export -->
 <mat-card-content>
   <mat-card>
@@ -60,31 +88,3 @@
   </mat-card>
 </mat-card-content>
 <!-- Teilnehmerimport -->
-<mat-card-content>
-  <mat-card>
-    <mat-card-header>
-      <h3>Import der Teilnehmer</h3>
-    </mat-card-header>
-    <mat-card-content>
-      <table>
-        <tr>
-          <td>
-            Bitte laden Sie die CSV-Datei, die alle Schüler und Lehrer des ATIWs enthält (Name; Vorname; Klasse; Geschlecht), aus, um
-            die Daten für das Tunier bereitzustellen.
-            <br><br> Mögliche Dateiformate sind .csv, .xls und .xlsx.
-          </td>
-        </tr>
-        <tr></tr>
-        <tr>
-          <td>
-            <input mat-raised-button type="file" name="file" size="45" accept=".csv, .xls, .xlsx" (change)="teilnehmerChange($event)"
-            />
-          </td>
-        </tr>
-      </table>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="openSchuelerHochgeladenSnackbar();schuelerHochladen()" [disabled]="!isTeilnehmerSelected()">Teilnehmerliste abschicken</button>
-    </mat-card-actions>
-  </mat-card>
-</mat-card-content>
