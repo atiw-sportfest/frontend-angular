@@ -4,7 +4,7 @@ import { SportfestService } from '../sportfest.service';
 import { FormGroup } from '@angular/forms/src/model';
 import _ from "lodash";
 import { MatTableDataSource, MatSort } from '@angular/material';
-import { DisziplinService as DisziplinApi, AnmeldungService as AnmeldungApi, ErgebnisService as ErgebnisApi, TeilnehmerService as TeilnehmerApi, Disziplin, Anmeldung, Ergebnis } from 'sportfest-api';
+import { DisziplinService, AnmeldungService , ErgebnisService , TeilnehmerService , Disziplin, Anmeldung, Ergebnis } from 'sportfest-api';
 
 interface ErgebnisExtended extends Ergebnis {
   rang?: number;
@@ -25,7 +25,7 @@ export class DisziplinComponent implements OnInit {
   ergebnisseEingetragen: Ergebnis[];
   beschreibung: string;
   //dataSource = new MatTableDataSource(this.ergebnisse); //Material Table
-  constructor(private route: ActivatedRoute, private teilnehmerApi: TeilnehmerApi, private ergebnisApi: ErgebnisApi, private disziplinApi: DisziplinApi, private anmeldungApi: AnmeldungApi, private router: Router) { }
+  constructor(private route: ActivatedRoute, private teilnehmerService: TeilnehmerService, private ergebnisService: ErgebnisService, private disziplinService: DisziplinService, private anmeldungService: AnmeldungService, private router: Router) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -33,7 +33,7 @@ export class DisziplinComponent implements OnInit {
       this.disziplin = {};
       this.ergebnisseEingetragen = [];
       this.ergebnisse = [];
-      this.disziplinApi.disziplinDidGet(+params['id']).subscribe(data => {
+      this.disziplinService.disziplinDidGet(+params['id']).subscribe(data => {
         this.disziplin = data;
         /*this.displayedColumns.push('rang'); //Material Table
         if (this.disziplin.klasseteamnleistung)
@@ -47,7 +47,7 @@ export class DisziplinComponent implements OnInit {
         this.beschreibung = this.disziplin.team ? "Klasse" : "Schüler";
         this.ergebnisseAbfragen();
         this.initializeAdmin();
-        this.anmeldungApi.disziplinDidAnmeldungenGet(this.disziplin.id).subscribe(data => {
+        this.anmeldungService.disziplinDidAnmeldungenGet(this.disziplin.id).subscribe(data => {
           this.anmeldungen = data;
           this.anmeldungen.sort((a1, a2) => { return a1.schueler.klasse.bezeichnung < a2.schueler.klasse.bezeichnung ? -1 : 1; });
         });
@@ -108,20 +108,11 @@ export class DisziplinComponent implements OnInit {
   }
 
   speichern() {
-    //fertige Ergebnisse filtern
-    let fertigeErgebnisse: Ergebnis[] = [];
-    for (var ergebnis of this.ergebnisseEingetragen) {
-      fertigeErgebnisse.push({  //Für jeden ausgewählten Teilnehmer (Klasse oder Schüler) ein Ergebnis erzeugen
-        disziplin: ergebnis.disziplin,
-        klasse: ergebnis.klasse,
-        leistungen: ergebnis.leistungen,
-        schueler: ergebnis.schueler
-      });
-    }
 
-    this.ergebnisApi.disziplinDidErgebnissePost(this.disziplin.id, this.ergebnisse);
+    this.ergebnisService.disziplinDidErgebnissePost(this.disziplin.id, this.ergebnisseEingetragen).subscribe(data => {
+      this.initializeAdmin();
+    });
 
-    this.initializeAdmin();
   }
 
   teilnehmerHinzufuegen() {
@@ -168,15 +159,16 @@ export class DisziplinComponent implements OnInit {
 
   leistungenHolen(ergebnisPos: number) {
     //An dieser Stelle die Leistungen eines Teilnehmers von der Datenbank abrufen
-    if (this.disziplin.team) {
-      this.teilnehmerApi.klasseKidErgebnisseDidGet(this.ergebnisseEingetragen[ergebnisPos].klasse.id, this.disziplin.id).subscribe(data => {
-        this.ergebnisse[ergebnisPos] = <ErgebnisExtended> data;
+    this.ergebnisseEingetragen[ergebnisPos].klasse = this.ergebnisseEingetragen[ergebnisPos].schueler.klasse
+    /*if (this.disziplin.team) {
+      this.teilnehmerService.klasseKidErgebnisseDidGet(this.disziplin.id, this.ergebnisseEingetragen[ergebnisPos].klasse.id).subscribe(data => {
+        this.ergebnisse[ergebnisPos] = <ErgebnisExtended>data;
       });
     } else {
-      this.teilnehmerApi.schuelerSidErgebnisseDidGet(this.ergebnisse[ergebnisPos].schueler.id, this.disziplin.id).subscribe(data => {
-        this.ergebnisse[ergebnisPos] = <ErgebnisExtended> data;
+      this.teilnehmerService.schuelerSidErgebnisseDidGet(this.disziplin.id, this.ergebnisseEingetragen[ergebnisPos].schueler.id).subscribe(data => {
+        this.ergebnisse[ergebnisPos] = <ErgebnisExtended>data;
       })
-    }
+    }*/
   }
 
   speicherBedingungenErfuellt(): boolean {
@@ -210,7 +202,8 @@ export class DisziplinComponent implements OnInit {
 
   ergebnisseAbfragen() {
     if (this.disziplin) {
-      this.ergebnisApi.disziplinDidErgebnisseGet(this.disziplin.id).subscribe(data => {
+      this.ergebnisService.disziplinDidErgebnisseGet(this.disziplin.id).subscribe(data => {
+        this.ergebnisse = data;
         let tmp = -1;
         let counter = 0;
         //Nach Punkten sortieren und Rang vergeben
