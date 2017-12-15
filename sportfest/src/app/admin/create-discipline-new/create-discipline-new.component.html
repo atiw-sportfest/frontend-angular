@@ -9,7 +9,7 @@
           <h4>Name</h4>
           <!-- Name-->
           <mat-form-field>
-            <input matInput type="text" placeholder="Name der Disziplin" [(ngModel)]="nameDerDisziplin">
+            <input matInput type="text" placeholder="Name der Disziplin" (keyup)="updateEnableButton()" [(ngModel)]="nameDerDisziplin">
           </mat-form-field>
         </td>
       </tr>
@@ -18,8 +18,8 @@
         <td>
           <h4>Beschreibung</h4>
           <mat-form-field>
-            <textarea matInput type="text" matInput rows="5" cols="40" wrap="hard" placeholder="Beschreibung der Disziplin" [(ngModel)]="beschreibungDerDisziplin"
-              style="background-color: #f2f2f2"></textarea>
+            <textarea matInput type="text" matInput rows="5" cols="40" wrap="hard" (keyup)="updateEnableButton()" placeholder="Beschreibung der Disziplin"
+              [(ngModel)]="beschreibungDerDisziplin" style="background-color: #f2f2f2"></textarea>
           </mat-form-field>
         </td>
       </tr>
@@ -35,7 +35,7 @@
         </tr>
         <tr>
           <td>
-            <mat-radio-button [value]="true">Manschaftssportarten
+            <mat-radio-button [value]="true">Mannschaftssportarten
             </mat-radio-button>
           </td>
         </tr>
@@ -65,16 +65,13 @@
     <tr *ngFor="let aov of arrayOfVars, let i = index">
       <td style="width:66%">
         <mat-form-field>
-          <input matInput type="text" placeholder="Name der Variable" [(ngModel)]="aov.bezeichnung">
+          <input matInput type="text" placeholder="Name der Variable" [(ngModel)]="aov.bezeichnung" (keyup)="updateEnableButton()">
         </mat-form-field>
-      </td>
-      <td>
-        <p>{{aov.bezeichnung}}</p>
       </td>
       <td style="width:26%">
         <mat-form-field>
-          <mat-select placeholder="Einheit" [(ngModel)]="aov.typ">
-            <mat-option *ngFor="let e of einheitPool" [value]="e">
+          <mat-select placeholder="Einheit" [(ngModel)]="aov.typ" (change)="updateEnableButton()">
+            <mat-option *ngFor="let e of einheitPool" [value]="e" >
               {{ e.einheit }}
             </mat-option>
           </mat-select>
@@ -130,9 +127,12 @@
 <br>
 <mat-card>
   <table>
+    <tr *ngIf="!enableButton" style="text-align:center">
+      <td style="color:red"><i>{{reasonButtonDisabled}}</i></td>
+    </tr>
     <tr>
       <td>
-        <button [disabled]=!syntaxCorrect style="font-size: 1.1em" mat-raised-button (click)="sendToBackend()" color="accent">
+        <button [disabled]=!enableButton style="font-size: 1.1em" mat-raised-button (click)="sendToBackend()" color="accent">
             <mat-icon>done</mat-icon> Disziplin speichern
         </button>
       </td>
