@@ -145,6 +145,7 @@
         <th>
           Punkte
         </th>
+        <!--<th>Details</th>-->
       </tr>
       <tr *ngFor="let ergebnis of ergebnisse">
         <td>
@@ -161,6 +162,9 @@
         <td>
           {{ergebnis.punkte}}
         </td>
+        <!--<td><button mat-raised-button color="primary" >
+            <mat-icon>info</mat-icon>
+          </button></td>-->
       </tr>
     </table>
   </mat-card>

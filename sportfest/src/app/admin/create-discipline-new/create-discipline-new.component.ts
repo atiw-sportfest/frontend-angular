@@ -73,6 +73,7 @@ export class CreateDisciplineNewComponent implements OnInit {
 
 
         }
+        this.updateEnableButton();
       });
     });
   }
